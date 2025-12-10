@@ -1,0 +1,24 @@
+package com.project.mediverse.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+public class Prescription 
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long prescriptionId;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "medicine_id")
+    private Medicine medicine;
+
+    private String dosage;
+    private String instructions;
+
+    // Getters and setters
+}

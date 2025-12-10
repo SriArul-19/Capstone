@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse - SignUp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        .signup-container h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .signup-container p {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="changepassword-container">
+        <h1>Welcome to Mediverse</h1>
+        <p>Your trusted Medicine Dispensing & Pharmacy Management System</p>
+
+        <form action="./changePassword" method="POST">
+            <input type="text" name="userId" class="input-field" placeholder="Enter UserId" required/><br/>
+            <input type="password" name="oldPassword" class="input-field" placeholder="Enter Old Password" required/><br/>
+			<input type="password" name="newPassword" class="input-field" placeholder="Enter New Password" required/><br/>
+            <button type="submit">Change Password</button>
+        </form>
+    </div>
+</body>
+</html>

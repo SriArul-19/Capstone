@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse Admin Dashboard - User Management</title>
+    <style>
+        /* Global styles (same as in your example) */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        /* Profile Section (in header) */
+        .profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            padding: 10px;
+        }
+
+        .profile:hover .profile-dropdown {
+            display: block;
+        }
+
+        .profile-dropdown a {
+            color: #4CAF50;
+            text-decoration: none;
+            display: block;
+            padding: 8px;
+            font-weight: bold;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Main container for the content */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Each module card */
+        .module-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .module-card p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .module-card a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #4CAF50;
+            font-weight: bold;
+            text-decoration: none;
+            border: 2px solid #4CAF50;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .module-card a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Welcome to Mediverse Admin Dashboard - User Management</h1>
+
+        <!-- Profile Icon Section -->
+        <div class="profile">
+            <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile Icon">
+            <span>Admin</span>
+            <div class="profile-dropdown">
+                <a href="#">View Profile</a>
+                <a href="#">Sign Out</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Add Customer Card -->
+        <div class="module-card">
+            <h3>Add Customer</h3>
+            <p>Click to add a new customer to the system.</p>
+            <a href="/admin/customer/add">Go to Add Customer</a>
+        </div>
+
+        <!-- Update Customer Card -->
+        <div class="module-card">
+            <h3>Update Customer</h3>
+            <p>Click to update customer details.</p>
+            <a href="/admin/customer/update">Go to Update Customer</a>
+        </div>
+
+        <!-- Delete Customer Card -->
+        <div class="module-card">
+            <h3>Delete Customer</h3>
+            <p>Click to delete an existing customer.</p>
+            <a href="/admin/customer/delete">Go to Delete Customer</a>
+        </div>
+
+        <!-- View All Customers Card -->
+        <div class="module-card">
+            <h3>View All Customers</h3>
+            <p>Click to view the list of all customers.</p>
+            <a href="/admin/customers">Go to View Customers</a>
+        </div>
+
+        <!-- Find Customer by Email Card -->
+        <div class="module-card">
+            <h3>Find Customer by Email</h3>
+            <p>Search for a customer using their email address.</p>
+            <a href="/admin/customer/findByEmail">Go to Find Customer by Email</a>
+        </div>
+
+        <!-- Check Customer Insurance Eligibility Card -->
+        <div class="module-card">
+            <h3>Check Insurance Eligibility</h3>
+            <p>Check if a customer is eligible for insurance.</p>
+            <a href="/admin/customer/checkEligibility">Go to Check Eligibility</a>
+        </div>
+
+        <!-- Find Customer by ID Card -->
+        <div class="module-card">
+            <h3>Find Customer by ID</h3>
+            <p>Search for a customer using their unique ID.</p>
+            <a href="/admin/customer/findById">Go to Find Customer by ID</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Mediverse | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+
+</body>
+</html>

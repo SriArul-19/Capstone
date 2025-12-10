@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse Admin Dashboard</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        /* Container to hold content */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Section styles */
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .section a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #4CAF50;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .section a:hover {
+            background-color: #4CAF50;
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 40px;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Welcome to Mediverse Admin Dashboard</h1>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- User Management Section -->
+        <div class="section" id="user-management">
+            <h2>User Management</h2>
+            <p>Manage customer accounts, including adding, editing, and deleting customer information.</p>
+            <a href="#">Go to User Management</a>
+        </div>
+
+        <!-- Inventory Management Section -->
+        <div class="section" id="inventory-management">
+            <h2>Inventory Management</h2>
+            <p>Manage the list of medicines, stock levels, prices, and expiry dates. Add new medicines, update stock, and remove expired medicines.</p>
+            <a href="#">Go to Inventory Management</a>
+        </div>
+
+        <!-- Order Management Section -->
+        <div class="section" id="order-management">
+            <h2>Order Management</h2>
+            <p>Approve, cancel, and manage customer orders. Track the status of orders placed by customers.</p>
+            <a href="#">Go to Order Management</a>
+        </div>
+
+        <!-- Billing & Payment Section -->
+        <div class="section" id="billing-payment">
+            <h2>Billing & Payment</h2>
+            <p>Manage customer billing, apply discounts, track payments, and issue receipts for each order.</p>
+            <a href="#">Go to Billing & Payment</a>
+        </div>
+
+        <!-- Insurance Claims Section -->
+        <div class="section" id="insurance-claims">
+            <h2>Insurance Claims Management</h2>
+            <p>Process and verify insurance claims for medicines eligible for coverage. Approve or reject claims and update customer billing accordingly.</p>
+            <a href="#">Go to Insurance Claims</a>
+        </div>
+
+        <!-- Reports Section -->
+        <div class="section" id="reports">
+            <h2>Reports</h2>
+            <p>Generate real-time reports for sales, inventory levels, and insurance claims. View daily, monthly, and yearly statistics.</p>
+            <a href="#">Go to Reports</a>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Mediverse | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+
+</body>
+</html>

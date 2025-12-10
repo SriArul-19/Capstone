@@ -1,0 +1,19 @@
+package com.project.mediverse.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Order;
+
+import java.util.List;
+
+@Repository
+public interface OrderRepository extends JpaRepository<Order, Integer> 
+{
+    List<Order> findByCustomer(Customer customer);
+    List<Order> findByPaymentStatus(String paymentStatus);
+    List<Order> findByInsuranceClaim(InsuranceClaim insuranceClaim);
+}
+

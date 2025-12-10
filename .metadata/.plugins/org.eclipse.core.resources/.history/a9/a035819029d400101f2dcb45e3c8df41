@@ -1,0 +1,15 @@
+package com.project.mediverse.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Medicine;
+
+import java.util.List;
+
+public interface InsuranceClaimRepository extends JpaRepository<InsuranceClaim, Long> {
+    // Custom queries can be added here if needed
+}
+

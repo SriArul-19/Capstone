@@ -1,0 +1,44 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.repository.OrderRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    // Fetch order by ID
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findById(orderId).orElse(null);
+    }
+
+    // Fetch orders by customer ID
+    public List<Order> getOrdersByCustomer(Long customerId) {
+        return orderRepository.findByCustomerId(customerId);
+    }
+
+    // Place a new order
+    public Order placeOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    // Cancel an order by ID
+    public void cancelOrder(Long orderId) {
+        orderRepository.deleteById(orderId);
+    }
+
+    // Get all orders
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+}

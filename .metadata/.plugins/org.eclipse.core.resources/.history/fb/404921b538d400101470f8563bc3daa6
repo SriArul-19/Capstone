@@ -1,0 +1,33 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.entity.Payment;
+import com.project.mediverse.repository.PaymentRepository;
+
+import java.util.List;
+
+@Service
+public class PaymentService {
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    // Fetch payment by order ID
+    public Payment getPaymentByOrderId(Long orderId) {
+        return paymentRepository.findByOrderId(orderId).stream().findFirst().orElse(null);
+    }
+
+    // Save a payment record
+    public Payment savePayment(Payment payment) {
+        return paymentRepository.save(payment);
+    }
+
+    // Get all payments
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
+    }
+}
+

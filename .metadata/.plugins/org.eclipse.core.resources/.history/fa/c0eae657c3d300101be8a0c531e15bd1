@@ -1,0 +1,9 @@
+<html>
+	<body bgcolor="yellow">
+		<form action="./validate" method="POST">
+			Enter username:<input type="text" name="username"/><br/>
+			Enter password:<input type="password" name="password"/><br/>
+			<button type="submit">Login</button>
+		</form>
+	</body>
+</html>

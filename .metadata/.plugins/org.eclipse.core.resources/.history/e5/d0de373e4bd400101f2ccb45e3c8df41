@@ -1,0 +1,59 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.repository.InsuranceClaimRepository;
+
+import java.util.List;
+
+@Service
+public class InsuranceClaimService {
+
+    @Autowired
+    private InsuranceClaimRepository insuranceClaimRepository;
+
+    // Create or update an insurance claim
+    public InsuranceClaim saveInsuranceClaim(InsuranceClaim insuranceClaim) {
+        return insuranceClaimRepository.save(insuranceClaim);
+    }
+
+    // Get insurance claims by customer
+    public List<InsuranceClaim> getInsuranceClaimsByCustomer(Customer customer) {
+        return insuranceClaimRepository.findByCustomer(customer);
+    }
+
+    // Get insurance claims by medicine
+    public List<InsuranceClaim> getInsuranceClaimsByMedicine(Medicine medicine) {
+        return insuranceClaimRepository.findByMedicine(medicine);
+    }
+
+    // Get insurance claims by claim status
+    public List<InsuranceClaim> getInsuranceClaimsByClaimStatus(String claimStatus) {
+        return insuranceClaimRepository.findByClaimStatus(claimStatus);
+    }
+
+    // Get insurance claim by ID
+    public InsuranceClaim getInsuranceClaimById(Long claimId) {
+        return insuranceClaimRepository.findById(claimId).orElse(null);
+    }
+
+    // Delete an insurance claim by ID
+    public void deleteInsuranceClaim(Long claimId) {
+        insuranceClaimRepository.deleteById(claimId);
+    }
+
+    // Update insurance claim by ID
+    public InsuranceClaim updateInsuranceClaimById(Long claimId, InsuranceClaim updatedClaim) {
+        if (insuranceClaimRepository.existsById(claimId)) {
+            updatedClaim.setClaimId(claimId);
+            return insuranceClaimRepository.save(updatedClaim);
+        } else {
+            return null; // Insurance claim not found
+        }
+    }
+}
+

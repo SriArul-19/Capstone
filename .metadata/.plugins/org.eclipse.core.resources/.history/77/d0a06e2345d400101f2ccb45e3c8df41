@@ -1,0 +1,5 @@
+package com.project.mediverse.service;
+
+public class OrderService {
+
+}

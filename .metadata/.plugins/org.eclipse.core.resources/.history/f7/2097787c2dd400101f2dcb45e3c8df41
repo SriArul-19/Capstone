@@ -1,0 +1,39 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.entity.Prescription;
+import com.project.mediverse.repository.PrescriptionRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class PrescriptionService {
+
+    @Autowired
+    private PrescriptionRepository prescriptionRepository;
+
+    // Create or update a prescription
+    public Prescription savePrescription(Prescription prescription) {
+        return prescriptionRepository.save(prescription);
+    }
+
+    // Get a prescription by ID
+    public Optional<Prescription> getPrescriptionById(Long prescriptionId) {
+        return prescriptionRepository.findById(prescriptionId);
+    }
+
+    // Get all prescriptions for a customer
+    public List<Prescription> getAllPrescriptionsByCustomer(Long customerId) {
+        return prescriptionRepository.findByCustomerCustomerId(customerId);
+    }
+
+    // Delete a prescription by ID
+    public void deletePrescription(Long prescriptionId) {
+        prescriptionRepository.deleteById(prescriptionId);
+    }
+}

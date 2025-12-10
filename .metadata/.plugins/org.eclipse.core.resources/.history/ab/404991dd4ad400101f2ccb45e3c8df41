@@ -1,0 +1,54 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.repository.CustomerRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class CustomerService 
+{
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    // Create or update a customer
+    public Customer saveCustomer(Customer customer) 
+    {
+        return customerRepository.save(customer);
+    }
+
+    // Get a customer by ID
+    public Optional<Customer> getCustomerById(Long customerId) {
+        return customerRepository.findById(customerId);
+    }
+
+    // Get a customer by email
+    public Customer getCustomerByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
+
+    // Get all customers
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
+    }
+
+    // Delete a customer by ID
+    public void deleteCustomer(Long customerId) {
+        customerRepository.deleteById(customerId);
+    }
+
+    // Update customer by ID
+    public Customer updateCustomerById(Long customerId, Customer updatedCustomer) {
+        if (customerRepository.existsById(customerId)) {
+            updatedCustomer.setCustomerId(customerId);
+            return customerRepository.save(updatedCustomer);
+        } else {
+            return null; // Customer not found
+        }
+    }
+}

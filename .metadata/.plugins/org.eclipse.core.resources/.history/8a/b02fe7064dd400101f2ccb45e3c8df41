@@ -1,0 +1,65 @@
+package com.project.mediverse.entity;
+
+
+import java.util.Date;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="payment")
+public class Payment 
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int paymentId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    private Date paymentDate;
+    private double paymentAmount;
+    private String paymentMethod;  // (e.g., PayPal, Razorpay)
+    private String paymentStatus;  // (e.g., Successful, Pending, Failed)
+	
+    // Getters and setters
+    
+    public int getPaymentId() {
+		return paymentId;
+	}
+	public void setPaymentId(int paymentId) {
+		this.paymentId = paymentId;
+	}
+	public Order getOrder() {
+		return order;
+	}
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+	public double getPaymentAmount() {
+		return paymentAmount;
+	}
+	public void setPaymentAmount(double paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+
+    
+}

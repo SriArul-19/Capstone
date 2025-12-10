@@ -1,0 +1,53 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.entity.Payment;
+import com.project.mediverse.repository.PaymentRepository;
+
+import java.util.List;
+
+@Service
+public class PaymentService {
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    // Create or update a payment
+    public Payment savePayment(Payment payment) {
+        return paymentRepository.save(payment);
+    }
+
+    // Get payments by order
+    public List<Payment> getPaymentsByOrder(Order order) {
+        return paymentRepository.findByOrder(order);
+    }
+
+    // Get payments by payment status
+    public List<Payment> getPaymentsByPaymentStatus(String paymentStatus) {
+        return paymentRepository.findByPaymentStatus(paymentStatus);
+    }
+
+    // Get payment by ID
+    public Payment getPaymentById(int paymentId) {
+        return paymentRepository.findById(paymentId).orElse(null);
+    }
+
+    // Delete a payment by ID
+    public void deletePayment(Long paymentId) {
+        paymentRepository.deleteById(paymentId);
+    }
+
+    // Update payment by ID
+    public Payment updatePaymentById(Long paymentId, Payment updatedPayment) {
+        if (paymentRepository.existsById(paymentId)) {
+            updatedPayment.setPaymentId(paymentId);
+            return paymentRepository.save(updatedPayment);
+        } else {
+            return null; // Payment not found
+        }
+    }
+}
+

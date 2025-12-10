@@ -1,0 +1,84 @@
+package com.project.mediverse.entity;
+
+import java.time.LocalDate;
+import java.util.List;
+
+
+import jakarta.persistence.*;
+
+@Entity
+public class Medicine {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long medicineId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;  // This is the missing field in your Medicine entity
+
+    private String name;
+    private String category;
+    private double price;
+    private int stockQuantity;
+    
+    @Column(nullable = false)
+    private LocalDate expiryDate;
+
+    // Getters and Setters
+    public Long getMedicineId() {
+        return medicineId;
+    }
+
+    public void setMedicineId(Long medicineId) {
+        this.medicineId = medicineId;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public LocalDate getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+}

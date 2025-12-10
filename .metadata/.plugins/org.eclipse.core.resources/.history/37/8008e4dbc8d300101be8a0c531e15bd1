@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse Admin Dashboard</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        /* Main container for the content */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Each module card */
+        .module-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .module-card p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .module-card a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #4CAF50;
+            font-weight: bold;
+            text-decoration: none;
+            border: 2px solid #4CAF50;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .module-card a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Welcome to Mediverse Admin Dashboard</h1>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- User Management Card -->
+        <div class="module-card">
+            <h3>User Management</h3>
+            <p>Manage customer accounts, including adding, editing, and deleting customer information.</p>
+            <a href="#">Go to User Management</a>
+        </div>
+
+        <!-- Inventory Management Card -->
+        <div class="module-card">
+            <h3>Inventory Management</h3>
+            <p>Manage the list of medicines, stock levels, prices, and expiry dates. Add new medicines, update stock, and remove expired medicines.</p>
+            <a href="#">Go to Inventory Management</a>
+        </div>
+
+        <!-- Order Management Card -->
+        <div class="module-card">
+            <h3>Order Management</h3>
+            <p>Approve, cancel, and manage customer orders. Track the status of orders placed by customers.</p>
+            <a href="#">Go to Order Management</a>
+        </div>
+
+        <!-- Billing & Payment Card -->
+        <div class="module-card">
+            <h3>Billing & Payment</h3>
+            <p>Manage customer billing, apply discounts, track payments, and issue receipts for each order.</p>
+            <a href="#">Go to Billing & Payment</a>
+        </div>
+
+        <!-- Insurance Claims Management Card -->
+        <div class="module-card">
+            <h3>Insurance Claims Management</h3>
+            <p>Process and verify insurance claims for medicines eligible for coverage. Approve or reject claims and update customer billing accordingly.</p>
+            <a href="#">Go to Insurance Claims</a>
+        </div>
+
+        <!-- Reports Card -->
+        <div class="module-card">
+            <h3>Reports</h3>
+            <p>Generate real-time reports for sales, inventory levels, and insurance claims. View daily, monthly, and yearly statistics.</p>
+            <a href="#">Go to Reports</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Mediverse | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+
+</body>
+</html>

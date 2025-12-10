@@ -1,0 +1,44 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.repository.InsuranceClaimRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class InsuranceClaimService {
+
+    @Autowired
+    private InsuranceClaimRepository insuranceClaimRepository;
+
+    // Submit a new insurance claim
+    public InsuranceClaim saveInsuranceClaim(InsuranceClaim claim) {
+        return insuranceClaimRepository.save(claim);
+    }
+
+    // Get an insurance claim by ID
+    public Optional<InsuranceClaim> getInsuranceClaimById(Long claimId) {
+        return insuranceClaimRepository.findById(claimId);
+    }
+
+    // Get all insurance claims
+    public List<InsuranceClaim> getAllInsuranceClaims() {
+        return insuranceClaimRepository.findAll();
+    }
+
+    // Update the status of an insurance claim
+    public InsuranceClaim updateClaimStatus(Long claimId, String status) {
+        Optional<InsuranceClaim> claim = insuranceClaimRepository.findById(claimId);
+        if (claim.isPresent()) {
+            claim.get().setClaimStatus(status);
+            return insuranceClaimRepository.save(claim.get());
+        }
+        return null;
+    }
+}

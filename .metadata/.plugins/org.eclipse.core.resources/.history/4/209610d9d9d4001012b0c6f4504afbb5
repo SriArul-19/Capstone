@@ -1,0 +1,58 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.repository.InsuranceClaimRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class InsuranceClaimService {
+
+    @Autowired
+    private InsuranceClaimRepository insuranceClaimRepository;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private MedicineService medicineService;
+
+    // Create or update an insurance claim
+    public InsuranceClaim saveInsuranceClaim(InsuranceClaim insuranceClaim) {
+        return insuranceClaimRepository.save(insuranceClaim);
+    }
+
+    // Find claim by ID
+    public InsuranceClaim getInsuranceClaimById(Long claimId) {
+        return insuranceClaimRepository.findById(claimId).orElse(null);
+    }
+
+    // Get insurance claims by customer
+    public List<InsuranceClaim> getClaimsByCustomer(Long customerId) {
+        Customer customer = customerService.getCustomerById(customerId);
+        if (customer != null) {
+            return insuranceClaimRepository.findByCustomer(customer);
+        }
+        return null;
+    }
+
+    // Get insurance claims by medicine
+    public List<InsuranceClaim> getClaimsByMedicine(Long medicineId) {
+        Medicine medicine = medicineService.getMedicineById(medicineId);
+        if (medicine != null) {
+            return insuranceClaimRepository.findByMedicine(medicine);
+        }
+        return null;
+    }
+
+    // Get claims by claim status
+    public List<InsuranceClaim> getClaimsByStatus(String claimStatus) {
+        return insuranceClaimRepository.findByClaimStatus(claimStatus);
+    }
+}

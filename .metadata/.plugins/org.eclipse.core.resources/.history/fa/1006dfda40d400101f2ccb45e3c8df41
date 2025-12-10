@@ -1,0 +1,30 @@
+package com.project.mediverse.entity;
+
+import java.util.List;
+
+import jakarta.persistence.*;
+
+
+@Entity
+public class Customer 
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long customerId;
+
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
+    private String address;
+
+    private boolean insuranceEligibility;  // Whether the customer is eligible for insurance claims
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "customer")
+    private List<InsuranceClaim> insuranceClaims;
+
+    // Getters and setters
+}

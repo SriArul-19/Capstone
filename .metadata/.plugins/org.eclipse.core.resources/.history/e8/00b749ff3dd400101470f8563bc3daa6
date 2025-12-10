@@ -1,0 +1,36 @@
+package com.project.mediverse.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping("/mediverse")
+public class LoginController 
+{
+    @GetMapping("/login")
+    public ModelAndView showLoginPage() 
+    {
+        return new ModelAndView("LoginPage");
+    }
+    @PostMapping("/validate")
+    public String validateCredentials(@RequestParam("username") String username,@RequestParam("password") String password) {
+        if(username.equals("arul") && password.equals("123"))
+        {
+            return "forward:/admin/home";
+        }
+        else
+        {
+            return "forward:/admin/invalid";
+        }
+    }
+    @GetMapping("/signUp")
+    public ModelAndView showSignUpPage() 
+    {
+        return new ModelAndView("SignUpPage");
+    }
+}

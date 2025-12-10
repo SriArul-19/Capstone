@@ -1,0 +1,42 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.repository.MedicineRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class MedicineService {
+
+    @Autowired
+    private MedicineRepository medicineRepository;
+
+    // Add or update a medicine
+    public Medicine saveMedicine(Medicine medicine) {
+        return medicineRepository.save(medicine);
+    }
+
+    // Find medicine by ID
+    public Medicine getMedicineById(Long medicineId) {
+        return medicineRepository.findById(medicineId).orElse(null);
+    }
+
+    // Find medicines by category
+    public List<Medicine> getMedicinesByCategory(String category) {
+        return medicineRepository.findByCategory(category);
+    }
+
+    // Find medicines that are low in stock
+    public List<Medicine> getLowStockMedicines(int threshold) {
+        return medicineRepository.findByStockQuantityLessThan(threshold);
+    }
+
+    // Find medicine by name
+    public Medicine getMedicineByName(String name) {
+        return medicineRepository.findByName(name);
+    }
+}

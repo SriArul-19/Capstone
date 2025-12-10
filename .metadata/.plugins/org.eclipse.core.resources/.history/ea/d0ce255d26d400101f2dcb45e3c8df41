@@ -1,0 +1,59 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.repository.OrderRepository;
+
+import java.util.List;
+
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    // Create or update an order
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    // Get all orders by customer
+    public List<Order> getOrdersByCustomer(Customer customer) {
+        return orderRepository.findByCustomer(customer);
+    }
+
+    // Get all orders by payment status
+    public List<Order> getOrdersByPaymentStatus(String paymentStatus) {
+        return orderRepository.findByPaymentStatus(paymentStatus);
+    }
+
+    // Get all orders by insurance claim
+    public List<Order> getOrdersByInsuranceClaim(InsuranceClaim insuranceClaim) {
+        return orderRepository.findByInsuranceClaim(insuranceClaim);
+    }
+
+    // Get order by ID
+    public Order getOrderById(int orderId) {
+        return orderRepository.findById(orderId).orElse(null);
+    }
+
+    // Delete an order by ID
+    public void deleteOrder(int orderId) {
+        orderRepository.deleteById(orderId);
+    }
+
+    // Update order by ID
+    public Order updateOrderById(int orderId, Order updatedOrder) {
+        if (orderRepository.existsById(orderId)) {
+            updatedOrder.setOrderId(orderId);
+            return orderRepository.save(updatedOrder);
+        } else {
+            return null; // Order not found
+        }
+    }
+}
+

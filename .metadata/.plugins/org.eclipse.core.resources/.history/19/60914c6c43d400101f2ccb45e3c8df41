@@ -1,0 +1,25 @@
+package com.project.mediverse.entity;
+
+
+import java.util.Date;
+
+import jakarta.persistence.*;
+
+@Entity
+public class Payment 
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long paymentId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    private Date paymentDate;
+    private double paymentAmount;
+    private String paymentMethod;  // (e.g., PayPal, Razorpay)
+    private String paymentStatus;  // (e.g., Successful, Pending, Failed)
+
+    // Getters and setters
+}

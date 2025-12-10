@@ -1,0 +1,5 @@
+package com.project.mediverse.entity;
+
+public class InsuranceClaim {
+
+}

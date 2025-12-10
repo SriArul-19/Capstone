@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            text-align: center;
+        }
+
+        .card h2 {
+            color: #4CAF50;
+            margin: 10px 0;
+        }
+
+        .card p {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .card .percentage {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .chart-container {
+            flex: 1;
+            margin: 10px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container h3 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        .footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Style for the links inside the cards */
+        .card a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            border: 2px solid #4CAF50;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .card a:hover {
+            background-color: #4CAF50;
+            color: white;
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Welcome to Mediverse Admin Dashboard</h1>
+    </div>
+
+    <div class="main-container">
+        <!-- Subscribers Gained Card -->
+        <div class="card">
+            <h2>Subscribers Gained</h2>
+            <p class="value">92.6k</p>
+            <p class="percentage">+15% from last month</p>
+            <a href="#">View Details</a>
+        </div>
+
+        <!-- Revenue Generated Card -->
+        <div class="card">
+            <h2>Revenue Generated</h2>
+            <p class="value">$97.5K</p>
+            <p class="percentage">+12% from last month</p>
+            <a href="#">View Details</a>
+        </div>
+
+        <!-- Quarterly Sales Card -->
+        <div class="card">
+            <h2>Quarterly Sales</h2>
+            <p class="value">36%</p>
+            <p class="percentage">Increase this quarter</p>
+            <a href="#">View Details</a>
+        </div>
+
+        <!-- Orders Received Card -->
+        <div class="card">
+            <h2>Orders Received</h2>
+            <p class="value">97.5K</p>
+            <p class="percentage">+8% from last month</p>
+            <a href="#">View Details</a>
+        </div>
+    </div>
+
+    <!-- Revenue Chart Section -->
+    <div class="chart-container">
+        <h3>Revenue Overview</h3>
+        <!-- Placeholder for a chart (e.g., using Chart.js or similar libraries) -->
+        <div style="height: 250px; background-color: #f1f1f1; border-radius: 8px;">
+            <!-- Example Placeholder -->
+            <p style="text-align: center; padding-top: 100px; color: #bbb;">Chart Goes Here</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Mediverse | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+
+</body>
+</html>

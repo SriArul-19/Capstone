@@ -1,0 +1,5 @@
+package com.project.mediverse.repository;
+
+public class PaymentRepository {
+
+}
