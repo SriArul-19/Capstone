@@ -84,6 +84,9 @@ public class CustomerService {
     	result=customerRepository.findAll();
     	return result;
     }
+    public Customer findCustomerByUsername(String username) {
+        return customerRepository.findByUsername(username);  // Find the customer by username
+    }
 
     // Find a customer by email
     public Customer getCustomerByEmail(String email) {

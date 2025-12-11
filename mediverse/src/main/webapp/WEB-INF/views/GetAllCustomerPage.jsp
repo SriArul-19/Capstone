@@ -72,6 +72,8 @@
         <th>Last Name</th>
         <th>Email</th>
         <th>Phone Number</th>
+		<th>username</th>
+		<th>password</th>
         <th>Address</th>
         <th>Insurance Eligibility</th>
     </tr>
@@ -83,6 +85,8 @@
             <td>${c.lastName}</td>
             <td>${c.email}</td>
             <td>${c.phoneNumber}</td>
+			<td>${c.username}</td>
+			<td>${c.password}</td>
             <td>${c.address}</td>
             <td>
                 <c:choose>

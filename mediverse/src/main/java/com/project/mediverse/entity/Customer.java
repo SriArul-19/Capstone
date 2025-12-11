@@ -11,11 +11,17 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
-
+    @Column(nullable=false)
     private String firstName;
     private String lastName;
+    @Column(nullable=false)
     private String email;
+    @Column(nullable=false)
     private String phoneNumber;
+    @Column(nullable=false)
+    private String username;
+    @Column(nullable=false)
+    private String password;
     private String address;
 
     private boolean insuranceEligibility=false;
@@ -109,4 +115,21 @@ public class Customer {
     public void setPrescriptions(List<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+    
 }

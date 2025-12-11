@@ -1,0 +1,47 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse Pharmacy</title>
+    <link rel="stylesheet" href="<c:url value='/css/landing.css'/>">
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+        <a href="/">Mediverse</a>
+    </div>
+    <ul>
+        <li><a href="/user/about">About</a></li>
+        <li><a href="/user/contact">Contact</a></li>
+        <li><a href="./roleselection" class="btn">Sign Up</a></li>
+        <li><a href="./roleselectionlogin" class="btn">Sign In</a></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-text">
+        <h1>PHARMACY STORE</h1>
+        <p>Providing medicines and healthcare services for a healthier life.</p>
+
+        <a href="./roleselection" class="btn get-started">Get Started</a>
+    </div>
+
+    <div class="hero-img">
+        <img src="<c:url value='/images/pharmacy-hero.png'/>" alt="Pharmacy Image">
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 Mediverse. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

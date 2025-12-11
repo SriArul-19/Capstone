@@ -1,0 +1,96 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures footer stays at the bottom */
+}
+
+/* Profile Section Styles */
+.profile-section {
+    padding: 20px;
+    background-color: #f4f7f6;
+    text-align: center;
+    flex-grow: 1; /* Ensures that this section takes up available space */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #343a40;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Profile Options Styles */
+.profile-options h2 {
+    font-size: 28px;
+    color: #4CAF50;
+}
+
+/* Profile Details Styles */
+.profile-details {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.profile-details p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Button Styles */
+.profile-options .btn {
+    background-color: #4CAF50; /* Green button */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.profile-options .btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Footer Styling */
+footer {
+    background-color: #4CAF50; /* Green footer */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto; /* Ensures footer sticks to the bottom */
+}

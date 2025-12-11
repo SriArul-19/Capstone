@@ -1,0 +1,90 @@
+/* profile.css */
+
+/* Profile Page Styles */
+.profile-section {
+    padding: 20px;
+    background-color: #f4f7f6;
+    text-align: center;
+}
+
+h1 {
+    font-size: 32px;
+    color: #4CAF50; /* Green heading */
+}
+
+.profile-options {
+    margin-top: 20px;
+}
+
+.profile-options h2 {
+    font-size: 28px;
+    color: #4CAF50;
+}
+
+.profile-details {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.profile-details p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.profile-options .btn {
+    background-color: #4CAF50; /* Green button */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.profile-options .btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #343a40;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+footer {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}

@@ -1,0 +1,57 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse Pharmacy</title>
+    <link rel="stylesheet" href="<c:url value='/css/landing.css'/>">
+	<link rel="stylesheet" href="<c:url value='/css/styles.css'/>">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/user/home">Mediverse</a>
+        </div>
+        <ul>
+            <!-- Removed Home and Services links -->
+            <li><a href="/user/about">About Us</a></li>
+            <li><a href="/user/contact">Contact Us</a></li>
+            <li><a href="/user/login" class="btn">Sign Up</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>PHARMACY</h1>
+            <p>Landing Page</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam eleifend id sapien at.</p>
+            <a href="/user/login" class="btn">Learn More</a>
+        </div>
+        <div class="hero-img">
+            <img src="<c:url value='/images/hero-image.png'/>" alt="Pharmacy Image" />
+        </div>
+    </section>
+
+    <!-- Login & Register Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <h2>Welcome to Mediverse Pharmacy</h2>
+            <p>Sign in to continue or register to start using our services.</p>
+            <div class="auth-buttons">
+                <a href="/user/login" class="btn">Login</a>
+                <a href="/user/register" class="btn">Register</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Mediverse. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

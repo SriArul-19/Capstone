@@ -1,0 +1,44 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Choose Role</title>
+    <link rel="stylesheet" href="<c:url value='/css/roleselection.css'/>">
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+        <a href="/">Mediverse</a>
+    </div>
+    <ul>
+        <li><a href="/user/about">About</a></li>
+        <li><a href="/user/contact">Contact</a></li>
+        <li><a href="./roleselectionlogin" class="btn">Sign In</a></li>
+    </ul>
+</nav>
+
+<!-- Role Selection Section -->
+<section class="role-selection">
+    <h1>Sign Up - Choose Your Role</h1>
+    <p>Choose whether you're signing up as an Admin or a User.</p>
+
+    <!-- Role Selection Form -->
+    <div class="role-buttons">
+        <a href="./adminRegister" class="btn role-btn">Admin</a>
+        <a href="./userRegister" class="btn role-btn">User</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2025 Mediverse. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -91,6 +91,8 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Phone Number</th>
+			<th>username</th>
+			<th>password</th>
             <th>Address</th>
             <th>Insurance Eligibility</th>
         </tr>
@@ -101,6 +103,8 @@
             <td>${customer.lastName}</td>
             <td>${customer.email}</td>
             <td>${customer.phoneNumber}</td>
+			<td>${customer.username}</td>
+			<td>${customer.password}</td>
             <td>${customer.address}</td>
             <td>
                 <c:choose>

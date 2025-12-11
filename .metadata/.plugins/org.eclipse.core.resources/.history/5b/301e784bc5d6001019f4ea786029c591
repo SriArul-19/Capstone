@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #343a40;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.dashboard-container {
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+section {
+    margin-top: 20px;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+    width: 250px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+section h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+section .prescription, section .order, section .notification {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}

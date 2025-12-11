@@ -1,0 +1,6 @@
+package com.project.mediverse.controller;
+
+public class CustomerController 
+{
+
+}

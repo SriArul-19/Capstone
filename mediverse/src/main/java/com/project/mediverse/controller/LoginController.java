@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +15,67 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.project.mediverse.entity.Admin;
 import com.project.mediverse.entity.Credential;
+import com.project.mediverse.entity.Customer;
 import com.project.mediverse.repository.CredentialRepository;
+import com.project.mediverse.service.AdminService;
 import com.project.mediverse.service.CredentialService;
+import com.project.mediverse.service.CustomerService;
 
 @Controller
 @RequestMapping("/mediverse")
 public class LoginController 
 {
+	@Autowired
+	private AdminService adminService;
+	@Autowired
+	private CustomerService customerService;
+	@GetMapping("/landingpage")
+    public ModelAndView showLandingPage() 
+    {
+        return new ModelAndView("LandingPage");
+    }
+	@GetMapping("/roleselection")
+    public ModelAndView showSignUPRoleSelectionPage() 
+    {
+        return new ModelAndView("SignUpRoleSelectionPage");
+    }
+	@GetMapping("/userRegister")
+    public ModelAndView showUserRegistrationPage() 
+    {
+        return new ModelAndView("UserRegistrationPage");
+    }
+	@GetMapping("/adminRegister")
+    public ModelAndView showAdminRegistrationPage() 
+    {
+        return new ModelAndView("AdminRegistrationPage");
+    }
+	@PostMapping("/createAdmin")
+    public String registerAdmin(Admin admin) {
+        adminService.addAdmin(admin);  // Save the admin details in the database
+        return "redirect:/mediverse/adminLogin";  // Redirect to login page after successful registration
+    }
+	@PostMapping("/createUser")
+    public String registerUser(Customer customer) {
+		customerService.addCustomer(customer);  // Save the admin details in the database
+        return "redirect:/mediverse/uesrLogin";  // Redirect to login page after successful registration
+    }
+	@GetMapping("/roleselectionlogin")
+	public ModelAndView showSignInRoleSelectionLoginPage()
+	{
+		return new ModelAndView("SignInRoleSelectionPage");
+	}
+	@GetMapping("/adminLogin")
+	public ModelAndView showAdminLoginPage()
+	{
+		return new ModelAndView("AdminLoginPage");
+	}
+	@GetMapping("/userLogin")
+	public ModelAndView showUserLoginPage()
+	{
+		return new ModelAndView("UserLoginPage");
+	}
 	@Autowired
 	private CredentialRepository cr;
 	@Autowired
@@ -31,6 +85,53 @@ public class LoginController
     {
         return new ModelAndView("LoginPage");
     }
+    @PostMapping("/validateUser")
+    public String validateUser(@RequestParam("username") String username, 
+                            @RequestParam("password") String password, 
+                            Model model) {
+        // Validate user credentials
+        Customer customer = customerService.findCustomerByUsername(username);
+
+        // Check if the customer exists and the password matches
+        if (customer != null && customer.getPassword().equals(password)) {
+            // Successful login
+            return "redirect:/user/home";  // Redirect to user dashboard
+        } 
+        else if(customer==null)
+        {
+        	model.addAttribute("error", "Invalid username");
+            return "UserLoginPage";
+        }
+        else {
+            // Invalid credentials
+            model.addAttribute("error", "Invalid password");
+            return "UserLoginPage";  // Redirect back to the login page
+        }
+    }
+    @PostMapping("/validateAdmin")
+    public String loginAdmin(@RequestParam("username") String username, 
+                             @RequestParam("password") String password, 
+                             Model model) {
+        // Validate admin credentials
+        Admin admin = adminService.findAdminByUsername(username);
+
+        // Check if the admin exists and the password matches
+        if (admin != null && admin.getPassword().equals(password)) {
+            // Successful login
+            return "redirect:/admin/home";  // Redirect to the admin dashboard
+        } 
+        else if(admin==null)
+        {
+        	model.addAttribute("error", "Invalid username");
+            return "AdminLoginPage";
+        }
+        else {
+            // Invalid credentials
+            model.addAttribute("error", "Invalid password");
+            return "AdminLoginPage";  // Redirect back to the login page
+        }
+    }
+    /*
     @PostMapping("/validate")
     public RedirectView validateCredentials(@RequestParam("userType") String userType,@RequestParam("userId") String userId,@RequestParam("password") String password) 
     {
@@ -42,12 +143,20 @@ public class LoginController
     	System.out.println(credential.getLoginStatus());
         if(userId.equals(credential.getUserId()) && password.equals(credential.getPassword()) && userType.equals(credential.getUserType()) && (credential.getLoginStatus()==0))
         {
-        	return new RedirectView("/admin/home");
+        	if(userType.equals("admin"))
+        	{
+        		return new RedirectView("/admin/home");
+        	}
+        	return new RedirectView("/user/home");
             //return "forward:/admin/home";
         }
         else
         {
-        	return new RedirectView("/admin/invalid");
+        	if(userType.equals("admin"))
+        	{
+        		return new RedirectView("/admin/invalid");
+        	}
+        	return new RedirectView("/user/invalid");
             //return "forward:/admin/invalid";
         }
     }
@@ -62,6 +171,7 @@ public class LoginController
     	
     	return ResponseEntity.ok().body(cs.addCredential(credential));
     }
+    */
     @GetMapping("/password")
     public ModelAndView showChangePasswordPage()
     {
