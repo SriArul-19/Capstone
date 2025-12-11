@@ -89,8 +89,8 @@
 
         <form action="./changePassword" method="POST">
             <input type="text" name="userId" class="input-field" placeholder="Enter UserId" required/><br/>
-            <input type="password" name="oldPassword" class="input-field" placeholder="Enter Old Password" required/><br/>
-			<input type="password" name="newPassword" class="input-field" placeholder="Enter New Password" required/><br/>
+            <input type="password" name="newPassword" class="input-field" placeholder="Enter New Password" required/><br/>
+			<input type="password" name="confirmPassword" class="input-field" placeholder="Re-Enter New Password" required/><br/>
             <button type="submit">Change Password</button>
         </form>
     </div>

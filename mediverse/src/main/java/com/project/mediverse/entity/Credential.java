@@ -13,7 +13,7 @@ public class Credential
 	@Column
 	private String userType;
 	@Column
-	private int loginStatus;
+	private int loginStatus=0;
 	
 	// getter and setter
 	

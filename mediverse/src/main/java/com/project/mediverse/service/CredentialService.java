@@ -24,13 +24,13 @@ public class CredentialService
 		Credential result=cr.save(credential);
 		return "Account Created Successfully";
 	}
-	public String changePassword(String userId,String oldPassword,String newPassword)
+	public String changePassword(String userId,String newPassword,String confirmPassword)
 	{
 		Optional<Credential> opt=cr.findById(userId);
 		if(opt.isPresent())
 		{
 			Credential credential=opt.get();
-	    	if(userId.equals(credential.getUserId()) && oldPassword.equals(credential.getPassword()))
+	    	if(userId.equals(credential.getUserId()) && newPassword.equals(confirmPassword))
 	    	{
 	    		credential.setPassword(newPassword);
 	    		Credential result=cr.save(credential);
@@ -40,7 +40,7 @@ public class CredentialService
 	    		}
 	    		return "Password not Changed";
 	    	}
-	    	return "Incorrect Credentials";
+	    	return "Incorrect confirm password";
 		}
 		return "UesrId not found";
 		

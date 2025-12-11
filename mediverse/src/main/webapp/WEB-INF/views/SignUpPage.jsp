@@ -89,9 +89,9 @@
 
         <form action="./createAccount" method="POST">
 			<input type="text" name="userType" class="input-field" placeholder="Enter UserType" required/><br/>
-            <input type="text" name="userId" class="input-field" placeholder="Enter UserId" required/><br/>
-            <input type="password" name="password" class="input-field" placeholder="Enter Password" required/><br/>
-			<input type="number" name="loginStatus" class="input-field" placeholder="Enter loginStatus" required/><br/>
+            <input type="text" name="userId" class="input-field" placeholder="Create UserId" required/><br/>
+            <input type="password" name="password" class="input-field" placeholder="Create Password" required/><br/>
+			<!--<input type="number" name="loginStatus" class="input-field" placeholder="Enter loginStatus" required/><br/>-->
             <button type="submit">Create Account</button>
         </form>
     </div>

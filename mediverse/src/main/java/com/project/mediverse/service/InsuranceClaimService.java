@@ -65,27 +65,48 @@ public class InsuranceClaimService {
         }
     }
     
-    /*
-    public InsuranceClaim addInsuranceClaim(InsuranceClaim insuranceClaim) 
-    {
-    	Optional<InsuranceClaim> opt=insuranceClaimRepository.findById(insuranceClaim.getClaimId());
-    	if(opt.isPresent())
-    	{
-    		return null;
-    	}
-        return insuranceClaimRepository.save(insuranceClaim);
-    }
-    */
     //Update an insurance claim
     
-    public InsuranceClaim updateInsuranceClaim(InsuranceClaim insuranceClaim)
+    public String updateInsuranceClaim(Long claimId,Long customerId, 
+            Long medicineId,
+            double claimAmount, 
+            String claimStatus, 
+            LocalDate claimDate) 
     {
-    	Optional<InsuranceClaim> opt=insuranceClaimRepository.findById(insuranceClaim.getClaimId());
+    	Optional<InsuranceClaim> opt=insuranceClaimRepository.findById(claimId);
     	if(opt.isPresent())
     	{
-    		 return insuranceClaimRepository.save(insuranceClaim);
+    	 // Find customer by customerId
+        Customer customer = customerService.getCustomerById(customerId);
+        Medicine medicine=medicineService.getMedicineById(medicineId);
+        if(customer!=null && medicine !=null)
+        {
+                	// Create the insurance claim object
+                	InsuranceClaim insuranceClaim = new InsuranceClaim();
+                	insuranceClaim.setCustomer(customer);
+                	insuranceClaim.setMedicine(medicine);
+                	insuranceClaim.setClaimAmount(claimAmount);
+                	insuranceClaim.setClaimStatus(claimStatus);
+                	insuranceClaim.setClaimDate(claimDate);
+      
+                    // Save the order
+                    insuranceClaimRepository.save(insuranceClaim);
+                    return "Insurance Claim Added Successfully";
+         }
+        else if (customer==null && medicine ==null)
+        {
+        	return "CustomerId and MedicineId Both not found";
+        }
+        else if(customer==null && medicine !=null)
+        {
+                return "CustomerId not found";
+        }
+        else
+        {
+        	return "MedicineId not found";
+        }
     	}
-    	return null;
+    	return "ClaimId not found";
     }
     
     // Delete an insurance claim

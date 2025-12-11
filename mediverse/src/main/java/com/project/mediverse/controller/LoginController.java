@@ -68,8 +68,8 @@ public class LoginController
     	return new ModelAndView("ChangePasswordPage");
     }
     @PostMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestParam("userId")String userId,@RequestParam("oldPassword")String oldPassword,@RequestParam("newPassword")String newPassword)
+    public ResponseEntity<String> changePassword(@RequestParam("userId")String userId,@RequestParam("newPassword")String newPassword,@RequestParam("confirmPassword")String confirmPassword)
     {
-    	return ResponseEntity.ok().body(cs.changePassword(userId,oldPassword,newPassword));
+    	return ResponseEntity.ok().body(cs.changePassword(userId,newPassword,confirmPassword));
     }
 }
