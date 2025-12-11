@@ -17,25 +17,32 @@ public class MedicineService {
     private MedicineRepository medicineRepository;
 
  // Add a medicine
-    public Medicine addMedicine(Medicine medicine) 
+    public String addMedicine(Medicine medicine) 
     {
-    	Optional<Medicine> opt=medicineRepository.findById(medicine.getMedicineId());
-    	if(opt.isPresent())
-    	{
-    		return null;
-    	}
-        return medicineRepository.save(medicine);
+    		Medicine result=medicineRepository.save(medicine);
+    		if(result!=null)
+    		{
+    			return "Medicine Added Successfully";
+    		}
+        return "Medicine not added";
     }
     
-    // Update a medicine
-    public Medicine updateMedicine(Medicine medicine)
+    public String updateMedicine(Medicine medicine)
     {
     	Optional<Medicine> opt=medicineRepository.findById(medicine.getMedicineId());
     	if(opt.isPresent())
     	{
-    		 return medicineRepository.save(medicine);
+    		 Medicine result=medicineRepository.save(medicine);
+    		 if(result!=null)
+    		 {
+    		 return "Medicine Updated Succesfully";
+    		 }
+    		 else
+    		 {
+    			 return "Medicine not updated";
+    		 }
     	}
-    	return null;
+    	return "MedicineId not found";
     }
     
     // Delete a medicine
@@ -50,7 +57,7 @@ public class MedicineService {
     	}
     	return "MedicineId not found";
     }
-
+    
     // Find a medicine by ID
     public Medicine getMedicineById(Long medicineId) {
     	Optional<Medicine> opt=medicineRepository.findById(medicineId);

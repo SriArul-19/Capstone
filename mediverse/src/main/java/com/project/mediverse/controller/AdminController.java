@@ -1,5 +1,6 @@
 package com.project.mediverse.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.repository.MedicineRepository;
 import com.project.mediverse.service.CustomerService;
+import com.project.mediverse.service.InsuranceClaimService;
+import com.project.mediverse.service.MedicineService;
+import com.project.mediverse.service.OrderService;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController 
 {
+
+    private final MedicineRepository medicineRepository;
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private MedicineService medicineService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private InsuranceClaimService insuranceClaimService;
+
+    AdminController(MedicineRepository medicineRepository) {
+        this.medicineRepository = medicineRepository;
+    }
     @GetMapping("/home")
     public ModelAndView showHomePage() 
     {
@@ -93,7 +112,7 @@ public class AdminController
     	return ResponseEntity.ok().body(customerService.deleteCustomer(customer.getCustomerId()));
     }
     @GetMapping("/getAllCustomer")
-    public String getAllCustomers(Model model) {
+    public String getAllCustomer(Model model) {
         List<Customer> customers = customerService.getAllCustomer();
         model.addAttribute("customers", customers);
         return "GetAllCustomerPage";   // JSP page name (GetAllCustomer.jsp)
@@ -114,5 +133,131 @@ public class AdminController
 
         model.addAttribute("customer", customer);
         return "GetCustomerByIdTablePage";  // show results
+    }
+    @GetMapping("/addMedicinePage")
+    public ModelAndView showAddMedicinePage()
+    {
+    	return new ModelAndView("AddMedicinePage");
+    }
+    @PostMapping("/addMedicine")
+    public ResponseEntity<String> addMedicine(@ModelAttribute("medicine")Medicine medicine)
+    {
+    	return ResponseEntity.ok(medicineService.addMedicine(medicine));
+    }
+    @GetMapping("/updateMedicinePage")
+    public ModelAndView showUpdateMedicinePage() 
+    {
+        return new ModelAndView("UpdateMedicinePage");
+    }
+    @PostMapping("/updateMedicine")
+    public ResponseEntity<String> updateMedicine(@ModelAttribute("medicine") Medicine medicine)
+    {
+    	return ResponseEntity.ok().body(medicineService.updateMedicine(medicine));
+    }
+    @GetMapping("/deleteMedicinePage")
+    public ModelAndView showDeleteMedicinePage() 
+    {
+        return new ModelAndView("DeleteMedicinePage");
+    }
+    @PostMapping("/deleteMedicine")
+    public ResponseEntity<String> deleteMedicine(@ModelAttribute("medicine") Medicine medicine)
+    {
+    	return ResponseEntity.ok().body(medicineService.deleteMedicine(medicine.getMedicineId()));
+    }
+    @GetMapping("/getAllMedicine")
+    public String getAllMedicine(Model model) {
+        List<Medicine> medicines = medicineService.getAllMedicine();
+        model.addAttribute("medicines", medicines);  // Pass the list of medicines to the JSP page
+        return "GetAllMedicinePage";  // Return the name of the JSP page
+    }
+    @GetMapping("/getMedicineByIdPage")
+    public ModelAndView showGetMedicineByIdPage() 
+    {
+        return new ModelAndView("GetMedicineByIdPage");
+    }
+    @PostMapping("/getMedicineById")
+    public String getMedicineById(@RequestParam("medicineId") Long medicineId, Model model) {
+        Medicine medicine = medicineService.getMedicineById(medicineId);
+
+        if (medicine == null) {
+            model.addAttribute("message", "MedicineId ID not found!");
+            return "GetMedicineByIdTablePage"; // result page
+        }
+
+        model.addAttribute("medicine", medicine);
+        return "GetMedicineByIdTablePage";  // show results
+    }
+    @GetMapping("/addOrderPage")
+    public ModelAndView showAddOrderPage()
+    {
+    	return new ModelAndView("AddOrderPage");
+    }
+    @PostMapping("/addOrder")
+    public ResponseEntity<String> addOrder(@RequestParam Long customerId,
+            @RequestParam double totalAmount,
+            @RequestParam String paymentStatus,
+            @RequestParam LocalDate orderedDate,
+            @RequestParam(required = false) Long insuranceClaimId)
+    {
+    	return ResponseEntity.ok().body(orderService.addOrder(customerId,totalAmount,paymentStatus,orderedDate,insuranceClaimId));
+    }
+    @GetMapping("/updateOrderPage")
+    public ModelAndView showUpdateOrderPage() 
+    {
+        return new ModelAndView("UpdateOrderPage");
+    }
+    @PostMapping("/updateOrder")
+    public ResponseEntity<String> updateOrder(@RequestParam Long orderId, Long customerId,
+            @RequestParam double totalAmount,
+            @RequestParam String paymentStatus,
+            @RequestParam LocalDate orderedDate,
+            @RequestParam(required = false) Long insuranceClaimId)
+    {
+    	return ResponseEntity.ok().body(orderService.updateOrder(orderId,customerId,totalAmount,paymentStatus,orderedDate,insuranceClaimId));
+    }
+    @GetMapping("/deleteOrderPage")
+    public ModelAndView showDeleteOrderPage() 
+    {
+        return new ModelAndView("DeleteOrderPage");
+    }
+    @PostMapping("/deleteOrder")
+    public ResponseEntity<String> deleteOrder(@ModelAttribute("order") Order order)
+    {
+    	return ResponseEntity.ok().body(orderService.deleteOrder(order.getOrderId()));
+    }
+    @GetMapping("/getAllOrderPage")
+    public String getAllOrder(Model model) {
+        List<Order> orders = orderService.getAllOrder(); // Fetching all orders
+        model.addAttribute("orders", orders); // Adding the list of orders to the model
+        return "GetAllOrderPage"; // Returning the name of the JSP page
+    }
+    @GetMapping("/getOrderByIdPage")
+    public ModelAndView showGetOrderByIdPage()
+    {
+    	return new ModelAndView("GetOrderByIdPage");
+    }
+    @PostMapping("/getOrderById")
+    public String getOrderById(@RequestParam Long orderId, Model model) {
+        Order order = orderService.getOrderById(orderId); // Fetch order by ID
+        model.addAttribute("order", order); // Add order to the model
+        return "GetOrderByIdTablePage"; // Return the view for the table page
+    }
+    @GetMapping("/addInsuranceClaimPage")
+    public ModelAndView showAddInsuranceClaimPage()
+    {
+    	return new ModelAndView("AddInsuranceClaimPage");
+    }
+    @PostMapping("/addInsuranceClaim")
+    public ResponseEntity<String> addInsuranceClaim(@RequestParam Long customerId, 
+            @RequestParam Long medicineId,
+            @RequestParam double claimAmount, 
+            @RequestParam String claimStatus, 
+            @RequestParam LocalDate claimDate)
+    {
+    	return ResponseEntity.ok().body(insuranceClaimService.addInsuranceClaim(customerId,
+    			medicineId,
+                claimAmount, 
+                claimStatus, 
+                claimDate));
     }
 }

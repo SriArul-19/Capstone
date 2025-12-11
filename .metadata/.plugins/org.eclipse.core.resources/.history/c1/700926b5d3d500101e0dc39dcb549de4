@@ -1,0 +1,130 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.repository.OrderRepository;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private InsuranceClaimService insuranceClaimService;
+
+    // Add an order
+    public String addOrder(Long customerId,
+            double totalAmount,
+            String paymentStatus,
+            LocalDate orderedDate,
+            Long insuranceClaimId) 
+    {
+    	/*
+    	Order result=orderRepository.save(order);
+    	if(result!=null)
+    	{
+    		return "Order Added Successfully";
+    	}
+        return "Order not added";
+        */
+    	 // Find customer by customerId
+        Customer customer = customerService.getCustomerById(customerId);
+
+        // Optional: Find insurance claim if it exists
+        InsuranceClaim insuranceClaim = null;
+        if (insuranceClaimId != null) {
+            insuranceClaim = insuranceClaimService.getInsuranceClaimById(insuranceClaimId);
+        }
+
+        // Create the order object
+        Order order = new Order();
+        order.setCustomer(customer);
+        order.setTotalAmount(totalAmount);
+        order.setPaymentStatus(paymentStatus);
+        order.setOrderedDate(orderedDate);
+        order.setInsuranceClaim(insuranceClaim);
+
+        // Save the order
+        orderRepository.save(order);
+
+        // Redirect or return success page
+        return "Success";
+    }
+    
+    // Update an order
+    public Order updateOrder(Order order)
+    {
+    	Optional<Order> opt=orderRepository.findById(order.getOrderId());
+    	if(opt.isPresent())
+    	{
+    		 return orderRepository.save(order);
+    	}
+    	return null;
+    }
+    
+    // Delete an order
+    
+    public String deleteOrder(Long orderId)
+    {
+    	Optional<Order> opt=orderRepository.findById(orderId);
+    	if(opt.isPresent())
+    	{
+    		 orderRepository.deleteById(orderId);
+    		 return "Order deleted successfully";
+    	}
+    	return "OrderId not found";
+    }
+
+    // Find an order by ID
+    public Order getOrderById(Long orderId) {
+    	Optional<Order> opt=orderRepository.findById(orderId);
+    	if(opt.isPresent())
+    	{
+    		Order result=opt.get();
+    		return result;
+    	}
+    	return null;
+    }
+    
+    // Find all order
+    
+    public List<Order> getAllOrder()
+    {
+    	List<Order> result;
+    	result=orderRepository.findAll();
+    	return result;
+    }
+
+    // Get orders by customer
+    public List<Order> getOrdersByCustomer(Long customerId) {
+        Customer customer = customerService.getCustomerById(customerId);
+        if (customer != null) {
+            return orderRepository.findByCustomer(customer);
+        }
+        return null;
+    }
+
+    // Get orders by payment status
+    public List<Order> getOrdersByPaymentStatus(String paymentStatus) {
+        return orderRepository.findByPaymentStatus(paymentStatus);
+    }
+
+    // Get orders by insurance claim
+    public List<Order> getOrdersByInsuranceClaim(Long insuranceClaimId) {
+        InsuranceClaim insuranceClaim = new InsuranceClaim();
+        insuranceClaim.setClaimId(insuranceClaimId);
+        return orderRepository.findByInsuranceClaim(insuranceClaim);
+    }
+}

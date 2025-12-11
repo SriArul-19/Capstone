@@ -2,12 +2,14 @@ package com.project.mediverse.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.mediverse.entity.Customer;
 import com.project.mediverse.entity.InsuranceClaim;
 import com.project.mediverse.entity.Order;
 import com.project.mediverse.repository.OrderRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,27 +21,98 @@ public class OrderService {
 
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private InsuranceClaimService insuranceClaimService;
 
     // Add an order
-    public Order addOrder(Order order) 
+    public String addOrder(Long customerId,
+            double totalAmount,
+            String paymentStatus,
+            LocalDate orderedDate,
+            Long insuranceClaimId) 
     {
-    	Optional<Order> opt=orderRepository.findById(order.getOrderId());
-    	if(opt.isPresent())
-    	{
-    		return null;
-    	}
-        return orderRepository.save(order);
+    	 // Find customer by customerId
+        Customer customer = customerService.getCustomerById(customerId);
+        if(customer!=null)
+        {
+        	// Optional: Find insurance claim if it exists
+            InsuranceClaim insuranceClaim = null;
+            if (insuranceClaimId != null) {
+                insuranceClaim = insuranceClaimService.getInsuranceClaimById(insuranceClaimId);
+                if(insuranceClaim!=null)
+                {
+                	// Create the order object
+                	Order order = new Order();
+                    order.setCustomer(customer);
+                    order.setTotalAmount(totalAmount);
+                    order.setPaymentStatus(paymentStatus);
+                    order.setOrderedDate(orderedDate);
+                    order.setInsuranceClaim(insuranceClaim);
+                    // Save the order
+                    orderRepository.save(order);
+                    return "Order Added Successfully";
+                }
+                return "InsuranceId not found";
+            }
+            Order order = new Order();
+            order.setCustomer(customer);
+            order.setTotalAmount(totalAmount);
+            order.setPaymentStatus(paymentStatus);
+            order.setOrderedDate(orderedDate);
+            order.setInsuranceClaim(insuranceClaim);
+            // Save the order
+            orderRepository.save(order);
+            return "Order Added Successfully";
+        }
+        return "CustomerId not found";
     }
     
     // Update an order
-    public Order updateOrder(Order order)
+    public String updateOrder(Long orderId,Long customerId,
+            double totalAmount,
+            String paymentStatus,
+            LocalDate orderedDate,
+            Long insuranceClaimId) 
     {
-    	Optional<Order> opt=orderRepository.findById(order.getOrderId());
+    	Optional<Order> opt=orderRepository.findById(orderId);
     	if(opt.isPresent())
     	{
-    		 return orderRepository.save(order);
+    	 // Find customer by customerId
+        Customer customer = customerService.getCustomerById(customerId);
+        if(customer!=null)
+        {
+        	// Optional: Find insurance claim if it exists
+            InsuranceClaim insuranceClaim = null;
+            if (insuranceClaimId != null) {
+                insuranceClaim = insuranceClaimService.getInsuranceClaimById(insuranceClaimId);
+                if(insuranceClaim!=null)
+                {
+                	// Create the order object
+                	Order order = new Order();
+                    order.setCustomer(customer);
+                    order.setTotalAmount(totalAmount);
+                    order.setPaymentStatus(paymentStatus);
+                    order.setOrderedDate(orderedDate);
+                    order.setInsuranceClaim(insuranceClaim);
+                    // Save the order
+                    orderRepository.save(order);
+                    return "Order Added Successfully";
+                }
+                return "InsuranceId not found";
+            }
+            Order order = new Order();
+            order.setCustomer(customer);
+            order.setTotalAmount(totalAmount);
+            order.setPaymentStatus(paymentStatus);
+            order.setOrderedDate(orderedDate);
+            order.setInsuranceClaim(insuranceClaim);
+            // Save the order
+            orderRepository.save(order);
+            return "Order Added Successfully";
+        }
+        return "CustomerId not found";
     	}
-    	return null;
+    	return "OrderId not found";
     }
     
     // Delete an order

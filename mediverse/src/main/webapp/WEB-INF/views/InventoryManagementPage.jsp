@@ -165,35 +165,35 @@
         <div class="module-card">
             <h3>Add Medicine</h3>
             <p>Click to add a new medicine to the system.</p>
-            <a href="/admin/medicine/add">Go to Add Medicine</a>
+            <a href="/admin/addMedicinePage">Go to Add Medicine</a>
         </div>
 
         <!-- Update Medicine Card -->
         <div class="module-card">
             <h3>Update Medicine</h3>
             <p>Click to update medicine details.</p>
-            <a href="/admin/medicine/update">Go to Update Medicine</a>
+            <a href="/admin/updateMedicinePage">Go to Update Medicine</a>
         </div>
 
         <!-- Delete Medicine Card -->
         <div class="module-card">
             <h3>Delete Medicine</h3>
             <p>Click to delete an existing medicine.</p>
-            <a href="/admin/medicine/delete">Go to Delete Medicine</a>
+            <a href="/admin/deleteMedicinePage">Go to Delete Medicine</a>
         </div>
 
         <!-- View All Medicines Card -->
         <div class="module-card">
             <h3>View All Medicines</h3>
             <p>Click to view the list of all medicines.</p>
-            <a href="/admin/medicines">Go to View Medicines</a>
+            <a href="/admin/getAllMedicine">Go to View Medicines</a>
         </div>
 
         <!-- Find Medicine by ID Card -->
         <div class="module-card">
             <h3>Find Medicine by ID</h3>
             <p>Search for a medicine using its unique ID.</p>
-            <a href="/admin/medicine/findById">Go to Find Medicine by ID</a>
+            <a href="/admin/getMedicineByIdPage">Go to Find Medicine by ID</a>
         </div>
 
         <!-- Find Medicine by Category Card -->

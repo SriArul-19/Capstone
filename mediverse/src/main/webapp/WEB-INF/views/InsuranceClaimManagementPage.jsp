@@ -165,35 +165,35 @@
         <div class="module-card">
             <h3>Add Insurance Claim</h3>
             <p>Click to create a new insurance claim.</p>
-            <a href="/admin/insuranceClaim/add">Go to Add Insurance Claim</a>
+            <a href="/admin/addInsuranceClaimPage">Go to Add Insurance Claim</a>
         </div>
 
         <!-- Update Insurance Claim Card -->
         <div class="module-card">
             <h3>Update Insurance Claim</h3>
             <p>Click to update the details of an existing claim.</p>
-            <a href="/admin/insuranceClaim/update">Go to Update Insurance Claim</a>
+            <a href="/admin/updateInsuranceClaimPage">Go to Update Insurance Claim</a>
         </div>
 
         <!-- Delete Insurance Claim Card -->
         <div class="module-card">
             <h3>Delete Insurance Claim</h3>
             <p>Click to delete an existing insurance claim.</p>
-            <a href="/admin/insuranceClaim/delete">Go to Delete Insurance Claim</a>
+            <a href="/admin/deleteInsuranceClaimPage">Go to Delete Insurance Claim</a>
         </div>
 
         <!-- View All Insurance Claims Card -->
         <div class="module-card">
             <h3>View All Insurance Claims</h3>
             <p>Click to view a list of all insurance claims.</p>
-            <a href="/admin/insuranceClaims">Go to View Insurance Claims</a>
+            <a href="/admin/getAllInsuranceClaimPage">Go to View Insurance Claims</a>
         </div>
 
         <!-- Find Insurance Claim by ID Card -->
         <div class="module-card">
             <h3>Find Insurance Claim by ID</h3>
             <p>Search for an insurance claim using its unique ID.</p>
-            <a href="/admin/insuranceClaim/findById">Go to Find Insurance Claim by ID</a>
+            <a href="/admin/getInsuranceClaimByIdPage">Go to Find Insurance Claim by ID</a>
         </div>
 
         <!-- Find Insurance Claims by Customer Card -->

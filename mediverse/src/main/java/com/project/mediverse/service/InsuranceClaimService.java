@@ -2,12 +2,15 @@ package com.project.mediverse.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.mediverse.entity.Customer;
 import com.project.mediverse.entity.InsuranceClaim;
 import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.entity.Order;
 import com.project.mediverse.repository.InsuranceClaimRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,44 @@ public class InsuranceClaimService {
 
     // Create an insurance claim
     
+    public String addInsuranceClaim(Long customerId, 
+            Long medicineId,
+            double claimAmount, 
+            String claimStatus, 
+            LocalDate claimDate) 
+    {
+    	 // Find customer by customerId
+        Customer customer = customerService.getCustomerById(customerId);
+        Medicine medicine=medicineService.getMedicineById(medicineId);
+        if(customer!=null && medicine !=null)
+        {
+                	// Create the insurance claim object
+                	InsuranceClaim insuranceClaim = new InsuranceClaim();
+                	insuranceClaim.setCustomer(customer);
+                	insuranceClaim.setMedicine(medicine);
+                	insuranceClaim.setClaimAmount(claimAmount);
+                	insuranceClaim.setClaimStatus(claimStatus);
+                	insuranceClaim.setClaimDate(claimDate);
+      
+                    // Save the order
+                    insuranceClaimRepository.save(insuranceClaim);
+                    return "Insurance Claim Added Successfully";
+         }
+        else if (customer==null && medicine ==null)
+        {
+        	return "CustomerId and MedicineId Both not found";
+        }
+        else if(customer==null && medicine !=null)
+        {
+                return "CustomerId not found";
+        }
+        else
+        {
+        	return "MedicineId not found";
+        }
+    }
+    
+    /*
     public InsuranceClaim addInsuranceClaim(InsuranceClaim insuranceClaim) 
     {
     	Optional<InsuranceClaim> opt=insuranceClaimRepository.findById(insuranceClaim.getClaimId());
@@ -34,7 +75,7 @@ public class InsuranceClaimService {
     	}
         return insuranceClaimRepository.save(insuranceClaim);
     }
-    
+    */
     //Update an insurance claim
     
     public InsuranceClaim updateInsuranceClaim(InsuranceClaim insuranceClaim)

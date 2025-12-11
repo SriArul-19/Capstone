@@ -14,14 +14,15 @@ public class InsuranceClaim {
     private Long claimId;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id",nullable=false)
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "medicine_id")
+    @JoinColumn(name = "medicine_id",nullable=false)
     private Medicine medicine;
-
+    @Column(nullable=false)
     private double claimAmount;
+    @Column(nullable=false)
     private String claimStatus;
     @Column(name = "claim_date", nullable = false)
     private LocalDate claimDate;
