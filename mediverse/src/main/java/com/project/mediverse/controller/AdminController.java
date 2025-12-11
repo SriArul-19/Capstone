@@ -18,11 +18,15 @@ import com.project.mediverse.entity.Customer;
 import com.project.mediverse.entity.InsuranceClaim;
 import com.project.mediverse.entity.Medicine;
 import com.project.mediverse.entity.Order;
+import com.project.mediverse.entity.Payment;
+import com.project.mediverse.entity.Prescription;
 import com.project.mediverse.repository.MedicineRepository;
 import com.project.mediverse.service.CustomerService;
 import com.project.mediverse.service.InsuranceClaimService;
 import com.project.mediverse.service.MedicineService;
 import com.project.mediverse.service.OrderService;
+import com.project.mediverse.service.PaymentService;
+import com.project.mediverse.service.PrescriptionService;
 
 @Controller
 @RequestMapping("/admin")
@@ -38,6 +42,10 @@ public class AdminController
 	private OrderService orderService;
 	@Autowired
 	private InsuranceClaimService insuranceClaimService;
+	@Autowired
+	private PaymentService paymentService;
+	@Autowired
+	private PrescriptionService prescriptionService;
 
     AdminController(MedicineRepository medicineRepository) {
         this.medicineRepository = medicineRepository;
@@ -305,5 +313,145 @@ public class AdminController
         InsuranceClaim insuranceClaim = insuranceClaimService.getInsuranceClaimById(claimId);
         model.addAttribute("insuranceClaim", insuranceClaim);
         return "GetInsuranceClaimByIdTablePage"; // This will render the table page
+    }
+    @GetMapping("/addPaymentPage")
+    public ModelAndView showAddPaymentPage()
+    {
+    	return new ModelAndView("AddPaymentPage");
+    }
+    @PostMapping("/addPayment")
+    public ResponseEntity<String> addPayment(@RequestParam("orderId") Long orderId,
+            @RequestParam("paymentDate") LocalDate paymentDate,
+            @RequestParam("paymentAmount") double paymentAmount,
+            @RequestParam("paymentMethod") String paymentMethod,
+            @RequestParam("paymentStatus") String paymentStatus)
+    {
+    	return ResponseEntity.ok().body(paymentService.addPayment(orderId,
+                paymentDate,
+                paymentAmount,
+                paymentMethod,
+                paymentStatus));
+    }
+    @GetMapping("/updatePaymentPage")
+    public ModelAndView showUpdatePaymentPage()
+    {
+    	return new ModelAndView("UpdatePaymentPage");
+    }
+    @PostMapping("/updatePayment")
+    public ResponseEntity<String> updatePayment(@RequestParam("paymentId") Long paymentId,@RequestParam("orderId") Long orderId,
+            @RequestParam("paymentDate") LocalDate paymentDate,
+            @RequestParam("paymentAmount") double paymentAmount,
+            @RequestParam("paymentMethod") String paymentMethod,
+            @RequestParam("paymentStatus") String paymentStatus)
+    {
+    	return ResponseEntity.ok().body(paymentService.updatePayment(paymentId,orderId,
+                paymentDate,
+                paymentAmount,
+                paymentMethod,
+                paymentStatus));
+    }
+    @GetMapping("/deletePaymentPage")
+    public ModelAndView showDeletePaymentPage()
+    {
+    	return new ModelAndView("DeletePaymentPage");
+    }
+    @PostMapping("/deletePayment")
+    public ResponseEntity<String> deletePayment(@ModelAttribute("payment") Payment payment)
+    {
+    	return ResponseEntity.ok().body(paymentService.deletePayment(payment.getPaymentId()));
+    }
+    @GetMapping("/getAllPaymentPage")
+    public String getAllPayment(Model model) {
+        List<Payment> payments = paymentService.getAllPayment(); // Fetching all payments
+        model.addAttribute("payments", payments); // Adding the list of payments to the model
+        return "GetAllPaymentPage"; // The name of the JSP page
+    }
+    @GetMapping("/getPaymentByIdPage")
+    public ModelAndView showGetPaymentByIdPage()
+    {
+    	return new ModelAndView("GetPaymentByIdPage");
+    }
+    @PostMapping("/getPaymentById")
+    public String getPaymentById(@RequestParam Long paymentId, Model model) {
+        Payment payment = paymentService.getPaymentById(paymentId);  // Service method to get payment by ID
+        if (payment != null) {
+            model.addAttribute("payment", payment);  // Add payment to the model
+            return "GetPaymentByIdTablePage";  // Return to the page that displays the payment details
+        } else {
+            model.addAttribute("payment", null);  // Payment not found
+            return "GetPaymentByIdTablePage";  // Still show the page but with a "not found" message
+        }
+    }
+    @GetMapping("/addPrescriptionPage")
+    public ModelAndView showAddPrescriptionPage()
+    {
+    	return new ModelAndView("AddPrescriptionPage");
+    }
+    @PostMapping("/addPrescription")
+    public ResponseEntity<String> addPrescription(@RequestParam Long customerId,
+            @RequestParam Long medicineId,
+            @RequestParam LocalDate prescriptionDate,
+            @RequestParam String dosage,
+            @RequestParam String instructions)
+    {
+    	return ResponseEntity.ok().body(prescriptionService.addPrescription(customerId,
+                medicineId,
+                prescriptionDate,
+                dosage,
+                instructions));
+    }
+    @GetMapping("/updatePrescriptionPage")
+    public ModelAndView showUpdatePrescriptionPage()
+    {
+    	return new ModelAndView("UpdatePrescriptionPage");
+    }
+    @PostMapping("/updatePrescription")
+    public ResponseEntity<String> updatePrescription(@RequestParam Long prescriptionId,@RequestParam Long customerId,
+            @RequestParam Long medicineId,
+            @RequestParam LocalDate prescriptionDate,
+            @RequestParam String dosage,
+            @RequestParam String instructions)
+    {
+    	return ResponseEntity.ok().body(prescriptionService.updatePrescription(prescriptionId,customerId,
+                medicineId,
+                prescriptionDate,
+                dosage,
+                instructions));
+    }
+    @GetMapping("/deletePrescriptionPage")
+    public ModelAndView showDeletePrescriptionPage()
+    {
+    	return new ModelAndView("DeletePrescriptionPage");
+    }
+    @PostMapping("/deletePrescription")
+    public ResponseEntity<String> deletePrescription(@ModelAttribute("prescription") Prescription prescription)
+    {
+    	return ResponseEntity.ok().body(prescriptionService.deletePrescription(prescription.getPrescriptionId()));
+    }
+    @GetMapping("/getAllPrescription")
+    public String getAllPrescription(Model model) {
+        // Fetch all prescriptions from the service layer
+        List<Prescription> prescriptions = prescriptionService.getAllPrescription();
+
+        // Add prescriptions list to the model
+        model.addAttribute("prescriptions", prescriptions);
+
+        return "GetAllPrescriptionPage";  // Return the JSP page name
+    }
+    @GetMapping("/getPrescriptionByIdPage")
+    public ModelAndView showGetPrescriptionByIdPage()
+    {
+    	return new ModelAndView("GetPrescriptionByIdPage");
+    }
+    @PostMapping("getPrescriptionById")
+    public String getPrescriptionById(@RequestParam("prescriptionId") Long prescriptionId, Model model) {
+        // Fetch prescription by ID
+        Prescription prescription = prescriptionService.getPrescriptionById(prescriptionId);
+
+        // Add prescription to the model
+        model.addAttribute("prescription", prescription);
+
+        // Return the page name to render
+        return "GetPrescriptionByIdTablePage";
     }
 }

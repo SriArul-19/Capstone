@@ -6,11 +6,16 @@
     <title>Mediverse Admin Dashboard - Delete Insurance Claim</title>
     <style>
         /* Global styles */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7f6;
-            margin: 0;
-            padding: 0;
+            display: flex;
+            flex-direction: column;
             color: #333;
         }
 
@@ -30,6 +35,7 @@
 
         /* Main container for the content */
         .container {
+            flex: 1;
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
@@ -69,12 +75,13 @@
             background-color: #45a049;
         }
 
+        /* Footer Section */
         .footer {
             background-color: #4CAF50;
             color: white;
             text-align: center;
             padding: 10px;
-            margin-top: 40px;
+            margin-top: auto;
         }
 
         .footer a {
@@ -97,14 +104,12 @@
 
     <!-- Main Content Section -->
     <div class="container">
-        <h2>Update Existing Insurance Claim</h2>
+        <h2>Delete Existing Insurance Claim</h2>
         <form action="./deleteInsuranceClaim" method="POST">
-            
-			<div class="form-group">
-			    <label for="claimId">Claim ID</label>
-			    <input type="number" id="claimId" name="claimId" required>
-			</div>
-			
+            <div class="form-group">
+                <label for="claimId">Claim ID</label>
+                <input type="number" id="claimId" name="claimId" required>
+            </div>
 
             <!-- Submit Button -->
             <div class="form-group">

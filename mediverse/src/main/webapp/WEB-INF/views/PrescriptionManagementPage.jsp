@@ -165,35 +165,35 @@
         <div class="module-card">
             <h3>Add Prescription</h3>
             <p>Click to add a new prescription to the system.</p>
-            <a href="/admin/prescription/add">Go to Add Prescription</a>
+            <a href="/admin/addPrescriptionPage">Go to Add Prescription</a>
         </div>
 
         <!-- Update Prescription Card -->
         <div class="module-card">
             <h3>Update Prescription</h3>
             <p>Click to update prescription details.</p>
-            <a href="/admin/prescription/update">Go to Update Prescription</a>
+            <a href="/admin/updatePrescriptionPage">Go to Update Prescription</a>
         </div>
 
         <!-- Delete Prescription Card -->
         <div class="module-card">
             <h3>Delete Prescription</h3>
             <p>Click to delete an existing prescription.</p>
-            <a href="/admin/prescription/delete">Go to Delete Prescription</a>
+            <a href="/admin/deletePrescriptionPage">Go to Delete Prescription</a>
         </div>
 
         <!-- View All Prescriptions Card -->
         <div class="module-card">
             <h3>View All Prescriptions</h3>
             <p>Click to view the list of all prescriptions.</p>
-            <a href="/admin/prescriptions">Go to View Prescriptions</a>
+            <a href="/admin/getAllPrescription">Go to View Prescriptions</a>
         </div>
 
         <!-- Find Prescription by ID Card -->
         <div class="module-card">
             <h3>Find Prescription by ID</h3>
             <p>Search for a prescription using its unique ID.</p>
-            <a href="/admin/prescription/findById">Go to Find Prescription by ID</a>
+            <a href="/admin/getPrescriptionByIdPage">Go to Find Prescription by ID</a>
         </div>
 
         <!-- Find Prescription by Customer Card -->

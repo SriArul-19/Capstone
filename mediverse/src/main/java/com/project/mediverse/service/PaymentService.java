@@ -2,12 +2,16 @@ package com.project.mediverse.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Medicine;
 import com.project.mediverse.entity.Order;
 import com.project.mediverse.entity.Payment;
 import com.project.mediverse.repository.PaymentRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,25 +25,68 @@ public class PaymentService {
     private OrderService orderService;
 
  // Add a payment
-    public Payment addPayment(Payment payment) 
+    
+    public String addPayment(Long orderId,
+            LocalDate paymentDate,
+            double paymentAmount,
+            String paymentMethod,
+            String paymentStatus) 
     {
-    	Optional<Payment> opt=paymentRepository.findById(payment.getPaymentId());
-    	if(opt.isPresent())
-    	{
-    		return null;
-    	}
-        return paymentRepository.save(payment);
+    	 // Find order by orderId
+        Order order = orderService.getOrderById(orderId);
+        if(order!=null)
+        {
+                	// Create the payment object
+                	Payment payment = new Payment();
+                	payment.setOrder(order);  // Retrieve the order using the orderId
+                    payment.setPaymentDate(paymentDate);    // Convert the date string to LocalDate
+                    payment.setPaymentAmount(paymentAmount);
+                    payment.setPaymentMethod(paymentMethod);
+                    payment.setPaymentStatus(paymentStatus);
+      
+                    // Save the payment
+                    paymentRepository.save(payment);
+                    return "Payment Added Successfully";
+         }
+        else
+        {
+        	return "OrderId not found";
+        }
     }
     
     // Update a payment
-    public Payment updatePayment(Payment payment)
+    
+    public String updatePayment(Long paymentId,Long orderId,
+            LocalDate paymentDate,
+            double paymentAmount,
+            String paymentMethod,
+            String paymentStatus) 
     {
-    	Optional<Payment> opt=paymentRepository.findById(payment.getPaymentId());
+    	 // Find customer by customerId
+    	Optional<Payment> opt=paymentRepository.findById(paymentId);
     	if(opt.isPresent())
     	{
-    		 return paymentRepository.save(payment);
+        Order order = orderService.getOrderById(orderId);
+        if(order!=null)
+        {
+                	// Create the payment object
+                	Payment payment = new Payment();
+                	payment.setOrder(order);  // Retrieve the order using the orderId
+                    payment.setPaymentDate(paymentDate);    // Convert the date string to LocalDate
+                    payment.setPaymentAmount(paymentAmount);
+                    payment.setPaymentMethod(paymentMethod);
+                    payment.setPaymentStatus(paymentStatus);
+      
+                    // Save the payment
+                    paymentRepository.save(payment);
+                    return "Payment updated Successfully";
+         }
+        else
+        {
+        	return "OrderId not found";
+        }
     	}
-    	return null;
+    	return "PaymentId not found";
     }
     
     // Delete a payment

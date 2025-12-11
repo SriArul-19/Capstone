@@ -165,35 +165,35 @@
         <div class="module-card">
             <h3>Add Payment</h3>
             <p>Click to add a new payment to the system.</p>
-            <a href="/admin/payment/add">Go to Add Payment</a>
+            <a href="/admin/addPaymentPage">Go to Add Payment</a>
         </div>
 
         <!-- Update Payment Card -->
         <div class="module-card">
             <h3>Update Payment</h3>
             <p>Click to update payment details.</p>
-            <a href="/admin/payment/update">Go to Update Payment</a>
+            <a href="/admin/updatePaymentPage">Go to Update Payment</a>
         </div>
 
         <!-- Delete Payment Card -->
         <div class="module-card">
             <h3>Delete Payment</h3>
             <p>Click to delete an existing payment.</p>
-            <a href="/admin/payment/delete">Go to Delete Payment</a>
+            <a href="/admin/deletePaymentPage">Go to Delete Payment</a>
         </div>
 
         <!-- View All Payments Card -->
         <div class="module-card">
             <h3>View All Payments</h3>
             <p>Click to view the list of all payments.</p>
-            <a href="/admin/payments">Go to View Payments</a>
+            <a href="/admin/getAllPaymentPage">Go to View Payments</a>
         </div>
 
         <!-- Find Payment by ID Card -->
         <div class="module-card">
             <h3>Find Payment by ID</h3>
             <p>Search for a payment using its unique ID.</p>
-            <a href="/admin/payment/findById">Go to Find Payment by ID</a>
+            <a href="/admin/getPaymentByIdPage">Go to Find Payment by ID</a>
         </div>
 
         <!-- Find Payments by Order Card -->

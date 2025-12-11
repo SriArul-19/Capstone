@@ -6,11 +6,16 @@
     <title>Mediverse Admin Dashboard - Find Customer by Id</title>
     <style>
         /* Global styles */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7f6;
-            margin: 0;
-            padding: 0;
+            display: flex;
+            flex-direction: column;
             color: #333;
         }
 
@@ -30,6 +35,7 @@
 
         /* Main container for the content */
         .container {
+            flex: 1;
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
@@ -73,12 +79,13 @@
             background-color: #45a049;
         }
 
+        /* Footer Section */
         .footer {
             background-color: #4CAF50;
             color: white;
             text-align: center;
             padding: 10px;
-            margin-top: 40px;
+            margin-top: auto;
         }
 
         .footer a {
@@ -103,10 +110,10 @@
     <div class="container">
         <h2>Find existing Customer</h2>
         <form action="./getCustomerById" method="POST">
-			<div class="form-group">
-			    <label for="customerId">Customer Id</label>
-			    <input type="number" id="customerId" name="customerId" required>
-			</div>
+            <div class="form-group">
+                <label for="customerId">Customer Id</label>
+                <input type="number" id="customerId" name="customerId" required>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Find Customer">
             </div>

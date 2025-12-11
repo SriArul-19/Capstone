@@ -2,12 +2,16 @@ package com.project.mediverse.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.mediverse.entity.Customer;
 import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.entity.Payment;
 import com.project.mediverse.entity.Prescription;
 import com.project.mediverse.repository.PrescriptionRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,26 +27,86 @@ public class PrescriptionService {
     @Autowired
     private MedicineService medicineService;
 
- // Add a prescription
-    public Prescription addPrescription(Prescription prescription) 
+    // Add a prescription
+    
+    public String addPrescription(Long customerId,
+           Long medicineId,
+           LocalDate prescriptionDate,
+           String dosage,
+           String instructions) 
     {
-    	Optional<Prescription> opt=prescriptionRepository.findById(prescription.getPrescriptionId());
-    	if(opt.isPresent())
-    	{
-    		return null;
-    	}
-        return prescriptionRepository.save(prescription);
+    	 // Find customer and medicine by Id
+        Customer customer = customerService.getCustomerById(customerId);
+        Medicine medicine= medicineService.getMedicineById(medicineId);
+        if(customer!=null && medicine!=null)
+        {
+                	// Create the prescription object
+                	Prescription prescription = new Prescription();
+                	prescription.setCustomer(customer);
+                    prescription.setMedicine(medicine);
+                    prescription.setPrescriptionDate(prescriptionDate);
+                    prescription.setDosage(dosage);
+                    prescription.setInstructions(instructions);
+      
+                    // Save the object
+                    prescriptionRepository.save(prescription);
+                    return "Prescription Added Successfully";
+         }
+        else if (customer==null && medicine==null)
+        {
+        	return "CustomerId and MedicineId both not found";
+        }
+        else if(customer==null && medicine!=null)
+        {
+        	return "CustomerId not found";
+        }
+        else
+        {
+        	return "MedicineId not found";
+        }
     }
     
     // Update a prescription
-    public Prescription updatePrescription(Prescription prescription)
+    public String updatePrescription(Long prescriptionId,Long customerId,
+            Long medicineId,
+            LocalDate prescriptionDate,
+            String dosage,
+            String instructions)
     {
-    	Optional<Prescription> opt=prescriptionRepository.findById(prescription.getPrescriptionId());
+    	Optional<Prescription> opt=prescriptionRepository.findById(prescriptionId);
     	if(opt.isPresent())
     	{
-    		 return prescriptionRepository.save(prescription);
+    	 // Find customer and medicine by Id
+        Customer customer = customerService.getCustomerById(customerId);
+        Medicine medicine= medicineService.getMedicineById(medicineId);
+        if(customer!=null && medicine!=null)
+        {
+                	// Create the prescription object
+                	Prescription prescription = new Prescription();
+                	prescription.setCustomer(customer);
+                    prescription.setMedicine(medicine);
+                    prescription.setPrescriptionDate(prescriptionDate);
+                    prescription.setDosage(dosage);
+                    prescription.setInstructions(instructions);
+      
+                    // Save the object
+                    prescriptionRepository.save(prescription);
+                    return "Prescription Added Successfully";
+         }
+        else if (customer==null && medicine==null)
+        {
+        	return "CustomerId and MedicineId both not found";
+        }
+        else if(customer==null && medicine!=null)
+        {
+        	return "CustomerId not found";
+        }
+        else
+        {
+        	return "MedicineId not found";
+        }
     	}
-    	return null;
+    	return "PrescriptionId not found";
     }
     
     // Delete a prescription
