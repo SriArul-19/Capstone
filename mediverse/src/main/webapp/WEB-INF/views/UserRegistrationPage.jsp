@@ -27,6 +27,11 @@
 <section class="registration-section">
     <h1>User Registration</h1>
     <p>Please fill in the details to create your customer account.</p>
+	<c:if test="${not empty error}">
+	        <div style="color:red;">
+	            ${error}
+	        </div>
+	</c:if>
 
     <form action="./createUser" method="POST" class="registration-form">
 

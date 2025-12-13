@@ -110,6 +110,11 @@
                 <label for="customerId">Customer ID</label>
                 <input type="number" id="customerId" name="customerId" required>
             </div>
+			
+			<div class="form-group">
+						     <label for="quantity">Quantity</label>
+						     <input type="number" id="quantity" name="quantity" required>
+			</div>
 
             <!-- Total Amount -->
             <div class="form-group">
@@ -126,6 +131,15 @@
                     <option value="Failed">Failed</option>
                 </select>
             </div>
+			
+			<div class="form-group">
+						                <label for="orderStatus">Order Status</label>
+						                <select id="orderStatus" name="orderStatus" required>
+						                    <option value="Booked">Booked</option>
+						                    <option value="Shipped">Shipped</option>
+						                    <option value="Delivered">Delivered</option>
+						                </select>
+			</div>
 
             <!-- Ordered Date -->
             <div class="form-group">

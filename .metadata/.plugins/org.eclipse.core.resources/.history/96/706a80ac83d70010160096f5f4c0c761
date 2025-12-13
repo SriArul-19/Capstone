@@ -1,0 +1,20 @@
+package com.project.mediverse.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.entity.Prescription;
+
+import java.util.List;
+
+@Repository
+public interface PrescriptionRepository extends JpaRepository<Prescription, Long> {
+
+    // Find prescriptions by customer
+    List<Prescription> findByCustomer(Customer customer);
+
+    // Find prescriptions by medicine
+    List<Prescription> findByMedicine(Medicine medicine);
+}

@@ -23,6 +23,8 @@ import com.project.mediverse.service.AdminService;
 import com.project.mediverse.service.CredentialService;
 import com.project.mediverse.service.CustomerService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/mediverse")
 public class LoginController 
@@ -52,15 +54,27 @@ public class LoginController
         return new ModelAndView("AdminRegistrationPage");
     }
 	@PostMapping("/createAdmin")
-    public String registerAdmin(Admin admin) {
+    public String registerAdmin(Admin admin,Model model) {
+		Admin result=adminService.findAdminByUsername(admin.getUsername());
+		if(result==null)
+		{
         adminService.addAdmin(admin);  // Save the admin details in the database
         return "redirect:/mediverse/adminLogin";  // Redirect to login page after successful registration
-    }
+		}
+		model.addAttribute("error", "Username Already Present");
+		return "AdminRegistrationPage";
+	}
 	@PostMapping("/createUser")
-    public String registerUser(Customer customer) {
+    public String registerUser(Customer customer,Model model) {
+		Customer result=customerService.findCustomerByUsername(customer.getUsername());
+		if(result==null)
+		{
 		customerService.addCustomer(customer);  // Save the admin details in the database
-        return "redirect:/mediverse/uesrLogin";  // Redirect to login page after successful registration
-    }
+        return "redirect:/mediverse/userLogin";  // Redirect to login page after successful registration
+		}
+		model.addAttribute("error", "Username Already Present");
+		return "UserRegistrationPage";
+	}
 	@GetMapping("/roleselectionlogin")
 	public ModelAndView showSignInRoleSelectionLoginPage()
 	{
@@ -88,12 +102,16 @@ public class LoginController
     @PostMapping("/validateUser")
     public String validateUser(@RequestParam("username") String username, 
                             @RequestParam("password") String password, 
+                            HttpSession session,
                             Model model) {
         // Validate user credentials
         Customer customer = customerService.findCustomerByUsername(username);
 
         // Check if the customer exists and the password matches
         if (customer != null && customer.getPassword().equals(password)) {
+        	session.setAttribute("loggedInCustomer", customer);
+        	Customer result=(Customer)session.getAttribute("loggedInCustomer");
+        	System.out.println(customer.getUsername());
             // Successful login
             return "redirect:/user/home";  // Redirect to user dashboard
         } 

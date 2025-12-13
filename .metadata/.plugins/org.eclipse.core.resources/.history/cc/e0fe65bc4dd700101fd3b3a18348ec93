@@ -1,0 +1,154 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #343a40; /* Dark background */
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.search-container {
+    display: flex;
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.search-btn {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.search-btn:hover {
+    background-color: #45a049;
+}
+
+/* Search Results Section */
+.search-results {
+    padding: 30px;
+    background-color: white;
+    text-align: center;
+}
+
+.search-results h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #4CAF50; /* Green */
+}
+
+/* Medicine List */
+.medicine-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.medicine-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 15px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.medicine-item:hover {
+    transform: scale(1.05);
+}
+
+.medicine-item img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+.medicine-item h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.medicine-item p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+/* Buttons */
+.medicine-item .btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.medicine-item .btn:hover {
+    background-color: #45a049;
+}
+
+.medicine-item .buy-btn {
+    background-color: #f44336; /* Red */
+}
+
+.medicine-item .buy-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40; /* Dark background */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}

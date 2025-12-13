@@ -8,6 +8,7 @@
 			<item value="int"/>
 		</list>
 		<list key="findhistory">
+			<item value="customer"/>
 			<item value="Long"/>
 			<item value="int"/>
 		</list>

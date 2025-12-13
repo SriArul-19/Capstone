@@ -6,60 +6,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mediverse - User Profile</title>
-    
-    <!-- Link to the profile-specific CSS -->
-    <link rel="stylesheet" href="<c:url value='/css/profile.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/userhome.css'/>">
+    <style>
+        /* Specific styles for the profile card */
+        .profile-container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container h2 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f4f7f6;
+            padding-bottom: 10px;
+        }
+
+        .profile-details p {
+            font-size: 1.1em;
+            margin: 15px 0;
+            padding: 10px;
+            border-bottom: 1px dotted #ddd;
+        }
+
+        .profile-details strong {
+            display: inline-block;
+            width: 150px; /* Aligns the data points */
+            color: #343a40;
+        }
+        
+        .profile-details span {
+            color: #6c757d;
+        }
+
+        .profile-actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            text-decoration: none;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-edit {
+            background-color: #007bff; /* Blue */
+        }
+        .btn-edit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-password {
+            background-color: #6c757d; /* Gray */
+        }
+        .btn-password:hover {
+            background-color: #5a6268;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">
             <a href="/user/home">Mediverse</a>
         </div>
         <ul>
             <li><a href="/user/home">Home</a></li>
-            <li><a href="/user/orders">Orders</a></li>
+            <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/order">Orders</a></li>
             <li><a href="/user/prescriptions">Prescriptions</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
 
-    <!-- Profile Section -->
-    <section class="profile-section">
-        <h1>User Profile</h1>
+    <div class="profile-container">
+        <h2>Customer Profile Details</h2>
 
-        <div class="profile-options">
-            <!-- Check if the user profile is created -->
-            <c:if test="${empty customer.firstName}">
-                <!-- If no profile exists, show these options -->
-                <h2>Create your profile</h2>
-                <p>Please fill in the details to create your profile.</p>
-                <a href="/user/createProfile" class="btn">Create Profile</a>
-                <a href="/user/changePassword" class="btn">Change Password</a>
-                <a href="/user/settings" class="btn">Account Settings</a>
-            </c:if>
-
-            <!-- If profile is created, show profile details -->
-            <c:if test="${not empty customer.firstName}">
-                <h2>Your Profile</h2>
-                <div class="profile-details">
-                    <p><strong>First Name:</strong> <c:out value="${customer.firstName}"/></p>
-                    <p><strong>Last Name:</strong> <c:out value="${customer.lastName}"/></p>
-                    <p><strong>Email:</strong> <c:out value="${customer.email}"/></p>
-                    <p><strong>Phone Number:</strong> <c:out value="${customer.phone}"/></p>
-                    <p><strong>Address:</strong> <c:out value="${customer.address}"/></p>
-                    <p><strong>Insurance Eligibility:</strong> <c:out value="${customer.insuranceEligibility}"/></p>
-                </div>
-
-                <!-- Options to edit or change password -->
-                <a href="/user/editProfile" class="btn">Edit Profile</a>
-                <a href="/user/changePassword" class="btn">Change Password</a>
-            </c:if>
+        <div class="profile-details">
+            <p><strong>Customer ID:</strong> <span>${customer.customerId}</span></p>
+            <p><strong>First Name:</strong> <span>${customer.firstName}</span></p>
+            <p><strong>Last Name:</strong> <span>${customer.lastName}</span></p>
+            <p><strong>Email:</strong> <span>${customer.email}</span></p>
+            <p><strong>Phone Number:</strong> <span>${customer.phoneNumber}</span></p>
+            <p><strong>Address:</strong> <span>${customer.address}</span></p>
+			<p><strong>Insurance Eligibility:</strong> <span>${customer.insuranceEligibility}</span></p>
         </div>
-    </section>
 
-    <!-- Footer -->
+        <div class="profile-actions">
+            <a href="/user/editProfile" class="btn btn-edit">Edit Profile</a>
+            
+            <a href="/user/changePassword" class="btn btn-password">Change Password</a>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2025 Mediverse. All rights reserved.</p>
     </footer>

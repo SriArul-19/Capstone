@@ -90,8 +90,10 @@
         <tr>
             <th>Order ID</th>
             <th>Customer ID</th>
+			<th>Quantity</th>
             <th>Total Amount</th>
             <th>Payment Status</th>
+			<th>Order Status</th>
             <th>Ordered Date</th>
             <th>Insurance Claim ID</th>
         </tr>
@@ -99,8 +101,10 @@
         <tr>
             <td>${order.orderId}</td>
             <td>${order.customer.customerId}</td> <!-- Displaying Customer ID -->
-            <td>${order.totalAmount}</td>
+			<td>${order.quantity}</td>
+			<td>${order.totalAmount}</td>
             <td>${order.paymentStatus}</td>
+			<td>${order.orderStatus}</td>
             <td>${order.orderedDate}</td>
             <td>${order.insuranceClaim.claimId}</td> <!-- Displaying Insurance Claim ID -->
         </tr>

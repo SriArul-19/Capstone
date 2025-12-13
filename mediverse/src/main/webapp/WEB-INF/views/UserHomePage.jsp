@@ -17,14 +17,17 @@
         </div>
         <ul>
             <li><a href="/user/home">Home</a></li>
-            <li><a href="./profile">Profile</a></li>
-            <li><a href="./order">Orders</a></li>
+            <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/order">Orders</a></li>
             <li><a href="/user/prescriptions">Prescriptions</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
         <div class="search-container">
-            <input type="text" placeholder="Search for Medicine, Lab Tests..." class="search-input">
-            <button class="search-btn">Search</button>
+            <!-- Search form -->
+            <form action="/user/search" method="get">
+                <input type="text" name="searchQuery" placeholder="Search for Medicine Name or Category" class="search-input" required>
+                <button type="submit" class="search-btn">Search</button>
+            </form>
         </div>
     </nav>
 
@@ -35,8 +38,10 @@
             <p>Find the best medicine and healthcare services at your fingertips.</p>
         </div>
         <div class="hero-search">
-            <input type="text" placeholder="Search for Medicine" class="search-input">
-            <button class="search-btn">Search</button>
+            <form action="/user/search" method="get">
+                <input type="text" name="searchQuery" placeholder="Search for Medicine Name or Category" class="search-input" required>
+                <button type="submit" class="search-btn">Search</button>
+            </form>
         </div>
     </section>
 

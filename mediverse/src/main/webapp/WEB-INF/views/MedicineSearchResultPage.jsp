@@ -1,0 +1,65 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Mediverse</title>
+    <link rel="stylesheet" href="<c:url value='/css/medicinesearch.css'/>">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/user/home">Mediverse</a>
+        </div>
+        <ul>
+            <li><a href="/user/home">Home</a></li>
+            <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/order">Orders</a></li>
+            <li><a href="/user/prescriptions">Prescriptions</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="search-results">
+        <h2>Search Results</h2>
+
+        <c:if test="${empty medicines}">
+            <p>No medicines found matching your search criteria.</p>
+        </c:if>
+
+        <c:if test="${not empty medicines}">
+            <div class="medicine-list">
+                <c:forEach var="medicine" items="${medicines}">
+                    <div class="medicine-item">
+                        <h3>${medicine.name}</h3>
+                        <p><strong>Category:</strong> ${medicine.category}</p>
+                        <p><strong>Price:</strong> ₹${medicine.price}</p>
+                        <p><strong>Stock Quantity:</strong> ${medicine.stockQuantity}</p>
+                        <p><strong>Expiry Date:</strong> ${medicine.expiryDate}</p>
+                        <!-- Buy and Add to Cart Buttons -->
+                        <div class="medicine-actions">
+                            <!-- Updated path to use medicine.medicineId -->
+                            <form action="/user/buyMedicine/${medicine.medicineId}" method="get">
+                                <input type="hidden" name="medicineId" value="${medicine.medicineId}" />
+                                <button type="submit" class="btn buy-btn">Buy Now</button>
+                            </form>
+                            <form action="/user/addToCart" method="post">
+                                <input type="hidden" name="medicineId" value="${medicine.medicineId}" />
+                                <button type="submit" class="btn add-to-cart-btn">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:if>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Mediverse. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures footer stays at the bottom */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #343a40; /* Dark background */
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Orders Section */
+.orders-section {
+    padding: 20px;
+    background-color: #f4f7f6;
+    text-align: center;
+    flex-grow: 1; /* Ensures that this section takes up available space */
+}
+
+/* Orders Header */
+.orders-section h2 {
+    font-size: 28px;
+    color: #4CAF50; /* Green color */
+    margin-bottom: 20px;
+}
+
+/* Order Card */
+.order-card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.order-card h3 {
+    font-size: 20px;
+    color: #333;
+}
+
+.order-card p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Action Buttons (Cancel, Return, Replace) */
+.order-card .btn {
+    background-color: #4CAF50; /* Green button */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.order-card .btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Specific Button Colors */
+.order-card .btn.cancel {
+    background-color: #f44336; /* Red for cancel */
+}
+
+.order-card .btn.cancel:hover {
+    background-color: #d32f2f; /* Darker red */
+}
+
+.order-card .btn.return {
+    background-color: #2196F3; /* Blue for return */
+}
+
+.order-card .btn.return:hover {
+    background-color: #1976D2; /* Darker blue */
+}
+
+.order-card .btn.replace {
+    background-color: #ff9800; /* Orange for replace */
+}
+
+.order-card .btn.replace:hover {
+    background-color: #fb8c00; /* Darker orange */
+}
+
+/* Footer Section */
+footer {
+    background-color: #4CAF50; /* Green footer */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto; /* Ensures footer sticks to the bottom */
+}

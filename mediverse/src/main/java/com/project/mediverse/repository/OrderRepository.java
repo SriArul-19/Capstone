@@ -21,4 +21,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // Find orders by insurance claim ID
     List<Order> findByInsuranceClaim(InsuranceClaim insuranceClaim);
+    
+    List<Order> findByCustomer_CustomerId(Long customerId);
 }

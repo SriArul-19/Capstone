@@ -1,0 +1,108 @@
+/* Medicine Search Result Page Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #343a40;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.search-results {
+    padding: 30px;
+    text-align: center;
+    background-color: white;
+}
+
+.search-results h2 {
+    font-size: 28px;
+    color: #4CAF50; /* Green heading */
+    margin-bottom: 20px;
+}
+
+.medicines {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.medicine-item {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    width: 280px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.medicine-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.medicine-item h3 {
+    font-size: 22px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.medicine-item p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.medicine-item .price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4CAF50;
+    margin: 10px 0;
+}
+
+.medicine-item .stock {
+    font-size: 16px;
+    color: #FF5733; /* Red color for stock */
+}
+
+footer {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

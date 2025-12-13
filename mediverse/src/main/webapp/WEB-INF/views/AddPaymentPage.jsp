@@ -105,6 +105,10 @@
                 <label for="orderId">Order ID</label>
                 <input type="number" id="orderId" name="orderId" required>
             </div>
+			<div class="form-group">
+			                <label for="customerId">Customer ID</label>
+			                <input type="number" id="customerId" name="customerId" required>
+			</div>
 
             <!-- Payment Date -->
             <div class="form-group">
@@ -125,7 +129,6 @@
                     <option value="Credit Card">Credit Card</option>
                     <option value="Debit Card">Debit Card</option>
                     <option value="Cash">Cash</option>
-                    <option value="Online">Online</option>
                 </select>
             </div>
 

@@ -26,8 +26,11 @@ public class OrderService {
 
     // Add an order
     public String addOrder(Long customerId,
-            double totalAmount,
+            int quantity,
+    		double totalAmount,
             String paymentStatus,
+            String orderStatus,
+            String deliveryAddress,
             LocalDate orderedDate,
             Long insuranceClaimId) 
     {
@@ -44,8 +47,11 @@ public class OrderService {
                 	// Create the order object
                 	Order order = new Order();
                     order.setCustomer(customer);
+                    order.setQuantity(quantity);
                     order.setTotalAmount(totalAmount);
                     order.setPaymentStatus(paymentStatus);
+                    order.setOrderStatus(orderStatus);
+                    order.setDeliveryAddress(deliveryAddress);
                     order.setOrderedDate(orderedDate);
                     order.setInsuranceClaim(insuranceClaim);
                     // Save the order
@@ -56,8 +62,11 @@ public class OrderService {
             }
             Order order = new Order();
             order.setCustomer(customer);
+            order.setQuantity(quantity);
             order.setTotalAmount(totalAmount);
             order.setPaymentStatus(paymentStatus);
+            order.setOrderStatus(orderStatus);
+            order.setDeliveryAddress(deliveryAddress);
             order.setOrderedDate(orderedDate);
             order.setInsuranceClaim(insuranceClaim);
             // Save the order
@@ -66,11 +75,17 @@ public class OrderService {
         }
         return "CustomerId not found";
     }
-    
+    public Order addOrder(Order order)
+    {
+    	return orderRepository.save(order);
+    }
     // Update an order
     public String updateOrder(Long orderId,Long customerId,
-            double totalAmount,
+            int quantity,
+    		double totalAmount,
             String paymentStatus,
+            String orderStatus,
+            String deliveryAddress,
             LocalDate orderedDate,
             Long insuranceClaimId) 
     {
@@ -113,6 +128,10 @@ public class OrderService {
         return "CustomerId not found";
     	}
     	return "OrderId not found";
+    }
+    public Order updateOrder(Order order)
+    {
+    	return orderRepository.save(order);
     }
     
     // Delete an order
@@ -167,5 +186,10 @@ public class OrderService {
         InsuranceClaim insuranceClaim = new InsuranceClaim();
         insuranceClaim.setClaimId(insuranceClaimId);
         return orderRepository.findByInsuranceClaim(insuranceClaim);
+    }
+    
+    public List<Order> getOrdersByCustomerId(Long customerId) {
+        // Use the repository method to fetch orders by customer ID
+        return orderRepository.findByCustomer_CustomerId(customerId);
     }
 }

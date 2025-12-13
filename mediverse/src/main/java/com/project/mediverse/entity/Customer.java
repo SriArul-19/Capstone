@@ -13,6 +13,7 @@ public class Customer {
     private Long customerId;
     @Column(nullable=false)
     private String firstName;
+    @Column(nullable=false)
     private String lastName;
     @Column(nullable=false)
     private String email;
@@ -34,6 +35,9 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private List<Prescription> prescriptions;
+    
+    @OneToMany(mappedBy = "customer")
+    private List<Payment> payments;
 
     // Getters and Setters
     public Long getCustomerId() {
@@ -130,6 +134,14 @@ public class Customer {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Payment> getPayments() {
+		return payments;
+	}
+
+	public void setPayments(List<Payment> payments) {
+		this.payments = payments;
 	}
     
 }

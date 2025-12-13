@@ -1,0 +1,110 @@
+package com.project.mediverse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.repository.MedicineRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class MedicineService {
+
+    @Autowired
+    private MedicineRepository medicineRepository;
+
+ // Add a medicine
+    public String addMedicine(Medicine medicine) 
+    {
+    		Medicine result=medicineRepository.save(medicine);
+    		if(result!=null)
+    		{
+    			return "Medicine Added Successfully";
+    		}
+        return "Medicine not added";
+    }
+    
+    public String updateMedicine(Medicine medicine)
+    {
+    	Optional<Medicine> opt=medicineRepository.findById(medicine.getMedicineId());
+    	if(opt.isPresent())
+    	{
+    		 Medicine result=medicineRepository.save(medicine);
+    		 if(result!=null)
+    		 {
+    		 return "Medicine Updated Succesfully";
+    		 }
+    		 else
+    		 {
+    			 return "Medicine not updated";
+    		 }
+    	}
+    	return "MedicineId not found";
+    }
+    
+    // Delete a medicine
+    
+    public String deleteMedicine(Long medicineId)
+    {
+    	Optional<Medicine> opt=medicineRepository.findById(medicineId);
+    	if(opt.isPresent())
+    	{
+    		 medicineRepository.deleteById(medicineId);
+    		 return "Medicine deleted successfully";
+    	}
+    	return "MedicineId not found";
+    }
+    
+    // Find a medicine by ID
+    public Medicine getMedicineById(Long medicineId) {
+    	Optional<Medicine> opt=medicineRepository.findById(medicineId);
+    	if(opt.isPresent())
+    	{
+    		Medicine result=opt.get();
+    		return result;
+    	}
+    	return null;
+    }
+    
+    // Find all medicine
+    
+    public List<Medicine> getAllMedicine()
+    {
+    	List<Medicine> result;
+    	result=medicineRepository.findAll();
+    	return result;
+    }
+
+    // Find medicines by category
+    public List<Medicine> getMedicinesByCategory(String category) {
+        return medicineRepository.findByCategory(category);
+    }
+
+    // Find medicines that are low in stock
+    public List<Medicine> getLowStockMedicines(int threshold) {
+        return medicineRepository.findByStockQuantityLessThan(threshold);
+    }
+
+    // Find medicine by name
+    public Medicine getMedicineByName(String name) {
+        return medicineRepository.findByName(name);
+    }
+    
+
+    public List<Medicine> searchMedicines(String searchQuery, String category) {
+        if (category != null && !category.isEmpty()) {
+            return medicineRepository.findByNameContainingAndCategory(searchQuery, category);
+        } else {
+            return medicineRepository.findByNameContaining(searchQuery);
+        }
+    }
+
+    // Add Medicine to Cart (this method will add the item to the Cart, you can create a CartService to handle this)
+    public void addToCart(Long medicineId, int quantity) {
+        // Logic to add the medicine to the cart with the specified quantity
+    }
+
+}

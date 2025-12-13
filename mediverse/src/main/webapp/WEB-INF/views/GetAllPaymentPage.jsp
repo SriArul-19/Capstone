@@ -71,6 +71,7 @@
         <tr>
             <th>Payment ID</th>
             <th>Order ID</th>
+			<th>Customer ID</th>
             <th>Payment Date</th>
             <th>Payment Amount</th>
             <th>Payment Method</th>
@@ -82,7 +83,8 @@
             <tr>
                 <td>${payment.paymentId}</td>
                 <td>${payment.order.orderId}</td> <!-- Displaying Order ID -->
-                <td>${payment.paymentDate}</td>
+				<td>${payment.customer.customerId}</td>
+				<td>${payment.paymentDate}</td>
                 <td>${payment.paymentAmount}</td>
                 <td>${payment.paymentMethod}</td>
                 <td>${payment.paymentStatus}</td>

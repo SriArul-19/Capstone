@@ -203,12 +203,15 @@ public class AdminController
     }
     @PostMapping("/addOrder")
     public ResponseEntity<String> addOrder(@RequestParam Long customerId,
+    		@RequestParam int quantity,
             @RequestParam double totalAmount,
             @RequestParam String paymentStatus,
+            @RequestParam String orderStatus,
+            @RequestParam String deliveryAddress,
             @RequestParam LocalDate orderedDate,
             @RequestParam(required = false) Long insuranceClaimId)
     {
-    	return ResponseEntity.ok().body(orderService.addOrder(customerId,totalAmount,paymentStatus,orderedDate,insuranceClaimId));
+    	return ResponseEntity.ok().body(orderService.addOrder(customerId,quantity,totalAmount,paymentStatus,orderStatus,deliveryAddress,orderedDate,insuranceClaimId));
     }
     @GetMapping("/updateOrderPage")
     public ModelAndView showUpdateOrderPage() 
@@ -216,13 +219,16 @@ public class AdminController
         return new ModelAndView("UpdateOrderPage");
     }
     @PostMapping("/updateOrder")
-    public ResponseEntity<String> updateOrder(@RequestParam Long orderId, Long customerId,
+    public ResponseEntity<String> updateOrder(@RequestParam Long orderId, @RequestParam Long customerId,
+    		@RequestParam int quantity,
             @RequestParam double totalAmount,
             @RequestParam String paymentStatus,
+            @RequestParam String orderStatus,
+            @RequestParam String deliveryAddress,
             @RequestParam LocalDate orderedDate,
             @RequestParam(required = false) Long insuranceClaimId)
     {
-    	return ResponseEntity.ok().body(orderService.updateOrder(orderId,customerId,totalAmount,paymentStatus,orderedDate,insuranceClaimId));
+    	return ResponseEntity.ok().body(orderService.updateOrder(orderId,customerId,quantity,totalAmount,paymentStatus,orderStatus,deliveryAddress,orderedDate,insuranceClaimId));
     }
     @GetMapping("/deleteOrderPage")
     public ModelAndView showDeleteOrderPage() 
@@ -321,12 +327,14 @@ public class AdminController
     }
     @PostMapping("/addPayment")
     public ResponseEntity<String> addPayment(@RequestParam("orderId") Long orderId,
+    		@RequestParam("customerId") Long customerId,
             @RequestParam("paymentDate") LocalDate paymentDate,
             @RequestParam("paymentAmount") double paymentAmount,
             @RequestParam("paymentMethod") String paymentMethod,
             @RequestParam("paymentStatus") String paymentStatus)
     {
     	return ResponseEntity.ok().body(paymentService.addPayment(orderId,
+    			customerId,
                 paymentDate,
                 paymentAmount,
                 paymentMethod,
@@ -339,12 +347,14 @@ public class AdminController
     }
     @PostMapping("/updatePayment")
     public ResponseEntity<String> updatePayment(@RequestParam("paymentId") Long paymentId,@RequestParam("orderId") Long orderId,
+    		@RequestParam("customerId") Long customerId,
             @RequestParam("paymentDate") LocalDate paymentDate,
             @RequestParam("paymentAmount") double paymentAmount,
             @RequestParam("paymentMethod") String paymentMethod,
             @RequestParam("paymentStatus") String paymentStatus)
     {
     	return ResponseEntity.ok().body(paymentService.updatePayment(paymentId,orderId,
+    			customerId,
                 paymentDate,
                 paymentAmount,
                 paymentMethod,

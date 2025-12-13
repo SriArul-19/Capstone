@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse Admin Dashboard - Add Customer</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        /* Main container for the content */
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"], input[type="checkbox"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Mediverse Admin Dashboard - Add Customer</h1>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="container">
+        <h2>Add New Customer</h2>
+        <form action="./addCustomer" method="POST">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="insuranceEligibility">Insurance Eligibility</label>
+                <input type="checkbox" id="insuranceEligibility" name="insuranceEligibility">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add Customer">
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Mediverse | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+
+</body>
+</html>

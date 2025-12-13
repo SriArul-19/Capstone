@@ -12,16 +12,17 @@ public class Prescription {
     private Long prescriptionId;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id",nullable = false)
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "medicine_id")
+    @JoinColumn(name = "medicine_id",nullable = false)
     private Medicine medicine;
     @Column(nullable = false)
     private LocalDate prescriptionDate;
-
+    @Column(nullable = false)
     private String dosage;
+    @Column(nullable = false)
     private String instructions;
 
     // Getters and Setters

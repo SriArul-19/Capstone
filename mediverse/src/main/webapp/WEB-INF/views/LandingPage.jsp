@@ -34,7 +34,7 @@
     </div>
 
     <div class="hero-img">
-        <img src="<c:url value='/images/pharmacy.jpg'/>" alt="Pharmacy Image">
+        <img src="<c:url value='/images/pharmacy1.png'/>" alt="Pharmacy Image">
     </div>
 </section>
 

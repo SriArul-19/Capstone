@@ -1,0 +1,21 @@
+package com.project.mediverse.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.project.mediverse.entity.Medicine;
+
+@Repository
+public interface MedicineRepository extends JpaRepository<Medicine, Long> {
+
+	List<Medicine> findByCategoryIgnoreCase(String category);
+
+    // Find medicines by name - ADDED IgnoreCase
+    Medicine findByNameIgnoreCase(String name);
+
+    // Find medicines that are low in stock
+    List<Medicine> findByStockQuantityLessThan(int quantity);
+    
+}

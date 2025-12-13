@@ -14,12 +14,18 @@ public class Payment {
     private Long paymentId;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id",nullable = false)
     private Order order;
+    @ManyToOne
+    @JoinColumn(name = "customer_id",nullable = false)
+    private Customer customer;
     @Column(nullable = false)
     private LocalDate paymentDate;
+    @Column(nullable = false)
     private double paymentAmount;
+    @Column(nullable = false)
     private String paymentMethod;
+    @Column(nullable = false)
     private String paymentStatus;
 
     // Getters and Setters
@@ -70,4 +76,13 @@ public class Payment {
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+    
 }

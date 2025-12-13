@@ -5,72 +5,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mediverse - User Orders</title>
-    <link rel="stylesheet" href="<c:url value='/css/userorder.css'/>">
+    <title>Mediverse - Orders</title>
+    <link rel="stylesheet" href="<c:url value='/css/userhome.css'/>">
+    <style>
+        /* Specific styles for the orders section to look clean, as these are not in userhome.css */
+        .orders {
+            padding: 30px;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .orders h2 {
+            text-align: center;
+            color: #4CAF50; /* Green heading from userhome.css */
+            margin-bottom: 30px;
+        }
+        .order-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+        .order-card h3 {
+            margin-top: 0;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            color: #343a40;
+        }
+        .order-card p {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+        .order-card .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            margin-top: 10px;
+            margin-right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .order-card .btn:hover {
+            background-color: #45a049;
+        }
+        /* Specific button colors for clarity */
+        .order-card a.btn:nth-child(1) { /* Cancel */
+            background-color: #dc3545;
+        }
+        .order-card a.btn:nth-child(1):hover {
+            background-color: #c82333;
+        }
+        .order-card a.btn:nth-child(2) { /* Return */
+            background-color: #ffc107;
+            color: #343a40;
+        }
+        .order-card a.btn:nth-child(2):hover {
+            background-color: #e0a800;
+        }
+        .order-card a.btn:nth-child(3) { /* Replace */
+            background-color: #17a2b8;
+        }
+        .order-card a.btn:nth-child(3):hover {
+            background-color: #138496;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">
             <a href="/user/home">Mediverse</a>
         </div>
         <ul>
             <li><a href="/user/home">Home</a></li>
-            <li><a href="/user/orders" class="active">Orders</a></li>
             <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/order">Orders</a></li>
+            <li><a href="/user/prescriptions">Prescriptions</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
 
-    <!-- Orders Section -->
-    <section class="orders-section">
-        <h1>My Orders</h1>
+    <section class="orders">
+        <h2>Your Orders</h2>
 
-        <!-- Check if the user has any orders -->
-        <c:if test="${empty orders}">
-            <p>You have no orders yet.</p>
-        </c:if>
+        <c:choose>
+            <c:when test="${not empty orders}">
+                <c:forEach var="order" items="${orders}">
+                    <div class="order-card">
+                        <h3>Order ID: ${order.orderId}</h3>
+                        <p><strong>Ordered On:</strong> ${order.orderedDate}</p>
+                        <p><strong>Total Amount:</strong> ₹${order.totalAmount}</p>
+                        <p><strong>Payment Status:</strong> ${order.paymentStatus}</p>
+                        <p><strong>Order Status:</strong> ${order.orderStatus}</p>
+                        <p><strong>Delivery Address:</strong> ${order.deliveryAddress}</p>
+                        <!--<p><strong>Medicines:</strong></p>-->
+                        <c:forEach var="medicine" items="${order.medicines}">
+                            <p style="margin-left: 20px;">- ${medicine.name}</p>
+                        </c:forEach>
+                        <c:if test="${order.insuranceClaim != null}">
+                            <p><strong>Insurance Claim ID:</strong> ${order.insuranceClaim.claimId}</p>
+                        </c:if>
 
-        <!-- Orders Table -->
-        <c:if test="${not empty orders}">
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Order Date</th>
-                        <th>Status</th>
-                        <th>Total Price</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Loop through orders and display them -->
-                    <c:forEach var="order" items="${orders}">
-                        <tr>
-                            <td><c:out value="${order.id}"/></td>
-                            <td><c:out value="${order.orderDate}"/></td>
-                            <td><c:out value="${order.status}"/></td>
-                            <td>₹<c:out value="${order.totalPrice}"/></td>
-                            <td>
-                                <a href="/user/orders/${order.id}" class="btn">View Details</a>
-                                <c:if test="${order.status == 'Pending'}">
-                                    <a href="/user/orders/cancel/${order.id}" class="btn cancel-btn">Cancel Order</a>
-                                    <a href="/user/orders/modify/${order.id}" class="btn modify-btn">Modify Order</a>
-                                </c:if>
-                                <c:if test="${order.status == 'Delivered'}">
-                                    <a href="/user/orders/return/${order.id}" class="btn return-btn">Request Return</a>
-                                </c:if>
-                                <a href="/user/orders/track/${order.id}" class="btn track-btn">Track Order</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </c:if>
+                        <div class="order-actions">
+                            <c:if test="${order.orderStatus == 'Pending'}">
+                                <a href="/user/cancelOrder/${order.orderId}" class="btn">Cancel Order</a>
+                            </c:if>
+                            <c:if test="${order.orderStatus == 'Delivered'}">
+                                <a href="/user/returnOrder/${order.orderId}" class="btn">Return Order</a>
+                                <a href="/user/replaceOrder/${order.orderId}" class="btn">Replace Order</a>
+                            </c:if>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <p style="text-align: center; color: #6c757d;">You have no orders yet.</p>
+            </c:otherwise>
+        </c:choose>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2025 Mediverse. All rights reserved.</p>
     </footer>

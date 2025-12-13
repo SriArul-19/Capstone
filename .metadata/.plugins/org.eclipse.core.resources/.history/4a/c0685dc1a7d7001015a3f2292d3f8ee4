@@ -1,0 +1,35 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Pending - Mediverse</title>
+    <link rel="stylesheet" href="<c:url value='/css/paymentPending.css'/>">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/user/home">Mediverse</a>
+        </div>
+    </nav>
+
+    <!-- Payment Pending Section -->
+    <section class="payment-pending">
+        <div class="message-box">
+            <h2>Payment Pending</h2>
+            <p>Your payment is currently being processed.</p>
+            <p><strong>Order Confirmed!</strong> Please wait while we confirm your payment.</p>
+            <a href="/user/home" class="back-btn">Back to Home</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Mediverse. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

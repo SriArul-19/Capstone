@@ -19,9 +19,16 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<Medicine> medicines; // Ensure that the mappedBy field matches the field in Medicine entity
-
+    @Column(nullable = false)
+    private int quantity;
+    @Column(nullable = false)
     private double totalAmount;
+    @Column(nullable = false)
     private String paymentStatus;
+    @Column(nullable = false)
+    private String orderStatus;
+    @Column(nullable = false)
+    private String deliveryAddress;
     @Column(nullable = false)
     private LocalDate orderedDate;
     
@@ -86,4 +93,29 @@ public class Order {
     public void setInsuranceClaim(InsuranceClaim insuranceClaim) {
         this.insuranceClaim = insuranceClaim;
     }
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(String deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
+	}
+	
 }

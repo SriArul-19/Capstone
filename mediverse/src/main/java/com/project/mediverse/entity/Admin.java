@@ -11,6 +11,7 @@ public class Admin
     private Long adminId;  // Unique ID for each admin
     @Column(nullable=false)
     private String firstName;  // Admin's first name
+    @Column(nullable=false)
     private String lastName;   // Admin's last name
     @Column(nullable=false)
     private String email;      // Admin's email address

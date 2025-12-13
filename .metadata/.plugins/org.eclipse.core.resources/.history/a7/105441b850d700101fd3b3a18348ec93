@@ -1,0 +1,100 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #343a40;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Search Results Section */
+.search-results {
+    padding: 30px;
+    background-color: white;
+    text-align: center;
+}
+
+.search-results h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #4CAF50;
+}
+
+/* Medicine List */
+.medicine-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.medicine-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 15px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.medicine-item:hover {
+    transform: scale(1.05);
+}
+
+.medicine-item img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+.medicine-item h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.medicine-item p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+/* Buttons */
+.medicine-item .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.medicine-item .btn:hover {
+    background-color: #45a049;
+}
+
+.medicine-item .buy-btn {
+    background-color: #f44336;
+}
+
+.medicine-item .buy-btn:hover {
+    background-color: #d32f2f;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}

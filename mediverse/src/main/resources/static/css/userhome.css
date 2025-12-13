@@ -7,7 +7,7 @@ body {
 }
 
 .navbar {
-    background-color: #343a40; /* Green background */
+    background-color: #343a40; /* Dark background */
     color: white;
     padding: 15px;
     display: flex;
@@ -128,48 +128,4 @@ footer {
     color: white;
     text-align: center;
     padding: 20px;
-}
-
-/* Profile Page Styles */
-.profile-section {
-    padding: 20px;
-    background-color: #f4f7f6;
-    text-align: center;
-}
-
-.profile-options {
-    margin-top: 20px;
-}
-
-.profile-options h2 {
-    font-size: 28px;
-    color: #4CAF50;
-}
-
-.profile-details {
-    background-color: white;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
-
-.profile-details p {
-    font-size: 16px;
-    margin: 10px 0;
-}
-
-.profile-options .btn {
-    background-color: #4CAF50; /* Green button */
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 16px;
-    margin-top: 20px;
-    border-radius: 5px;
-}
-
-.profile-options .btn:hover {
-    background-color: #45a049; /* Darker green on hover */
 }

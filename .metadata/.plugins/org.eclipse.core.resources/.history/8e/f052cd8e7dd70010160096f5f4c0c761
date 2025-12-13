@@ -1,0 +1,59 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse - Orders</title>
+    <link rel="stylesheet" href="<c:url value='/css/userorder.css'/>">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/user/home">Mediverse</a>
+        </div>
+        <ul>
+            <li><a href="/user/home">Home</a></li>
+            <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/order">Orders</a></li>
+            <li><a href="/user/prescriptions">Prescriptions</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Orders Section -->
+    <section class="orders-section">
+        <h2>Your Orders</h2>
+
+        <!-- Display orders -->
+        <c:forEach var="order" items="${orders}">
+            <div class="order-card">
+                <h3>Order ID: ${order.orderId}</h3>
+                <p><strong>Medicines:</strong> <c:forEach var="medicine" items="${order.medicines}">
+                    ${medicine.name}<br></c:forEach></p>
+                <p><strong>Total Amount:</strong> ₹${order.totalAmount}</p>
+                <p><strong>Payment Status:</strong> ${order.paymentStatus}</p>
+                <p><strong>Order Status:</strong> ${order.orderStatus}</p>
+                <p><strong>Delivery Address:</strong> ${order.deliveryAddress}</p>
+
+                <!-- Actions: Cancel, Return, Replace -->
+                <c:if test="${order.orderStatus == 'Pending'}">
+                    <a href="/user/cancelOrder/${order.orderId}" class="btn cancel">Cancel Order</a>
+                </c:if>
+                <c:if test="${order.orderStatus == 'Delivered'}">
+                    <a href="/user/returnOrder/${order.orderId}" class="btn return">Return Order</a>
+                    <a href="/user/replaceOrder/${order.orderId}" class="btn replace">Replace Order</a>
+                </c:if>
+            </div>
+        </c:forEach>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Mediverse. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

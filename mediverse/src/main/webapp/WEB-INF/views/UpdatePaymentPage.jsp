@@ -111,7 +111,12 @@
                 <label for="orderId">Order ID</label>
                 <input type="number" id="orderId" name="orderId" required>
             </div>
-
+			
+			<div class="form-group">
+						                <label for="customerId">Customer ID</label>
+						                <input type="number" id="customerId" name="customerId" required>
+			</div>
+			
             <!-- Payment Date -->
             <div class="form-group">
                 <label for="paymentDate">Payment Date</label>

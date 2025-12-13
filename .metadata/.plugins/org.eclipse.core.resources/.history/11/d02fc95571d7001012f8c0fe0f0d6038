@@ -1,0 +1,123 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures full height */
+}
+
+.navbar {
+    background-color: #343a40; /* Dark background */
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.buy-section {
+    padding: 30px;
+    background-color: white;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.buy-section h2 {
+    font-size: 28px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+textarea {
+    height: 100px;
+}
+
+textarea:focus,
+input:focus {
+    outline-color: #4CAF50;
+}
+
+button[type="submit"],
+button[type="button"] {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button[type="button"] {
+    background-color: #007bff; /* Blue for validation */
+}
+
+footer {
+    background-color: #4CAF50; /* Green footer */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* For hiding insurance and debit card sections initially */
+#insuranceDetails, #debitCardDetails {
+    display: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .buy-section {
+        margin: 10px;
+        padding: 20px;
+    }
+
+    .navbar ul {
+        display: none;
+    }
+
+    .navbar {
+        text-align: center;
+    }
+}

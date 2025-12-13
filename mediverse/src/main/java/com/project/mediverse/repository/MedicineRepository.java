@@ -10,12 +10,13 @@ import com.project.mediverse.entity.Medicine;
 @Repository
 public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
-    // Find medicines by category
-    List<Medicine> findByCategory(String category);
+	// Search by name (partial match)
+    List<Medicine> findByNameContainingIgnoreCase(String name);
 
-    // Find medicines by name
-    Medicine findByName(String name);
+    // Search by category (partial match)
+    List<Medicine> findByCategoryContainingIgnoreCase(String category);
 
     // Find medicines that are low in stock
     List<Medicine> findByStockQuantityLessThan(int quantity);
+    
 }

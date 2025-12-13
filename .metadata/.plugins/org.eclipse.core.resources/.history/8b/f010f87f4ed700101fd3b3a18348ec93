@@ -1,0 +1,54 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Search Results</title>
+    <link rel="stylesheet" href="<c:url value='/css/medicineSearchResult.css'/>">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/user/home">Mediverse</a>
+        </div>
+        <ul>
+            <li><a href="/user/home">Home</a></li>
+            <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/orders">Orders</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Search Results Section -->
+    <section class="search-results">
+        <h1>Search Results</h1>
+        <div class="medicine-list">
+            <c:forEach var="medicine" items="${medicines}">
+                <div class="medicine-item">
+                    <img src="<c:url value='/images/medicine.jpg'/>" alt="Medicine">
+                    <h3><c:out value="${medicine.name}"/></h3>
+                    <p><c:out value="${medicine.category}"/></p>
+                    <p>Price: ₹<c:out value="${medicine.price}"/></p>
+                    <form action="/user/addToCart" method="POST">
+                        <input type="hidden" name="medicineId" value="<c:out value="${medicine.medicineId}"/>"/>
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" name="quantity" value="1" min="1" required />
+                        <button type="submit" class="btn">Add to Cart</button>
+                    </form>
+                    <a href="/user/payment" class="btn buy-btn">Buy Now</a>
+                </div>
+            </c:forEach>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Mediverse. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

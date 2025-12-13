@@ -9,6 +9,7 @@ import com.project.mediverse.entity.Medicine;
 import com.project.mediverse.entity.Order;
 import com.project.mediverse.entity.Payment;
 import com.project.mediverse.entity.Prescription;
+import com.project.mediverse.repository.CustomerRepository;
 import com.project.mediverse.repository.PrescriptionRepository;
 
 import java.time.LocalDate;
@@ -18,6 +19,8 @@ import java.util.Optional;
 @Service
 public class PrescriptionService {
 
+    private final CustomerRepository customerRepository;
+
     @Autowired
     private PrescriptionRepository prescriptionRepository;
 
@@ -26,6 +29,10 @@ public class PrescriptionService {
 
     @Autowired
     private MedicineService medicineService;
+
+    PrescriptionService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
 
     // Add a prescription
     
@@ -65,8 +72,11 @@ public class PrescriptionService {
         	return "MedicineId not found";
         }
     }
-    
-    // Update a prescription
+    public Prescription addPrescription(Prescription prescription)
+    {
+    	return prescriptionRepository.save(prescription);
+    }
+    //Update a prescription
     public String updatePrescription(Long prescriptionId,Long customerId,
             Long medicineId,
             LocalDate prescriptionDate,
@@ -107,6 +117,11 @@ public class PrescriptionService {
         }
     	}
     	return "PrescriptionId not found";
+    }
+    
+    public Prescription updatePrescription(Prescription prescription)
+    {
+    	return prescriptionRepository.save(prescription);
     }
     
     // Delete a prescription
@@ -157,5 +172,9 @@ public class PrescriptionService {
             return prescriptionRepository.findByMedicine(medicine);
         }
         return null;
+    }
+    public List<Prescription> getPrescriptionsByCustomerId(Long customerId) {
+        // Calls the corrected custom method in the Repository
+        return prescriptionRepository.findByCustomer_CustomerId(customerId); // Use the new method name
     }
 }

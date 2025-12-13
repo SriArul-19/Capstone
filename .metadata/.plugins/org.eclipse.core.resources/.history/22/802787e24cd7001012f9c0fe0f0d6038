@@ -1,0 +1,85 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Medicine - Mediverse</title>
+    <link rel="stylesheet" href="<c:url value='/css/buymedicine.css'/>">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Buy Medicine - ${medicine.name}</h1>
+
+        <!-- Form to buy medicine -->
+        <form action="./submitBuyMedicine" method="post">
+
+            <input type="hidden" name="medicineId" value="${medicine.medicineId}" />
+            <input type="hidden" name="customerId" value="${customerId}" />
+
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" required />
+            </div>
+
+            <div class="form-group">
+                <label for="deliveryAddress">Delivery Address:</label>
+                <textarea id="deliveryAddress" name="deliveryAddress" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="insuranceClaimId">Insurance Claim ID (Optional):</label>
+                <input type="number" id="insuranceClaimId" name="insuranceClaimId" />
+            </div>
+
+            <div class="form-group">
+                <label for="paymentMethod">Payment Method:</label>
+                <select name="paymentMethod" id="paymentMethod" required>
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="Debit Card">Debit Card</option>
+                </select>
+            </div>
+
+            <!-- Debit Card Details (hidden by default) -->
+            <div id="debitCardDetails" class="card-details" style="display: none;">
+                <div class="form-group">
+                    <label for="cardNumber">Card Number:</label>
+                    <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter card number" />
+                </div>
+                <div class="form-group">
+                    <label for="cardCvv">CVV:</label>
+                    <input type="text" id="cardCvv" name="cardCvv" placeholder="Enter CVV" />
+                </div>
+                <div class="form-group">
+                    <label for="cardHolderName">Card Holder Name:</label>
+                    <input type="text" id="cardHolderName" name="cardHolderName" placeholder="Enter card holder name" />
+                </div>
+                <div class="form-group">
+                    <label for="cardExpiryMonth">Expiry Month:</label>
+                    <input type="text" id="cardExpiryMonth" name="cardExpiryMonth" placeholder="MM" />
+                </div>
+                <div class="form-group">
+                    <label for="cardExpiryYear">Expiry Year:</label>
+                    <input type="text" id="cardExpiryYear" name="cardExpiryYear" placeholder="YYYY" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Proceed to Pay</button>
+        </form>
+    </div>
+
+    <script>
+        // Toggle Debit Card fields visibility based on payment method selection
+        document.getElementById('paymentMethod').addEventListener('change', function() {
+            if (this.value === 'Debit Card') {
+                document.getElementById('debitCardDetails').style.display = 'block';
+            } else {
+                document.getElementById('debitCardDetails').style.display = 'none';
+            }
+        });
+    </script>
+    
+</body>
+</html>

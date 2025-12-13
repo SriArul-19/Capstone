@@ -16,10 +16,13 @@ public class Medicine {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;  // This is the missing field in your Medicine entity
-
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String category;
+    @Column(nullable = false)
     private double price;
+    @Column(nullable = false)
     private int stockQuantity;
     
     @Column(nullable = false)

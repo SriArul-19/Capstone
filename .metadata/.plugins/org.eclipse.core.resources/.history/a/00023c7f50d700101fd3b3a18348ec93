@@ -1,0 +1,30 @@
+package com.project.mediverse.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.project.mediverse.entity.Medicine;
+
+@Repository
+public interface MedicineRepository extends JpaRepository<Medicine, Long> {
+
+    // Find medicines by category
+    List<Medicine> findByCategory(String category);
+
+    // Find medicines by name
+    Medicine findByName(String name);
+
+    // Find medicines that are low in stock
+    List<Medicine> findByStockQuantityLessThan(int quantity);
+    
+ // Find medicines by name containing the search query
+    List<Medicine> findByNameContaining(String name);
+
+    // Find medicines by category containing the search query
+    List<Medicine> findByCategoryContaining(String category);
+
+    // Find medicines by both name and category
+    List<Medicine> findByNameAndCategory(String name, String category);
+}

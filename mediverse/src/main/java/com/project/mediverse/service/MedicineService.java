@@ -77,19 +77,32 @@ public class MedicineService {
     	result=medicineRepository.findAll();
     	return result;
     }
+    /*
 
     // Find medicines by category
     public List<Medicine> getMedicinesByCategory(String category) {
         return medicineRepository.findByCategory(category);
-    }
+    }*/
 
     // Find medicines that are low in stock
     public List<Medicine> getLowStockMedicines(int threshold) {
         return medicineRepository.findByStockQuantityLessThan(threshold);
     }
-
+/*
     // Find medicine by name
     public Medicine getMedicineByName(String name) {
         return medicineRepository.findByName(name);
+    }*/
+    
+
+    public List<Medicine> searchMedicines(String searchQuery) {
+    	String searchQueryUpper=searchQuery.toUpperCase();
+        List<Medicine> medicinesByName = medicineRepository.findByNameContainingIgnoreCase(searchQueryUpper);
+        List<Medicine> medicinesByCategory = medicineRepository.findByCategoryContainingIgnoreCase(searchQueryUpper);
+
+        // Combine both lists to show all relevant medicines
+        medicinesByName.addAll(medicinesByCategory);
+        return medicinesByName;
     }
+
 }
