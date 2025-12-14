@@ -1,0 +1,8 @@
+package com.project.mediverse.repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.project.mediverse.entity.*;
+
+public interface OrderCancelApprovalRepository extends JpaRepository<Long,OrderCancelApproval> {
+	OrderCancelApproval findByOrder_OrderId(Long orderId);
+}

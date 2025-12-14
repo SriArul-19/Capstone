@@ -1,0 +1,63 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success - Mediverse</title>
+    <link rel="stylesheet" href="<c:url value='/css/buymedicine.css'/>">
+    <style>
+        /* Custom styles for the success page to ensure the container is centered and the message stands out */
+        .container {
+            max-width: 500px;
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 80px;
+            color: #4CAF50; /* Green color for success */
+            margin-bottom: 20px;
+        }
+        .message-heading {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        .btn-group {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .btn-group .btn {
+            width: 45%; /* Adjust button width for group layout */
+            padding: 10px;
+        }
+        /* Style for the secondary button (View My Orders) */
+        .btn.secondary {
+            background-color: #008CBA; /* Blue for contrast */
+        }
+        .btn.secondary:hover {
+            background-color: #007bb5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="success-icon">
+            &#10003; </div>
+
+        <h1 class="message-heading">Payment Successful!</h1>
+        <p>Your order for **${OrderDetail.quantity}** units of **${OrderDetail.medicines[0].name}** has been successfully placed.</p>
+        <p>A payment of **Rs. ${OrderDetail.totalAmount}** has been processed.</p>
+        <p>Your order will be delivered to **${OrderDetail.deliveryAddress}**.</p>
+        <p>Thank you for shopping with Mediverse.</p>
+        
+        <div class="btn-group">
+            <a href="<c:url value='/user/home'/>" class="btn">Continue Shopping</a>
+            
+            <a href="<c:url value='/user/order'/>" class="btn secondary">View My Orders</a>
+        </div>
+    </div>
+    
+</body>
+</html>

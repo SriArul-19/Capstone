@@ -1,0 +1,71 @@
+package com.project.mediverse.service;
+
+import com.project.mediverse.entity.OrderCancelApproval;
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.repository.OrderCancelApprovalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Service
+public class OrderCancelApprovalService {
+
+    @Autowired
+    private OrderCancelApprovalRepository orderCancelApprovalRepository;
+
+    @Autowired
+    private OrderService orderService;
+
+    public OrderCancelApproval saveCancellationRequest(Order order, String reason) {
+        OrderCancelApproval request = new OrderCancelApproval();
+        request.setOrder(order);
+        request.setCancellationReason(reason);
+        request.setStatus("Requested");
+        request.setRequestDate(LocalDate.now());
+
+        // Update Order status to indicate a request is pending
+        order.setOrderStatus("Cancellation Requested");
+        orderService.updateOrder(order); // Assuming you have an updateOrder method
+
+        return orderCancelApprovalRepository.save(request);
+    }
+    
+    public List<OrderCancelApproval> getAllPendingRequests() {
+        return orderCancelApprovalRepository.findByStatus("Requested");
+    }
+
+    public OrderCancelApproval getCancellationRequestByOrderId(Long orderId) {
+        return orderCancelApprovalRepository.findByOrder_OrderId(orderId);
+    }
+
+    public OrderCancelApproval getCancellationRequestById(Long approvalId) {
+        return orderCancelApprovalRepository.findById(approvalId).orElse(null);
+    }
+
+    public void approveRequest(OrderCancelApproval request, Long adminId) {
+        request.setStatus("Approved");
+        request.setApprovalDate(LocalDate.now());
+        request.setApprovedByAdminId(adminId);
+        orderCancelApprovalRepository.save(request);
+
+        // Update the main Order status
+        Order order = request.getOrder();
+        order.setOrderStatus("Cancelled");
+        order.setPaymentStatus("Refund Initiated"); // Or "Refund Due"
+        orderService.updateOrder(order);
+    }
+
+    public void rejectRequest(OrderCancelApproval request, Long adminId) {
+        request.setStatus("Rejected");
+        request.setApprovalDate(LocalDate.now());
+        request.setApprovedByAdminId(adminId);
+        orderCancelApprovalRepository.save(request);
+
+        // Revert the main Order status
+        Order order = request.getOrder();
+        order.setOrderStatus("Booked"); // Or whatever the status was before request
+        orderService.updateOrder(order);
+    }
+}

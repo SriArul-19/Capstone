@@ -1,0 +1,90 @@
+package com.project.mediverse.entity;
+
+
+import java.time.LocalDate;
+
+import jakarta.persistence.*;
+
+@Entity
+public class OrderCancelApproval {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long approvalId;
+
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+
+    @Column(nullable = false)
+    private String cancellationReason;
+
+    // Status: Requested, Approved, Rejected
+    @Column(nullable = false)
+    private String status; 
+    
+    @Column(nullable = false)
+    private LocalDate requestDate;
+
+    // Optional fields for Admin
+    private LocalDate approvalDate;
+    private Long approvedByAdminId; // Assuming you have an Admin entity/ID
+
+    // --- Constructors, Getters, and Setters ---
+
+    public Long getApprovalId() {
+        return approvalId;
+    }
+
+    public void setApprovalId(Long approvalId) {
+        this.approvalId = approvalId;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public String getCancellationReason() {
+        return cancellationReason;
+    }
+
+    public void setCancellationReason(String cancellationReason) {
+        this.cancellationReason = cancellationReason;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDate getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(LocalDate requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public LocalDate getApprovalDate() {
+        return approvalDate;
+    }
+
+    public void setApprovalDate(LocalDate approvalDate) {
+        this.approvalDate = approvalDate;
+    }
+
+    public Long getApprovedByAdminId() {
+        return approvedByAdminId;
+    }
+
+    public void setApprovedByAdminId(Long approvedByAdminId) {
+        this.approvedByAdminId = approvedByAdminId;
+    }
+}

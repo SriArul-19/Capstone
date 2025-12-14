@@ -1,0 +1,72 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediverse - Request Submitted</title>
+    <link rel="stylesheet" href="<c:url value='/css/userhome.css'/>">
+    <style>
+        .status-container {
+            padding: 30px;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .status-container h2 {
+            color: #4CAF50; 
+            margin-bottom: 20px;
+        }
+        .status-container p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <jsp:include page="UserNavBar.jsp" /> <nav class="navbar">
+        <div class="logo">
+            <a href="/user/home">Mediverse</a>
+        </div>
+        <ul>
+            <li><a href="/user/home">Home</a></li>
+            <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/order">Orders</a></li>
+            <li><a href="/user/prescriptions">Prescriptions</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+    <div class="status-container">
+        <c:choose>
+            <c:when test="${successMessage != null}">
+                <h2>✅ Request Sent Successfully</h2>
+                <p>${successMessage}</p>
+                <p>Order ID: <strong>${orderId}</strong> is now under review for cancellation.</p>
+                <p>You will be notified once the Admin processes your request.</p>
+            </c:when>
+            <c:otherwise>
+                <h2>❌ Submission Failed</h2>
+                <p>${errorMessage}</p>
+                <p>Please return to the orders page and try again.</p>
+            </c:otherwise>
+        </c:choose>
+
+        <a href="<c:url value='/user/order'/>" class="back-link">Go to Orders Page</a>
+    </div>
+
+</body>
+</html>

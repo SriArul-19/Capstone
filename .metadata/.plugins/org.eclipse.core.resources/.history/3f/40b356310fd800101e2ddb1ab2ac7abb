@@ -1,0 +1,68 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Placed Successfully - Mediverse</title>
+    <link rel="stylesheet" href="<c:url value='/css/ordersuccess.css'/>">
+    </head>
+<body>
+
+    <div class="container success-container">
+        <div class="success-icon">
+            &#10004; </div>
+
+        <h1>Order Placed Successfully!</h1>
+        <p class="message">
+            Thank you for your purchase. Your payment has been processed and your order is confirmed.
+        </p>
+
+        <div class="order-details">
+            <h2>Order Summary</h2>
+            <table>
+                <tr>
+                    <td><strong>Order ID:</strong></td>
+                    <td>${OrderDetail.orderId}</td>
+                </tr>
+				<tr>
+				            <td><strong>Medicine(s):</strong></td>
+				            <td>
+				                <c:forEach var="medicine" items="${OrderDetail.medicines}">
+				                    ${medicine.nameame} <br>
+				                </c:forEach>
+				            </td>
+				        </tr>
+                <tr>
+                    <td><strong>Quantity:</strong></td>
+                    <td>${OrderDetail.quantity}</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Amount:</strong></td>
+                    <td>**₹ ${OrderDetail.totalAmount}**</td>
+                </tr>
+                <tr>
+                    <td><strong>Delivery Address:</strong></td>
+                    <td>${OrderDetail.deliveryAddress}</td>
+                </tr>
+                <tr>
+                    <td><strong>Payment Method:</strong></td>
+                    <td>${OrderDetail.paymentMethod}</td>
+                </tr>
+            </table>
+        </div>
+
+        <p class="footer-message">
+            You will receive a confirmation email shortly.
+            <br>
+            Estimated delivery in 3-5 business days.
+        </p>
+
+        <a href="<c:url value='/user/home'/>" class="btn back-btn">
+            Continue Shopping
+        </a>
+    </div>
+    
+</body>
+</html>

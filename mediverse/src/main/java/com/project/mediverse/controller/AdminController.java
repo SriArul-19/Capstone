@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,12 +19,14 @@ import com.project.mediverse.entity.Customer;
 import com.project.mediverse.entity.InsuranceClaim;
 import com.project.mediverse.entity.Medicine;
 import com.project.mediverse.entity.Order;
+import com.project.mediverse.entity.OrderCancellationRequest;
 import com.project.mediverse.entity.Payment;
 import com.project.mediverse.entity.Prescription;
 import com.project.mediverse.repository.MedicineRepository;
 import com.project.mediverse.service.CustomerService;
 import com.project.mediverse.service.InsuranceClaimService;
 import com.project.mediverse.service.MedicineService;
+import com.project.mediverse.service.OrderCancellationRequestService;
 import com.project.mediverse.service.OrderService;
 import com.project.mediverse.service.PaymentService;
 import com.project.mediverse.service.PrescriptionService;
@@ -46,6 +49,8 @@ public class AdminController
 	private PaymentService paymentService;
 	@Autowired
 	private PrescriptionService prescriptionService;
+	@Autowired
+    private OrderCancellationRequestService orderCancellationRequestService;
 
     AdminController(MedicineRepository medicineRepository) {
         this.medicineRepository = medicineRepository;
@@ -463,5 +468,33 @@ public class AdminController
 
         // Return the page name to render
         return "GetPrescriptionByIdTablePage";
+    }
+    @GetMapping("/approveCancelRequest/{cancellationId}")
+    public String approveCancelRequest(@PathVariable Long cancellationId, Model model) {
+        OrderCancellationRequest cancellationRequest = orderCancellationRequestService.getCancellationRequestById(cancellationId);
+
+        if (cancellationRequest != null) {
+            cancellationRequest.setStatus("Approved");
+            orderCancellationRequestService.updateCancellationRequest(cancellationRequest);
+            // Logic to delete the order (Cancel the order)
+            cancellationRequest.getOrder().setOrderStatus("Cancelled");
+            // OrderService update method would be called here
+        }
+
+        model.addAttribute("message", "Cancellation request approved.");
+        return "AdminApprovalPage"; // Admin page to confirm approval
+    }
+
+    @GetMapping("/rejectCancelRequest/{cancellationId}")
+    public String rejectCancelRequest(@PathVariable Long cancellationId, Model model) {
+        OrderCancellationRequest cancellationRequest = orderCancellationRequestService.getCancellationRequestById(cancellationId);
+
+        if (cancellationRequest != null) {
+            cancellationRequest.setStatus("Rejected");
+            orderCancellationRequestService.updateCancellationRequest(cancellationRequest);
+        }
+
+        model.addAttribute("message", "Cancellation request rejected.");
+        return "AdminApprovalPage"; // Admin page to confirm rejection
     }
 }

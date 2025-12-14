@@ -20,7 +20,7 @@
             <li><a href="/user/profile">Profile</a></li>
             <li><a href="/user/order">Orders</a></li>
             <li><a href="/user/prescriptions">Prescriptions</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="/user/logout">Logout</a></li>
         </ul>
         <div class="search-container">
             <!-- Search form -->

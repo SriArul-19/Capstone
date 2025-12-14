@@ -106,18 +106,29 @@
                         <p><strong>Payment Status:</strong> ${order.paymentStatus}</p>
                         <p><strong>Order Status:</strong> ${order.orderStatus}</p>
                         <p><strong>Delivery Address:</strong> ${order.deliveryAddress}</p>
-                        <!--<p><strong>Medicines:</strong></p>-->
-                        <c:forEach var="medicine" items="${order.medicines}">
-                            <p style="margin-left: 20px;">- ${medicine.name}</p>
-                        </c:forEach>
+                        <p><strong>Medicines:</strong></p>
+                        <!--<c:forEach var="medicine" items="${order.medicines}">
+							
+                            <p style="margin-left: 20px;"> ${medicine.name}</p>
+						
+                        </c:forEach>-->
+						<ul class="medicine-list">
+						                            <c:forEach var="medicine" items="${order.medicines}">
+						                                <%-- This line assumes Medicine entity has getName() method --%>
+						                                <li>${medicine.name}</li> 
+						                            </c:forEach>
+						</ul>
                         <c:if test="${order.insuranceClaim != null}">
                             <p><strong>Insurance Claim ID:</strong> ${order.insuranceClaim.claimId}</p>
                         </c:if>
 
                         <div class="order-actions">
                             <c:if test="${order.orderStatus == 'Pending'}">
-                                <a href="/user/cancelOrder/${order.orderId}" class="btn">Cancel Order</a>
+                                <a href="/user/requestCancel/${order.orderId}" class="btn">Request Cancel</a>
                             </c:if>
+							<c:if test="${order.orderStatus == 'Requestapproved'}">
+							    <a href="/user/cancelOrder/${order.orderId}" class="btn">Cancel Order</a>
+							</c:if>
                             <c:if test="${order.orderStatus == 'Delivered'}">
                                 <a href="/user/returnOrder/${order.orderId}" class="btn">Return Order</a>
                                 <a href="/user/replaceOrder/${order.orderId}" class="btn">Replace Order</a>

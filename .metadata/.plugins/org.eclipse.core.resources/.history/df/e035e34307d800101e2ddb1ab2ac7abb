@@ -1,0 +1,35 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success - Mediverse</title>
+    <link rel="stylesheet" href="<c:url value='/css/paymentsuccess.css'/>">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/user/home">Mediverse</a>
+        </div>
+    </nav>
+
+    <!-- Payment Success Section -->
+    <section class="payment-success">
+        <div class="message-box">
+            <h2>Payment Success</h2>
+            <p>Your payment has been processed successfully.</p>
+            <p><strong>Order Confirmed!</strong></p>
+            <a href="/user/home" class="back-btn">Back to Home</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Mediverse. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

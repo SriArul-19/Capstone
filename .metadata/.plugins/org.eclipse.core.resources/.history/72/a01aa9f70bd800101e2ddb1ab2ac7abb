@@ -1,0 +1,113 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success - Mediverse</title>
+    <%-- Reusing the existing CSS for consistent look --%>
+    <link rel="stylesheet" href="<c:url value='/css/buymedicine.css'/>">
+    <style>
+        /* Specific styles for the success page (optional, based on desired look) */
+        .success-icon {
+            font-size: 60px;
+            color: #4CAF50; /* Green color for success */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .order-details p {
+            margin: 8px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #eee;
+        }
+        .order-details strong {
+            display: inline-block;
+            width: 150px; /* Aligns the data */
+        }
+        .order-details .highlight {
+            font-weight: bold;
+            color: #333;
+        }
+        /* Style for the buttons at the bottom */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        /* Inherit button styling from buymedicine.css but adjust width/color if needed */
+        .action-buttons .btn {
+            width: 48%; /* To fit two buttons side-by-side */
+            padding: 10px;
+            font-size: 15px;
+            text-align: center;
+            /* Ensure the link inside the button looks like a button */
+            text-decoration: none;
+            color: white; /* Text color */
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary {
+            background-color: #6c757d; /* A neutral color */
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="success-icon">
+            &#x2714; <%-- Unicode checkmark --%>
+        </div>
+        <h1>Payment Successful & Order Placed!</h1>
+
+        <p style="text-align: center; color: #4CAF50; font-size: 1.1em; margin-bottom: 30px;">
+            Your transaction has been completed and your order is confirmed.
+        </p>
+
+        <div class="card-details order-details">
+            <h3>📝 Order Summary</h3>
+
+            <p><strong>Order ID:</strong> <span class="highlight">${OrderDetail.orderId}</span></p>
+
+            <p>
+                <strong>Medicine:</strong> 
+                <c:forEach items="${OrderDetail.medicines}" var="med" varStatus="loop">
+                    ${med.name}${!loop.last ? ', ' : ''}
+                </c:forEach>
+            </p>
+            
+            <p><strong>Quantity:</strong> ${OrderDetail.quantity}</p>
+            
+            <p>
+                <strong>Total Amount:</strong> 
+                <span class="highlight">
+                    <fmt:formatNumber value="${OrderDetail.totalAmount}" type="currency" currencySymbol="₹" />
+                </span>
+            </p>
+
+            <p><strong>Payment Status:</strong> <span style="color: green;">${OrderDetail.paymentStatus}</span></p>
+            <p><strong>Order Status:</strong> ${OrderDetail.orderStatus}</p>
+            <p><strong>Delivery Address:</strong> ${OrderDetail.deliveryAddress}</p>
+            <p><strong>Payment Method:</strong> Debit Card</p>
+
+            <c:if test="${not empty OrderDetail.insuranceClaim}">
+                <p><strong>Insurance Claim ID:</strong> ${OrderDetail.insuranceClaim.claimId} (Applied)</p>
+            </c:if>
+        </div>
+
+        <div class="action-buttons">
+            <%-- Continue Shopping Button (uses the default green .btn style) --%>
+            <a href="<c:url value='/user/home'/>" class="btn">Continue Shopping</a> 
+            
+            <%-- View My Orders Button (uses the new secondary color .btn-secondary) --%>
+            <a href="<c:url value='/user/order'/>" class="btn btn-secondary">View My Orders</a>
+        </div>
+    </div>
+    
+</body>
+</html>

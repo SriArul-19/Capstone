@@ -1,0 +1,79 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success - Mediverse</title>
+    <link rel="stylesheet" href="<c:url value='/css/buymedicine.css'/>">
+    <style>
+        /* Add specific styles for the success page if needed, or use existing .container, .btn styles */
+        .success-message {
+            color: #4CAF50;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .order-summary {
+            background-color: #f0fff0; /* Light green background */
+            border: 1px solid #c8e6c9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .order-summary p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .order-summary strong {
+            color: #388e3c;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        /* Style the buttons to fit in the group */
+        .button-group .btn {
+            width: 50%; /* Distribute space equally */
+            padding: 12px;
+            font-size: 16px;
+        }
+        /* Secondary button style for View Orders */
+        .button-group .btn-secondary {
+            background-color: #03a9f4; /* Blue color for secondary action */
+        }
+        .button-group .btn-secondary:hover {
+            background-color: #039be5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Order Placed Successfully!</h1>
+        
+        <div class="success-message">
+            Your payment was successful and your order has been placed. Thank you for shopping with Mediverse.
+        </div>
+        
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <p><strong>Order ID:</strong> ${OrderDetail.orderId}</p>
+            <p><strong>Medicine:</strong> <c:forEach items="${OrderDetail.medicines}" var="med">${med.name}</c:forEach></p>
+            <p><strong>Quantity:</strong> ${OrderDetail.quantity}</p>
+            <p><strong>Total Amount:</strong> $${OrderDetail.totalAmount}</p>
+            <p><strong>Delivery Address:</strong> ${OrderDetail.deliveryAddress}</p>
+            <p><strong>Payment Status:</strong> ${OrderDetail.paymentStatus}</p>
+        </div>
+
+        <div class="button-group">
+            <a href="/user/search?searchQuery=" class="btn">Continue Shopping</a>
+            <a href="/user/order" class="btn btn-secondary">View My Orders</a>
+        </div>
+    </div>
+
+</body>
+</html>

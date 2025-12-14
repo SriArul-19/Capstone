@@ -1,70 +1,129 @@
+/* Base styles imported/copied from buymedicine.css to maintain look and feel */
+
 /* Global styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
     margin: 0;
     padding: 0;
-    background-color: #f4f7f6;
-}
-
-.navbar {
-    background-color: #343a40; /* Dark background */
-    color: white;
-    padding: 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
-.navbar .logo a {
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-}
-
-.payment-success {
-    text-align: center;
-    padding: 100px 20px;
-    background-color: #e0f7e8; /* Light green background */
-}
-
-.message-box {
-    background-color: white;
-    padding: 40px;
-    margin: 20px auto;
-    width: 50%;
+/* Container for the form / success message */
+.container {
+    background-color: #fff;
+    padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center; /* Center content within the container */
 }
 
-.message-box h2 {
-    color: #4CAF50; /* Green heading */
-    font-size: 36px;
+/* Heading style */
+h1 {
+    text-align: center;
+    color: #4CAF50; /* Green color for success */
+    margin-top: 0;
 }
 
-.message-box p {
+/* Success-specific styling */
+.success-icon {
+    font-size: 50px;
+    color: white;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    line-height: 80px; /* Vertically center the checkmark */
+    margin: 0 auto 20px auto; /* Center the icon and add space below */
+}
+
+.message {
     font-size: 18px;
     color: #555;
-    margin: 15px 0;
+    margin-bottom: 30px;
+}
+
+/* Order Details Table Styling */
+.order-details {
+    text-align: left;
+    margin-bottom: 30px;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.order-details h2 {
+    color: #333;
+    margin-top: 0;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.order-details table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-details td {
+    padding: 8px 0;
+    font-size: 16px;
+}
+
+.order-details td:first-child {
+    width: 40%;
+}
+
+.order-details td:last-child {
+    text-align: right;
+    color: #000;
+    font-weight: 600;
+}
+
+
+/* Footer Message */
+.footer-message {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Button Styling (copied from buymedicine.css) */
+a.btn, button.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none; /* For the <a> tag */
+    text-align: center;
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+}
+
+a.btn:hover, button.btn:hover {
+    background-color: #45a049;
 }
 
 .back-btn {
-    display: inline-block;
-    background-color: #4CAF50; /* Green button */
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 18px;
-    border-radius: 5px;
-    margin-top: 20px;
+    margin-top: 10px;
+    /* You can make the back button a slightly different color if you want */
+    /* background-color: #2196F3; */
 }
 
-.back-btn:hover {
-    background-color: #45a049; /* Darker green on hover */
-}
-
-footer {
-    background-color: #4CAF50; /* Green footer */
-    color: white;
-    text-align: center;
-    padding: 20px;
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
 }

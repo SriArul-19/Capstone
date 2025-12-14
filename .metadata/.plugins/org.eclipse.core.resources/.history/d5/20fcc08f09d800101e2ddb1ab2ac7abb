@@ -1,0 +1,235 @@
+package com.project.mediverse.controller;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.project.mediverse.entity.Credential;
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.entity.Payment;
+import com.project.mediverse.entity.Prescription;
+import com.project.mediverse.service.CustomerService;
+import com.project.mediverse.service.InsuranceClaimService;
+import com.project.mediverse.service.MedicineService;
+import com.project.mediverse.service.OrderService;
+import com.project.mediverse.service.PaymentService;
+import com.project.mediverse.service.PrescriptionService;
+
+@Controller
+@RequestMapping("/user")
+public class CustomerController 
+{
+	@Autowired 
+	private MedicineService medicineService;
+	@Autowired 
+	private OrderService orderService;
+	@Autowired
+	private PaymentService paymentService;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private InsuranceClaimService insuranceClaimService;
+	@Autowired
+	private PrescriptionService prescriptionService;
+	@GetMapping("/home")
+    public ModelAndView showHomePage() 
+    {
+        return new ModelAndView("UserHomePage");
+    }
+    @GetMapping("/invalid")
+    public ModelAndView showInvalidPage() 
+    {
+        return new ModelAndView("InvalidPage");
+    }
+    @GetMapping("/search")
+    public ModelAndView searchMedicines(@RequestParam("searchQuery") String searchQuery, Model model) {
+        List<Medicine> medicines = medicineService.searchMedicines(searchQuery);
+        model.addAttribute("medicines", medicines);
+        return new ModelAndView("MedicineSearchResultPage");
+    }
+    @GetMapping("/buyMedicine/{medicineId}")
+    public String showBuyMedicinePage(@PathVariable Long medicineId,HttpSession session, Model model) {
+        // Fetch medicine details
+        Medicine medicine = medicineService.getMedicineById(medicineId);
+        if (medicine == null) {
+            model.addAttribute("error", "Medicine not found");
+            return "error";
+        }
+        Customer customer=(Customer)session.getAttribute("loggedInCustomer");
+        System.out.println(customer.getFirstName());
+        model.addAttribute("medicine", medicine);
+        model.addAttribute("customer",customer);
+        return "BuyMedicinePage";
+    }
+
+    // Handle the form submission from the Buy Medicine page
+    @PostMapping("/submitBuyMedicine")
+    public String submitBuyMedicine(
+            @RequestParam Long medicineId,
+            @RequestParam Long customerId,
+            @RequestParam int quantity,
+            @RequestParam String deliveryAddress,
+            @RequestParam(required = false) Long insuranceClaimId,
+            @RequestParam String paymentMethod,
+            @RequestParam(required = false) String cardNumber,
+            @RequestParam(required = false) String cardCvv,
+            @RequestParam(required = false) String cardHolderName,
+            @RequestParam(required = false) String cardExpiryMonth,
+            @RequestParam(required = false) String cardExpiryYear,
+            Model model) {
+
+        // Validate if medicine exists
+        Medicine medicine = medicineService.getMedicineById(medicineId);
+        if (medicine == null) {
+            model.addAttribute("error", "Medicine not found");
+            return "error";
+        }
+
+        // Validate if customer exists
+        Customer customer = customerService.getCustomerById(customerId);
+        if (customer == null) {
+            model.addAttribute("error", "Customer not found");
+            return "error";
+        }
+
+        // Calculate total amount based on quantity and medicine price
+        double totalAmount = medicine.getPrice() * quantity;
+
+        // Handle insurance claim if provided
+        InsuranceClaim insuranceClaim = null;
+        if (insuranceClaimId != null) {
+            insuranceClaim = insuranceClaimService.getInsuranceClaimById(insuranceClaimId);
+            if (insuranceClaim == null) {
+                model.addAttribute("error", "Invalid Insurance Claim ID");
+                return "error";
+            }
+        }
+
+        // Create the order
+        Order order = new Order();
+        order.setCustomer(customer);
+        order.setMedicines(List.of(medicine));
+        order.setQuantity(quantity);
+        order.setTotalAmount(totalAmount);
+        order.setPaymentStatus("Pending");
+        order.setOrderStatus("Pending");
+        order.setDeliveryAddress(deliveryAddress);
+        order.setOrderedDate(LocalDate.now());
+        order.setInsuranceClaim(insuranceClaim);
+        
+        // Save the order
+        orderService.addOrder(order);
+        model.addAttribute("OrderDetail", order);
+
+        // Process payment if Debit Card is selected
+        if (paymentMethod.equals("Debit Card")) {
+            if (cardNumber == null || cardCvv == null || cardHolderName == null || cardExpiryMonth == null || cardExpiryYear == null) {
+                model.addAttribute("error", "Please provide all card details");
+                return "error";
+            }
+
+            // Simulate card validation and charge
+            boolean cardValid = paymentService.validateCard(cardNumber, cardCvv, cardExpiryMonth, cardExpiryYear, cardHolderName);
+            if (!cardValid) {
+                model.addAttribute("error", "Invalid card details");
+                return "error";
+            }
+
+            // Create a payment entry
+            Payment payment = new Payment();
+            payment.setOrder(order);
+            payment.setCustomer(customer);
+            payment.setPaymentAmount(totalAmount);
+            payment.setPaymentDate(LocalDate.now());
+            payment.setPaymentMethod("Debit Card");
+            payment.setPaymentStatus("Paid");
+
+            paymentService.addPayment(payment);
+
+            // Update order payment status
+            order.setPaymentStatus("Paid");
+            orderService.updateOrder(order);
+            return "PaymentSuccessPage"; // Redirect to a success page
+        }
+
+        // Handle Cash on Delivery
+        if (paymentMethod.equals("Cash on Delivery")) {
+            // Just set the order as pending for cash on delivery
+            order.setPaymentStatus("Pending");
+            orderService.updateOrder(order);
+            return "PaymentPendingPage"; // Redirect to a pending payment page
+        }
+
+        model.addAttribute("error", "Invalid payment method");
+        return "error";
+    }
+    @GetMapping("/paymentSucess")
+    public String showPaymentSuccessPage(@RequestParamModel model)
+    {
+    	
+    }
+    @GetMapping("/order")
+    public ModelAndView showUserOrdersPage(HttpSession session, Model model) {
+        // Get the logged-in customer from the session
+        Customer customer = (Customer) session.getAttribute("loggedInCustomer");
+
+        // Fetch all orders for the logged-in customer
+        if (customer != null) {
+            model.addAttribute("orders", orderService.getOrdersByCustomerId(customer.getCustomerId()));
+        } else {
+            model.addAttribute("error", "User not logged in");
+        }
+
+        return new ModelAndView("UserOrderPage");
+    }
+    @GetMapping("/profile")
+    public ModelAndView showUserProfilePage(HttpSession session, Model model)
+    {
+        // 1. Retrieve the logged-in customer object from the session
+        Customer customer = (Customer) session.getAttribute("loggedInCustomer");
+
+        if (customer == null) {
+            // Handle case where user is somehow not logged in (session expired, etc.)
+            // Redirect to login or error page
+            return new ModelAndView("redirect:/login?error=sessionExpired");
+        }
+
+        // 2. Add the customer object to the Model to be accessed by the JSP
+        model.addAttribute("customer", customer);
+
+        // 3. Return the view name
+        return new ModelAndView("UserProfilePage");
+    }
+    @GetMapping("/prescriptions")
+    public ModelAndView showUserPrescriptionsPage(HttpSession session, Model model) {
+        // Get the logged-in customer from the session
+        Customer customer = (Customer) session.getAttribute("loggedInCustomer");
+
+        if (customer != null) {
+            // Fetch all prescriptions for the logged-in customer
+            List<Prescription> prescriptions = prescriptionService.getPrescriptionsByCustomerId(customer.getCustomerId());
+            model.addAttribute("prescriptions", prescriptions);
+        } else {
+            // Handle case where user is not logged in
+            return new ModelAndView("redirect:/login?error=sessionExpired");
+        }
+
+        return new ModelAndView("UserPrescriptionPage");
+    }
+}

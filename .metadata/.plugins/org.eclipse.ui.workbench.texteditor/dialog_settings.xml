@@ -8,6 +8,8 @@
 			<item value="int"/>
 		</list>
 		<list key="findhistory">
+			<item value="navb"/>
+			<item value="usern"/>
 			<item value="customer"/>
 			<item value="Long"/>
 			<item value="int"/>
