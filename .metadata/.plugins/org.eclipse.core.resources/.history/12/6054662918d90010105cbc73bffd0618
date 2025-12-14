@@ -176,15 +176,6 @@ public class CustomerController
         // Handle Cash on Delivery
         if (paymentMethod.equals("Cash on Delivery")) {
             // Just set the order as pending for cash on delivery
-        	Payment payment = new Payment();
-            payment.setOrder(order);
-            payment.setCustomer(customer);
-            payment.setPaymentAmount(totalAmount);
-            payment.setPaymentDate(LocalDate.now());
-            payment.setPaymentMethod("Cash on Delivery");
-            payment.setPaymentStatus("Pending");
-
-            paymentService.addPayment(payment);
             order.setPaymentStatus("Pending");
             orderService.updateOrder(order);
             model.addAttribute("OrderDetail", order);

@@ -46,10 +46,10 @@
                                 <input type="hidden" name="medicineId" value="${medicine.medicineId}" />
                                 <button type="submit" class="btn buy-btn">Buy Now</button>
                             </form>
-                            <!--<form action="/user/addToCart" method="post">
+                            <form action="/user/addToCart" method="post">
                                 <input type="hidden" name="medicineId" value="${medicine.medicineId}" />
                                 <button type="submit" class="btn add-to-cart-btn">Add to Cart</button>
-                            </form>-->
+                            </form>
                         </div>
                     </div>
                 </c:forEach>

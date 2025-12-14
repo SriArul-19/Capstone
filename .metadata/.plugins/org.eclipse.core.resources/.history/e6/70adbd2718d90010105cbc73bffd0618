@@ -780,10 +780,6 @@ public class AdminController
         
         if (paymentOptional.isPresent()) {
             Payment payment = paymentOptional.get();
-            if(payment.getPaymentMethod().equals("Cash on Delivery") && newStatus.equals("Paid"))
-            {
-            	payment.setPaymentDate(LocalDate.now());
-            }
             payment.setPaymentStatus(newStatus);
             paymentRepository.save(payment);
             
