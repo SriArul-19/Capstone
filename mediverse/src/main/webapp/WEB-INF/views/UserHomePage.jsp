@@ -50,33 +50,34 @@
         <h2>Shop by Category</h2>
         <div class="category-items">
             <div class="category-item">
-                <img src="<c:url value='/images/medicine.jpg'/>" alt="Medicine">
-                <p>Medicine</p>
+                <img src="<c:url value='/images/Amoxicillin.png'/>" alt="Antibiotics">
+                <p>Antibiotics</p>
                 <p>Save 24%</p>
             </div>
             <div class="category-item">
-                <img src="<c:url value='/images/lab_tests.jpg'/>" alt="Lab Tests">
-                <p>Lab Tests</p>
-                <p>Upto 70% Off</p>
+                <img src="<c:url value='/images/Acyclovir.png'/>" alt="Antivirals">
+                <p>Antivirals</p>
+                <p>Upto 33% Off</p>
             </div>
             <div class="category-item">
-                <img src="<c:url value='/images/doctor_consult.jpg'/>" alt="Doctor Consult">
-                <p>Doctor Consult</p>
+                <img src="<c:url value='/images/Niveda Calcium.png'/>" alt="Vitamins and Supplements">
+                <p>Vitamins and Supplements</p>
                 <p>From ₹199</p>
             </div>
             <div class="category-item">
-                <img src="<c:url value='/images/branded_substitute.jpg'/>" alt="Branded Substitute">
-                <p>Branded Substitute</p>
+                <img src="<c:url value='/images/Ascoril Syrup.png'/>" alt="Cough Syrups">
+                <p>Cough Syrups</p>
                 <p>Upto 50% Off</p>
             </div>
             <div class="category-item">
-                <img src="<c:url value='/images/healthcare.jpg'/>" alt="Healthcare">
-                <p>Healthcare</p>
+                <img src="<c:url value='/images/Zincovit Syrup.png'/>" alt="Multivitamin Syrups">
+                <p>Multivitamin Syrups</p>
                 <p>Upto 80% Off</p>
             </div>
             <div class="category-item">
-                <img src="<c:url value='/images/health_blogs.jpg'/>" alt="Health Blogs">
-                <p>Health Blogs</p>
+                <img src="<c:url value='/images/Digene Syrup.png'/>" alt="Antacid Syrups">
+                <p>Antacid Syrups</p>
+				<p>Upto 40% Off</p>
             </div>
         </div>
     </section>

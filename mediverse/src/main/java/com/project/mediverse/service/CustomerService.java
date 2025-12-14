@@ -3,6 +3,7 @@ package com.project.mediverse.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.mediverse.entity.Admin;
 import com.project.mediverse.entity.Customer;
 import com.project.mediverse.repository.CredentialRepository;
 import com.project.mediverse.repository.CustomerRepository;
@@ -51,6 +52,10 @@ public class CustomerService {
     	}
     	return "CustomerId not found";
     }
+    public Customer updateCustomerProfile(Customer customer)
+    {
+    	return customerRepository.save(customer);
+    }
     
     // Delete a customer
     
@@ -98,4 +103,19 @@ public class CustomerService {
         Customer customer = getCustomerById(customerId);
         return customer != null && customer.isInsuranceEligibility();
     }
+    public boolean changePassword(Long customerId, String oldPassword, String newPassword) {
+	    
+	    Customer customer = getCustomerById(customerId); 
+	    
+	    if (customer == null) {
+	        return false;
+	    }
+	    if (!customer.getPassword().equals(oldPassword)) { 
+	         return false; // Old password mismatch
+	    }
+
+	    customer.setPassword(newPassword);
+	    customerRepository.save(customer);
+	    return true; 
+	}
 }

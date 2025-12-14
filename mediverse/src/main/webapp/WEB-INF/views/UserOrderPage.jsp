@@ -89,12 +89,17 @@
             <li><a href="/user/profile">Profile</a></li>
             <li><a href="/user/order">Orders</a></li>
             <li><a href="/user/prescriptions">Prescriptions</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="/user/logout">Logout</a></li>
         </ul>
     </nav>
 
     <section class="orders">
         <h2>Your Orders</h2>
+		<c:if test="${not empty display}">
+		        <p style="text-align:center; color:green; font-weight:bold;">
+		            ${display}
+		        </p>
+		    </c:if>
 
         <c:choose>
             <c:when test="${not empty orders}">
@@ -123,16 +128,16 @@
                         </c:if>
 
                         <div class="order-actions">
-                            <c:if test="${order.orderStatus == 'Pending'}">
+                            <c:if test="${order.orderStatus == 'Pending'|| order.orderStatus == 'Booked'}">
                                 <a href="/user/requestCancel/${order.orderId}" class="btn">Request Cancel</a>
                             </c:if>
-							<c:if test="${order.orderStatus == 'Requestapproved'}">
+							<c:if test="${order.orderStatus == 'Request Approved'}">
 							    <a href="/user/cancelOrder/${order.orderId}" class="btn">Cancel Order</a>
 							</c:if>
-                            <c:if test="${order.orderStatus == 'Delivered'}">
+                            <!--<c:if test="${order.orderStatus == 'Delivered'}">
                                 <a href="/user/returnOrder/${order.orderId}" class="btn">Return Order</a>
                                 <a href="/user/replaceOrder/${order.orderId}" class="btn">Replace Order</a>
-                            </c:if>
+                            </c:if>-->
                         </div>
                     </div>
                 </c:forEach>

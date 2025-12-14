@@ -17,8 +17,8 @@
         <a href="/">Mediverse</a>
     </div>
     <ul>
-        <li><a href="/user/about">About</a></li>
-        <li><a href="/user/contact">Contact</a></li>
+        <li><a href="/mediverse/about">About</a></li>
+        <li><a href="/mediverse/contact">Contact</a></li>
         <li><a href="./roleselection" class="btn">Sign Up</a></li>
     </ul>
 </nav>

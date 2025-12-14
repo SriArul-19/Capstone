@@ -17,7 +17,7 @@ public class OrderCancellationRequest {
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "admin_id")
     private Admin admin;
 
     @Column(nullable = false)

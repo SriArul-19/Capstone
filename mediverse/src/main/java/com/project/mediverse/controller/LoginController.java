@@ -90,6 +90,14 @@ public class LoginController
 	{
 		return new ModelAndView("UserLoginPage");
 	}
+	@GetMapping("/about")
+    public String showAboutPage() {
+        return "AboutPage"; 
+    }
+	@GetMapping("/contact")
+    public String showContactPage() {
+        return "ContactPage"; 
+    }
 	@Autowired
 	private CredentialRepository cr;
 	@Autowired
@@ -128,13 +136,15 @@ public class LoginController
     }
     @PostMapping("/validateAdmin")
     public String loginAdmin(@RequestParam("username") String username, 
-                             @RequestParam("password") String password, 
+                             @RequestParam("password") String password,
+                             HttpSession session,
                              Model model) {
         // Validate admin credentials
         Admin admin = adminService.findAdminByUsername(username);
 
         // Check if the admin exists and the password matches
         if (admin != null && admin.getPassword().equals(password)) {
+        	session.setAttribute("loggedInAdmin", admin);
             // Successful login
             return "redirect:/admin/home";  // Redirect to the admin dashboard
         } 

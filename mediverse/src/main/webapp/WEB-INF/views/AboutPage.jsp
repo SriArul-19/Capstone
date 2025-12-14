@@ -1,0 +1,116 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Mediverse - Your Digital Pharmacy</title>
+    <link rel="stylesheet" href="<c:url value='/css/landing.css'/>">
+    <style>
+        /* Container for content */
+        .about-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-container h2 {
+            color: #343a40; /* Darker color for headings */
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .about-section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .about-section h3 {
+            color: #00C853; /* Green highlight */
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .about-section p, .about-section ul {
+            color: #555;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .about-section ul {
+            list-style: disc;
+            margin-left: 25px;
+            padding: 0;
+        }
+
+        /* Ensuring the footer is not fixed if content is long */
+        .footer {
+            position: static;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        <a href="/">Mediverse</a>
+    </div>
+    <ul>
+        <li><a href="/mediverse/about">About</a></li>
+        <li><a href="/mediverse/contact">Contact</a></li>
+        <li><a href="./roleselection" class="btn">Sign Up</a></li>
+        <li><a href="./roleselectionlogin" class="btn">Sign In</a></li>
+    </ul>
+</nav>
+
+<div class="about-container">
+    <h2>About Mediverse: Revolutionizing Pharmacy Management</h2>
+
+    <div class="about-section">
+        <h3>Our Vision</h3>
+        <p>Mediverse is a comprehensive, modern pharmacy management system designed to streamline the entire process of medical dispensing, inventory control, and patient engagement. Our mission is to ensure **accurate, efficient, and timely access to medications** for every customer while optimizing operations for pharmacy administrators.</p>
+    </div>
+
+    <div class="about-section">
+        <h3>Key Features for Customers (Users)</h3>
+        <p>As a customer, Mediverse offers you unparalleled convenience and transparency:</p>
+        <ul>
+            <li>**Online Prescription Submission:** Easily upload and manage your digital prescriptions.</li>
+            <li>**Order Tracking:** Monitor the status of your medicine orders from verification to delivery.</li>
+            <li>**Profile Management:** Securely view and update personal details, including address and contact information.</li>
+            <li>**Insurance Claim Tracking:** Simple interface to view the eligibility and status of your medical insurance claims.</li>
+        </ul>
+    </div>
+
+    <div class="about-section">
+        <h3>Core Functionality (Pharmacy Management)</h3>
+        <p>For the administrative team, Mediverse simplifies complex daily tasks, focusing on safety and efficiency:</p>
+        <ul>
+            <li>**Secure Medical Dispensing:** A robust workflow ensures the correct medication, dosage, and patient match for every order.</li>
+            <li>**Inventory Control:** Real-time stock monitoring, automated low-stock alerts, and streamlined supplier ordering.</li>
+            <li>**Prescription Verification:** Tools for pharmacists to efficiently review and verify prescriptions submitted by users.</li>
+            <li>**Role-Based Access:** Separate, secure dashboards for Administrators and Customers.</li>
+        </ul>
+    </div>
+    
+    <div class="about-section" style="border-bottom: none;">
+        <h3>The Mediverse Advantage</h3>
+        <p>We leverage digital technology to eliminate errors, reduce waiting times, and bring the pharmacy experience into the 21st century. Mediverse is your reliable partner for healthcare management.</p>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <p>© 2025 Mediverse. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

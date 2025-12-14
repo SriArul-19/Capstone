@@ -1,0 +1,171 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile - Mediverse</title>
+    <style>
+        /* Reusing and extending styles from AdminHomePage.jsp */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 40px;
+            position: fixed; /* Fix footer position */
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Profile Specific Styles */
+        .profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container h2 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .profile-details div {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .profile-details label {
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+            color: #555;
+        }
+
+        .profile-details span {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .button-group a {
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-group a:hover {
+            background-color: #45a049;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Admin Profile</h1>
+        <a href="./home" style="color: white; text-decoration: none; font-weight: bold;">&#9664; Back to Dashboard</a>
+    </div>
+
+    <div class="profile-container">
+        <h2>Administrator Details</h2>
+        
+        <c:choose>
+            <c:when test="${not empty admin}">
+                <div class="profile-details">
+                    <div>
+                        <label>Admin ID:</label>
+                        <span><c:out value="${admin.adminId}" /></span>
+                    </div>
+                    <div>
+                        <label>First Name:</label>
+                        <span><c:out value="${admin.firstName}" /></span>
+                    </div>
+                    <div>
+                        <label>Last Name:</label>
+                        <span><c:out value="${admin.lastName}" /></span>
+                    </div>
+                    <div>
+                        <label>Email:</label>
+                        <span><c:out value="${admin.email}" /></span>
+                    </div>
+                    <div>
+                        <label>Phone:</label>
+                        <span><c:out value="${admin.phoneNumber}" /></span>
+                    </div>
+                    <div>
+                        <label>Role:</label>
+                        <span><c:out value="${admin.role}" /></span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <a href="/admin/editAdminProfile">Edit Profile</a>
+                    <a href="/admin/changePassword">Change Password</a>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <p style="text-align: center; color: red;">Admin details could not be loaded. Please sign in again.</p>
+            </c:otherwise>
+        </c:choose>
+
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Mediverse | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+
+</body>
+</html>

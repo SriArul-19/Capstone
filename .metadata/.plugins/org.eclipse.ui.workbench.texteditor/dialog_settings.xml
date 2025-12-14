@@ -8,6 +8,7 @@
 			<item value="int"/>
 		</list>
 		<list key="findhistory">
+			<item value="signout"/>
 			<item value="navb"/>
 			<item value="usern"/>
 			<item value="customer"/>

@@ -151,10 +151,10 @@
         <!-- Profile Icon Section -->
         <div class="profile">
             <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile Icon">
-            <span>Admin</span>
+            <span>${admin.firstName} ${admin.lastName}</span>
             <div class="profile-dropdown">
-                <a href="#">View Profile</a>
-                <a href="#">Sign Out</a>
+                <a href="/admin/viewProfile">View Profile</a>
+                <a href="/admin/signout">Sign Out</a>
             </div>
         </div>
     </div>
@@ -194,20 +194,6 @@
             <h3>View All Customers</h3>
             <p>Click to view the list of all customers.</p>
             <a href="/admin/getAllCustomer">Go to View Customers</a>
-        </div>
-
-        <!-- Find Customer by Email Card -->
-        <div class="module-card">
-            <h3>Find Customer by Email</h3>
-            <p>Search for a customer using their email address.</p>
-            <a href="/admin/customer/findByEmail">Go to Find Customer by Email</a>
-        </div>
-
-        <!-- Check Customer Insurance Eligibility Card -->
-        <div class="module-card">
-            <h3>Check Insurance Eligibility</h3>
-            <p>Check if a customer is eligible for insurance.</p>
-            <a href="/admin/customer/checkEligibility">Go to Check Eligibility</a>
         </div>
 		
     </div>

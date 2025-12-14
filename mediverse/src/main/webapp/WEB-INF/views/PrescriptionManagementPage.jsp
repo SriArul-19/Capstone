@@ -151,10 +151,10 @@
         <!-- Profile Icon Section -->
         <div class="profile">
             <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile Icon">
-            <span>Admin</span>
+            <span>${admin.firstName} ${admin.lastName}</span>
             <div class="profile-dropdown">
-                <a href="#">View Profile</a>
-                <a href="#">Sign Out</a>
+                <a href="/admin/viewProfile">View Profile</a>
+                <a href="/admin/signout">Sign Out</a>
             </div>
         </div>
     </div>
@@ -196,19 +196,19 @@
             <a href="/admin/getPrescriptionByIdPage">Go to Find Prescription by ID</a>
         </div>
 
-        <!-- Find Prescription by Customer Card -->
+<!--         Find Prescription by Customer Card 
         <div class="module-card">
             <h3>Find Prescription by Customer</h3>
             <p>Search for prescriptions based on customer.</p>
             <a href="/admin/prescription/findByCustomer">Go to Find Prescription by Customer</a>
         </div>
 
-        <!-- Find Prescription by Medicine Card -->
+         Find Prescription by Medicine Card 
         <div class="module-card">
             <h3>Find Prescription by Medicine</h3>
             <p>Search for prescriptions based on medicine.</p>
             <a href="/admin/prescription/findByMedicine">Go to Find Prescription by Medicine</a>
-        </div>
+        </div>-->
 
     </div>
 

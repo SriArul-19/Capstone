@@ -151,10 +151,10 @@
         <!-- Profile Icon Section -->
         <div class="profile">
             <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile Icon"> <!-- Profile image -->
-            <span>John Doe</span> <!-- Admin name (you can dynamically add this) -->
+            <span>${admin.firstName} ${admin.lastName}</span> <!-- Admin name (you can dynamically add this) -->
             <div class="profile-dropdown">
-                <a href="#">View Profile</a>
-                <a href="#">Sign Out</a>
+                <a href="/admin/viewProfile">View Profile</a>
+                <a href="/admin/signout">Sign Out</a>
             </div>
         </div>
     </div>
@@ -181,13 +181,15 @@
             <p>Approve, cancel, and manage customer orders. Track the status of orders placed by customers.</p>
             <a href="./orderManagement">Go to Order Management</a>
         </div>
+		
+		<!-- Prescription Management Card -->
+		        <div class="module-card">
+		            <h3>Prescription Management</h3>
+		            <p>Manage customer prescriptions, validate prescribed medicines, and ensure correct medication is provided to the right patients.</p>
+		            <a href="./prescriptionManagement">Go to Prescription Management</a>
+		        </div>
 
-        <!-- Billing & Payment Card -->
-        <div class="module-card">
-            <h3>Billing & Payment</h3>
-            <p>Manage customer billing, apply discounts, track payments, and issue receipts for each order.</p>
-            <a href="./billingAndPaymentManagement">Go to Billing & Payment</a>
-        </div>
+        
 
         <!-- Insurance Claims Management Card -->
         <div class="module-card">
@@ -196,12 +198,13 @@
             <a href="./insuranceClaimManagement">Go to Insurance Claims</a>
         </div>
 
-        <!-- Prescription Management Card -->
-        <div class="module-card">
-            <h3>Prescription Management</h3>
-            <p>Manage customer prescriptions, validate prescribed medicines, and ensure correct medication is provided to the right patients.</p>
-            <a href="./prescriptionManagement">Go to Prescription Management</a>
-        </div>
+		<!-- Billing & Payment Card -->
+		        <div class="module-card">
+		            <h3>Billing & Payment</h3>
+		            <p>Manage customer billing, apply discounts, track payments, and issue receipts for each order.</p>
+		            <a href="./billingAndPaymentManagement">Go to Billing & Payment</a>
+		        </div>
+        
 
         <!-- Reports Card -->
         <div class="module-card">

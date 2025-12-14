@@ -1,0 +1,738 @@
+package com.project.mediverse.controller;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.project.mediverse.entity.Admin;
+import com.project.mediverse.entity.Customer;
+import com.project.mediverse.entity.InsuranceClaim;
+import com.project.mediverse.entity.Medicine;
+import com.project.mediverse.entity.Order;
+import com.project.mediverse.entity.OrderCancellationRequest;
+import com.project.mediverse.entity.Payment;
+import com.project.mediverse.entity.Prescription;
+import com.project.mediverse.repository.MedicineRepository;
+import com.project.mediverse.repository.OrderRepository;
+import com.project.mediverse.repository.PaymentRepository;
+import com.project.mediverse.service.AdminService;
+import com.project.mediverse.service.CustomerService;
+import com.project.mediverse.service.InsuranceClaimService;
+import com.project.mediverse.service.MedicineService;
+import com.project.mediverse.service.OrderCancellationRequestService;
+import com.project.mediverse.service.OrderService;
+import com.project.mediverse.service.PaymentService;
+import com.project.mediverse.service.PrescriptionService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+@RequestMapping("/admin")
+public class AdminController 
+{
+
+    private final MedicineRepository medicineRepository;
+    @Autowired
+    AdminService adminService;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private MedicineService medicineService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private InsuranceClaimService insuranceClaimService;
+	@Autowired
+	private PaymentService paymentService;
+	@Autowired
+	private PrescriptionService prescriptionService;
+	@Autowired
+    private OrderCancellationRequestService orderCancellationRequestService;
+	
+	@Autowired
+	private OrderRepository orderRepository;
+	
+	@Autowired
+    private PaymentRepository paymentRepository;
+	
+
+    AdminController(MedicineRepository medicineRepository) {
+        this.medicineRepository = medicineRepository;
+    }
+    @GetMapping("/home")
+    public ModelAndView showHomePage(HttpSession session,Model model) 
+    {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
+        return new ModelAndView("AdminHomePage");
+    }
+    @GetMapping("/invalid")
+    public ModelAndView showInvalidPage() 
+    {
+        return new ModelAndView("InvalidPage");
+    }
+    @GetMapping("/signout")
+    public String getLogOut()
+    {
+    	return "redirect:/mediverse/landingpage";
+    }
+    @GetMapping("/viewProfile")
+    public String showAdminProfilePage(HttpSession session, Model model)
+    {
+        // 1. Retrieve the logged-in customer object from the session
+        Admin admin = (Admin) session.getAttribute("loggedInAdmin");
+
+        if (admin == null) {
+            // Handle case where user is somehow not logged in (session expired, etc.)
+            // Redirect to login or error page
+            return "redirect:/login?error=sessionExpired";
+        }
+
+        // 2. Add the customer object to the Model to be accessed by the JSP
+        model.addAttribute("admin", admin);
+
+        // 3. Return the view name
+        return "AdminProfilePage";
+    }
+    @GetMapping("/editAdminProfile")
+    public String showEditProfilePage(HttpSession session, Model model) {
+        
+        Admin admin = (Admin) session.getAttribute("loggedInAdmin");
+
+        if (admin == null) {
+            return "redirect:/login?error=sessionExpired";
+        }
+        
+        // Fetch the latest admin data to pre-populate the form
+        Admin currentAdmin = adminService.getAdminById(admin.getAdminId());
+        
+        model.addAttribute("admin", currentAdmin);
+        
+        // Return the edit form JSP
+        return "AdminEditProfile";
+    }
+    @PostMapping("/updateProfile")
+    public String updateAdminProfile(
+            @RequestParam("adminId") Long adminId,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        // Basic session check
+        if (session.getAttribute("loggedInAdmin") == null) {
+            return "redirect:/login?error=sessionExpired";
+        }
+
+        try {
+            // 1. Create a transient Admin object with the updated data
+            Admin updatedDetails = new Admin();
+            updatedDetails.setAdminId(adminId);
+            updatedDetails.setFirstName(firstName);
+            updatedDetails.setLastName(lastName);
+            updatedDetails.setEmail(email);
+            updatedDetails.setPhoneNumber(phoneNumber);
+            // Username and password are intentionally not passed/updated here
+
+            // 2. Call the service to update the database
+            Admin savedAdmin = adminService.updateAdmin(updatedDetails);
+
+            if (savedAdmin != null) {
+                // 3. Update the session object with the new details
+                session.setAttribute("loggedInAdmin", savedAdmin);
+
+                // 4. Add success message for the next request (after redirect)
+                redirectAttributes.addFlashAttribute("message", "Profile updated successfully!");
+                redirectAttributes.addFlashAttribute("messageType", "success");
+            } else {
+                redirectAttributes.addFlashAttribute("message", "Error: Profile update failed.");
+                redirectAttributes.addFlashAttribute("messageType", "error");
+            }
+        } catch (Exception e) {
+            // Handle specific exceptions (e.g., DataIntegrityViolationException for email)
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("message", "Error updating profile: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("messageType", "error");
+        }
+
+        // Redirect back to the view profile page to show the results
+        return "redirect:/admin/viewProfile";
+    }
+    @GetMapping("/userManagement")
+    public ModelAndView showUserManagementPage(HttpSession session,Model model) 
+    {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
+        return new ModelAndView("UserManagementPage");
+    }
+    @GetMapping("/inventoryManagement")
+    public ModelAndView showInventoryManagementPage(HttpSession session,Model model) 
+    {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
+        return new ModelAndView("InventoryManagementPage");
+    }
+    @GetMapping("/orderManagement")
+    public ModelAndView showOrderManagementPage(HttpSession session,Model model) 
+    {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
+        return new ModelAndView("OrderManagementPage");
+    }
+    @GetMapping("/billingAndPaymentManagement")
+    public ModelAndView showBillingAndPaymentManagementPage(HttpSession session,Model model) 
+    {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
+        return new ModelAndView("BillingAndPaymentManagementPage");
+    }
+    @GetMapping("/insuranceClaimManagement")
+    public ModelAndView showInsuranceClaimManagementPage(HttpSession session,Model model) 
+    {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
+        return new ModelAndView("InsuranceClaimManagementPage");
+    }
+    @GetMapping("/prescriptionManagement")
+    public ModelAndView showPrescriptionManagementPage(HttpSession session,Model model) 
+    {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
+        return new ModelAndView("PrescriptionManagementPage");
+    }
+    @GetMapping("/addCustomerPage")
+    public ModelAndView showAddCustomerPage() 
+    {
+        return new ModelAndView("AddCustomerPage");
+    }
+    @PostMapping("/addCustomer")
+    public ResponseEntity<String> addCustomer(@ModelAttribute("customer") Customer customer)
+    {
+    	return ResponseEntity.ok().body(customerService.addCustomer(customer));
+    }
+    @GetMapping("/updateCustomerPage")
+    public ModelAndView showUpdateCustomerPage() 
+    {
+        return new ModelAndView("UpdateCustomerPage");
+    }
+    @PostMapping("/updateCustomer")
+    public ResponseEntity<String> updateCustomer(@ModelAttribute("customer") Customer customer)
+    {
+    	return ResponseEntity.ok().body(customerService.updateCustomer(customer));
+    }
+    @GetMapping("/deleteCustomerPage")
+    public ModelAndView showDeleteCustomerPage() 
+    {
+        return new ModelAndView("DeleteCustomerPage");
+    }
+    @PostMapping("/deleteCustomer")
+    public ResponseEntity<String> deleteCustomer(@ModelAttribute("customer") Customer customer)
+    {
+    	return ResponseEntity.ok().body(customerService.deleteCustomer(customer.getCustomerId()));
+    }
+    @GetMapping("/getAllCustomer")
+    public String getAllCustomer(Model model) {
+        List<Customer> customers = customerService.getAllCustomer();
+        model.addAttribute("customers", customers);
+        return "GetAllCustomerPage";   // JSP page name (GetAllCustomer.jsp)
+    }
+    @GetMapping("/getCustomerByIdPage")
+    public ModelAndView showGetCustomerByIdPage() 
+    {
+        return new ModelAndView("GetCustomerByIdPage");
+    }
+    @PostMapping("/getCustomerById")
+    public String getCustomerById(@RequestParam("customerId") Long customerId, Model model) {
+        Customer customer = customerService.getCustomerById(customerId);
+
+        if (customer == null) {
+            model.addAttribute("message", "Customer ID not found!");
+            return "GetCustomerByIdTablePage"; // result page
+        }
+
+        model.addAttribute("customer", customer);
+        return "GetCustomerByIdTablePage";  // show results
+    }
+    @GetMapping("/addMedicinePage")
+    public ModelAndView showAddMedicinePage()
+    {
+    	return new ModelAndView("AddMedicinePage");
+    }
+    @PostMapping("/addMedicine")
+    public ResponseEntity<String> addMedicine(@ModelAttribute("medicine")Medicine medicine)
+    {
+    	return ResponseEntity.ok(medicineService.addMedicine(medicine));
+    }
+    @GetMapping("/updateMedicinePage")
+    public ModelAndView showUpdateMedicinePage() 
+    {
+        return new ModelAndView("UpdateMedicinePage");
+    }
+    @PostMapping("/updateMedicine")
+    public ResponseEntity<String> updateMedicine(@ModelAttribute("medicine") Medicine medicine)
+    {
+    	return ResponseEntity.ok().body(medicineService.updateMedicine(medicine));
+    }
+    @GetMapping("/deleteMedicinePage")
+    public ModelAndView showDeleteMedicinePage() 
+    {
+        return new ModelAndView("DeleteMedicinePage");
+    }
+    @PostMapping("/deleteMedicine")
+    public ResponseEntity<String> deleteMedicine(@ModelAttribute("medicine") Medicine medicine)
+    {
+    	return ResponseEntity.ok().body(medicineService.deleteMedicine(medicine.getMedicineId()));
+    }
+    @GetMapping("/getAllMedicine")
+    public String getAllMedicine(Model model) {
+        List<Medicine> medicines = medicineService.getAllMedicine();
+        model.addAttribute("medicines", medicines);  // Pass the list of medicines to the JSP page
+        return "GetAllMedicinePage";  // Return the name of the JSP page
+    }
+    @GetMapping("/getMedicineByIdPage")
+    public ModelAndView showGetMedicineByIdPage() 
+    {
+        return new ModelAndView("GetMedicineByIdPage");
+    }
+    @PostMapping("/getMedicineById")
+    public String getMedicineById(@RequestParam("medicineId") Long medicineId, Model model) {
+        Medicine medicine = medicineService.getMedicineById(medicineId);
+
+        if (medicine == null) {
+            model.addAttribute("message", "MedicineId ID not found!");
+            return "GetMedicineByIdTablePage"; // result page
+        }
+
+        model.addAttribute("medicine", medicine);
+        return "GetMedicineByIdTablePage";  // show results
+    }
+    @GetMapping("/addOrderPage")
+    public ModelAndView showAddOrderPage()
+    {
+    	return new ModelAndView("AddOrderPage");
+    }
+    @PostMapping("/addOrder")
+    public ResponseEntity<String> addOrder(@RequestParam Long customerId,
+    		@RequestParam int quantity,
+            @RequestParam double totalAmount,
+            @RequestParam String paymentStatus,
+            @RequestParam String orderStatus,
+            @RequestParam String deliveryAddress,
+            @RequestParam LocalDate orderedDate,
+            @RequestParam(required = false) Long insuranceClaimId)
+    {
+    	return ResponseEntity.ok().body(orderService.addOrder(customerId,quantity,totalAmount,paymentStatus,orderStatus,deliveryAddress,orderedDate,insuranceClaimId));
+    }
+    @GetMapping("/updateOrderPage")
+    public ModelAndView showUpdateOrderPage() 
+    {
+        return new ModelAndView("UpdateOrderPage");
+    }
+    @PostMapping("/updateOrder")
+    public ResponseEntity<String> updateOrder(@RequestParam Long orderId, @RequestParam Long customerId,
+    		@RequestParam int quantity,
+            @RequestParam double totalAmount,
+            @RequestParam String paymentStatus,
+            @RequestParam String orderStatus,
+            @RequestParam String deliveryAddress,
+            @RequestParam LocalDate orderedDate,
+            @RequestParam(required = false) Long insuranceClaimId)
+    {
+    	return ResponseEntity.ok().body(orderService.updateOrder(orderId,customerId,quantity,totalAmount,paymentStatus,orderStatus,deliveryAddress,orderedDate,insuranceClaimId));
+    }
+    @GetMapping("/deleteOrderPage")
+    public ModelAndView showDeleteOrderPage() 
+    {
+        return new ModelAndView("DeleteOrderPage");
+    }
+    @PostMapping("/deleteOrder")
+    public ResponseEntity<String> deleteOrder(@ModelAttribute("order") Order order)
+    {
+    	return ResponseEntity.ok().body(orderService.deleteOrder(order.getOrderId()));
+    }
+    @GetMapping("/getAllOrderPage")
+    public String getAllOrder(Model model) {
+        List<Order> orders = orderService.getAllOrder(); // Fetching all orders
+        model.addAttribute("orders", orders); // Adding the list of orders to the model
+        return "GetAllOrderPage"; // Returning the name of the JSP page
+    }
+    @GetMapping("/getOrderByIdPage")
+    public ModelAndView showGetOrderByIdPage()
+    {
+    	return new ModelAndView("GetOrderByIdPage");
+    }
+    @PostMapping("/getOrderById")
+    public String getOrderById(@RequestParam Long orderId, Model model) {
+        Order order = orderService.getOrderById(orderId); // Fetch order by ID
+        model.addAttribute("order", order); // Add order to the model
+        return "GetOrderByIdTablePage"; // Return the view for the table page
+    }
+    @GetMapping("/addInsuranceClaimPage")
+    public ModelAndView showAddInsuranceClaimPage()
+    {
+    	return new ModelAndView("AddInsuranceClaimPage");
+    }
+    @PostMapping("/addInsuranceClaim")
+    public ResponseEntity<String> addInsuranceClaim(@RequestParam Long customerId, 
+            @RequestParam Long medicineId,
+            @RequestParam double claimAmount, 
+            @RequestParam String claimStatus, 
+            @RequestParam LocalDate claimDate)
+    {
+    	return ResponseEntity.ok().body(insuranceClaimService.addInsuranceClaim(customerId,
+    			medicineId,
+                claimAmount, 
+                claimStatus, 
+                claimDate));
+    }
+    @GetMapping("/updateInsuranceClaimPage")
+    public ModelAndView showUpdateInsuranceClaimPage()
+    {
+    	return new ModelAndView("UpdateInsuranceClaimPage");
+    }
+    @PostMapping("/updateInsuranceClaim")
+    public ResponseEntity<String> updateInsuranceClaim(@RequestParam Long claimId,@RequestParam Long customerId, 
+            @RequestParam Long medicineId,
+            @RequestParam double claimAmount, 
+            @RequestParam String claimStatus, 
+            @RequestParam LocalDate claimDate)
+    {
+    	return ResponseEntity.ok().body(insuranceClaimService.updateInsuranceClaim(claimId,customerId,
+    			medicineId,
+                claimAmount, 
+                claimStatus, 
+                claimDate));
+    }
+    @GetMapping("/deleteInsuranceClaimPage")
+    public ModelAndView showDeleteInsuranceClaimPage() 
+    {
+        return new ModelAndView("DeleteInsuranceClaimPage");
+    }
+    @PostMapping("/deleteInsuranceClaim")
+    public ResponseEntity<String> deleteInsuranceClaim(@ModelAttribute("insuranceClaim") InsuranceClaim insuranceClaim)
+    {
+    	return ResponseEntity.ok().body(insuranceClaimService.deleteInsuranceClaim(insuranceClaim.getClaimId()));
+    }
+    @GetMapping("/getAllInsuranceClaimPage")
+    public String getAllInsuranceClaim(Model model) {
+        List<InsuranceClaim> insuranceClaims = insuranceClaimService.getAllInsuranceClaim(); // Assuming this method fetches all insurance claims
+        model.addAttribute("insuranceClaims", insuranceClaims);
+        return "GetAllInsuranceClaimPage";  // This will render the AllInsuranceClaimPage
+    }
+    @GetMapping("/getInsuranceClaimByIdPage")
+    public ModelAndView showGetInsuranceClaimByIdPage()
+    {
+    	return new ModelAndView("GetInsuranceClaimByIdPage");
+    }
+    @PostMapping("/getInsuranceClaimById")
+    public String getInsuranceClaimById(@RequestParam("claimId") Long claimId, Model model) {
+        InsuranceClaim insuranceClaim = insuranceClaimService.getInsuranceClaimById(claimId);
+        model.addAttribute("insuranceClaim", insuranceClaim);
+        return "GetInsuranceClaimByIdTablePage"; // This will render the table page
+    }
+    @GetMapping("/addPaymentPage")
+    public ModelAndView showAddPaymentPage()
+    {
+    	return new ModelAndView("AddPaymentPage");
+    }
+    @PostMapping("/addPayment")
+    public ResponseEntity<String> addPayment(@RequestParam("orderId") Long orderId,
+    		@RequestParam("customerId") Long customerId,
+            @RequestParam("paymentDate") LocalDate paymentDate,
+            @RequestParam("paymentAmount") double paymentAmount,
+            @RequestParam("paymentMethod") String paymentMethod,
+            @RequestParam("paymentStatus") String paymentStatus)
+    {
+    	return ResponseEntity.ok().body(paymentService.addPayment(orderId,
+    			customerId,
+                paymentDate,
+                paymentAmount,
+                paymentMethod,
+                paymentStatus));
+    }
+    @GetMapping("/updatePaymentPage")
+    public ModelAndView showUpdatePaymentPage()
+    {
+    	return new ModelAndView("UpdatePaymentPage");
+    }
+    @PostMapping("/updatePayment")
+    public ResponseEntity<String> updatePayment(@RequestParam("paymentId") Long paymentId,@RequestParam("orderId") Long orderId,
+    		@RequestParam("customerId") Long customerId,
+            @RequestParam("paymentDate") LocalDate paymentDate,
+            @RequestParam("paymentAmount") double paymentAmount,
+            @RequestParam("paymentMethod") String paymentMethod,
+            @RequestParam("paymentStatus") String paymentStatus)
+    {
+    	return ResponseEntity.ok().body(paymentService.updatePayment(paymentId,orderId,
+    			customerId,
+                paymentDate,
+                paymentAmount,
+                paymentMethod,
+                paymentStatus));
+    }
+    @GetMapping("/deletePaymentPage")
+    public ModelAndView showDeletePaymentPage()
+    {
+    	return new ModelAndView("DeletePaymentPage");
+    }
+    @PostMapping("/deletePayment")
+    public ResponseEntity<String> deletePayment(@ModelAttribute("payment") Payment payment)
+    {
+    	return ResponseEntity.ok().body(paymentService.deletePayment(payment.getPaymentId()));
+    }
+    @GetMapping("/getAllPaymentPage")
+    public String getAllPayment(Model model) {
+        List<Payment> payments = paymentService.getAllPayment(); // Fetching all payments
+        model.addAttribute("payments", payments); // Adding the list of payments to the model
+        return "GetAllPaymentPage"; // The name of the JSP page
+    }
+    @GetMapping("/getPaymentByIdPage")
+    public ModelAndView showGetPaymentByIdPage()
+    {
+    	return new ModelAndView("GetPaymentByIdPage");
+    }
+    @PostMapping("/getPaymentById")
+    public String getPaymentById(@RequestParam Long paymentId, Model model) {
+        Payment payment = paymentService.getPaymentById(paymentId);  // Service method to get payment by ID
+        if (payment != null) {
+            model.addAttribute("payment", payment);  // Add payment to the model
+            return "GetPaymentByIdTablePage";  // Return to the page that displays the payment details
+        } else {
+            model.addAttribute("payment", null);  // Payment not found
+            return "GetPaymentByIdTablePage";  // Still show the page but with a "not found" message
+        }
+    }
+    @GetMapping("/addPrescriptionPage")
+    public ModelAndView showAddPrescriptionPage()
+    {
+    	return new ModelAndView("AddPrescriptionPage");
+    }
+    @PostMapping("/addPrescription")
+    public ResponseEntity<String> addPrescription(@RequestParam Long customerId,
+            @RequestParam Long medicineId,
+            @RequestParam LocalDate prescriptionDate,
+            @RequestParam String dosage,
+            @RequestParam String instructions)
+    {
+    	return ResponseEntity.ok().body(prescriptionService.addPrescription(customerId,
+                medicineId,
+                prescriptionDate,
+                dosage,
+                instructions));
+    }
+    @GetMapping("/updatePrescriptionPage")
+    public ModelAndView showUpdatePrescriptionPage()
+    {
+    	return new ModelAndView("UpdatePrescriptionPage");
+    }
+    @PostMapping("/updatePrescription")
+    public ResponseEntity<String> updatePrescription(@RequestParam Long prescriptionId,@RequestParam Long customerId,
+            @RequestParam Long medicineId,
+            @RequestParam LocalDate prescriptionDate,
+            @RequestParam String dosage,
+            @RequestParam String instructions)
+    {
+    	return ResponseEntity.ok().body(prescriptionService.updatePrescription(prescriptionId,customerId,
+                medicineId,
+                prescriptionDate,
+                dosage,
+                instructions));
+    }
+    @GetMapping("/deletePrescriptionPage")
+    public ModelAndView showDeletePrescriptionPage()
+    {
+    	return new ModelAndView("DeletePrescriptionPage");
+    }
+    @PostMapping("/deletePrescription")
+    public ResponseEntity<String> deletePrescription(@ModelAttribute("prescription") Prescription prescription)
+    {
+    	return ResponseEntity.ok().body(prescriptionService.deletePrescription(prescription.getPrescriptionId()));
+    }
+    @GetMapping("/getAllPrescription")
+    public String getAllPrescription(Model model) {
+        // Fetch all prescriptions from the service layer
+        List<Prescription> prescriptions = prescriptionService.getAllPrescription();
+
+        // Add prescriptions list to the model
+        model.addAttribute("prescriptions", prescriptions);
+
+        return "GetAllPrescriptionPage";  // Return the JSP page name
+    }
+    @GetMapping("/getPrescriptionByIdPage")
+    public ModelAndView showGetPrescriptionByIdPage()
+    {
+    	return new ModelAndView("GetPrescriptionByIdPage");
+    }
+    @PostMapping("getPrescriptionById")
+    public String getPrescriptionById(@RequestParam("prescriptionId") Long prescriptionId, Model model) {
+        // Fetch prescription by ID
+        Prescription prescription = prescriptionService.getPrescriptionById(prescriptionId);
+
+        // Add prescription to the model
+        model.addAttribute("prescription", prescription);
+
+        // Return the page name to render
+        return "GetPrescriptionByIdTablePage";
+    }
+    /*
+    @GetMapping("/approveCancelRequest/{cancellationId}")
+    public String approveCancelRequest(@PathVariable Long cancellationId, Model model) {
+        OrderCancellationRequest cancellationRequest = orderCancellationRequestService.getCancellationRequestById(cancellationId);
+
+        if (cancellationRequest != null) {
+            cancellationRequest.setStatus("Approved");
+            orderCancellationRequestService.updateCancellationRequest(cancellationRequest);
+            // Logic to delete the order (Cancel the order)
+            cancellationRequest.getOrder().setOrderStatus("Cancelled");
+            // OrderService update method would be called here
+        }
+
+        model.addAttribute("message", "Cancellation request approved.");
+        return "AdminApprovalPage"; // Admin page to confirm approval
+    }
+
+    @GetMapping("/rejectCancelRequest/{cancellationId}")
+    public String rejectCancelRequest(@PathVariable Long cancellationId, Model model) {
+        OrderCancellationRequest cancellationRequest = orderCancellationRequestService.getCancellationRequestById(cancellationId);
+
+        if (cancellationRequest != null) {
+            cancellationRequest.setStatus("Rejected");
+            orderCancellationRequestService.updateCancellationRequest(cancellationRequest);
+        }
+
+        model.addAttribute("message", "Cancellation request rejected.");
+        return "AdminApprovalPage"; // Admin page to confirm rejection
+    }*/
+    @GetMapping("/cancellationRequests")
+    public String showCancellationRequests(HttpSession session,Model model) {
+        List<OrderCancellationRequest> cancellationRequests = orderCancellationRequestService.getAllCancellationRequests();
+        model.addAttribute("cancellationRequests", cancellationRequests);
+        System.out.println(cancellationRequests);
+        for(OrderCancellationRequest i:cancellationRequests)
+        {
+        	System.out.println(i.getCancellationId());
+        }
+        return "OrderCancellationRequestPage";  // JSP page that will show the list of cancellation requests
+    }
+
+    // Approve a cancellation request
+    @GetMapping("/approve/{id}")
+    public String approveCancellationRequest(@PathVariable("id") Long cancellationId,HttpSession session) {
+    	OrderCancellationRequest request=orderCancellationRequestService.getCancellationRequestById(cancellationId);
+    	Order order=request.getOrder();
+    	order.setOrderStatus("Request Approved");
+    	orderService.updateOrder(order);
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	request.setAdmin(admin);
+        orderCancellationRequestService.updateCancellationRequestStatus(cancellationId, "Approved");
+        return "redirect:/admin/cancellationRequests";  // Redirect back to the list page
+    }
+
+    // Reject a cancellation request
+    @GetMapping("/reject/{id}")
+    public String rejectCancellationRequest(@PathVariable("id") Long cancellationId,HttpSession session) {
+    	OrderCancellationRequest request=orderCancellationRequestService.getCancellationRequestById(cancellationId);
+    	Order order=request.getOrder();
+    	order.setOrderStatus("Request Reject");
+    	orderService.updateOrder(order);
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	request.setAdmin(admin);
+        orderCancellationRequestService.updateCancellationRequestStatus(cancellationId, "Rejected");
+        return "redirect:/admin/cancellationRequests";  // Redirect back to the list page
+    }
+    
+    private static final String[] ORDER_STATUSES = {
+            "Booked", "Shipped", "Delivered", 
+            "Cancel Request", "Request Approved", 
+            "Request Rejected", "Cancelled"
+        };
+    
+    @GetMapping("/changeOrderStatus")
+    public String showChangeOrderStatusPage(Model model) {
+        List<Order> orders = orderService.getAllOrder();
+        model.addAttribute("orders", orders);
+        model.addAttribute("statuses", ORDER_STATUSES);
+        return "ChangeOrderStatusPage"; // Corresponds to ChangeOrderStatusPage.jsp
+    }
+
+    /**
+     * Handles POST request to update the status of a specific order.
+     */
+    @PostMapping("/updateOrderStatus")
+    public String updateOrderStatus(@RequestParam("orderId") Long orderId, 
+                                    @RequestParam("newStatus") String newStatus,
+                                    RedirectAttributes redirectAttributes) {
+        
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            order.setOrderStatus(newStatus);
+            orderRepository.save(order);
+            redirectAttributes.addFlashAttribute("successMessage", 
+                "Order ID " + orderId + " status successfully updated to " + newStatus);
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", 
+                "Error: Order with ID " + orderId + " not found.");
+        }
+        
+        // Redirect back to the status page to show the updated list/message
+        return "redirect:/admin/changeOrderStatus";
+    }
+    
+ // Available Payment Statuses
+    private static final String[] PAYMENT_STATUSES = {
+        "Pending", "Paid"
+    };
+
+
+    @GetMapping("/changePaymentStatus")
+    public String showChangePaymentStatusPage(Model model) {
+        // Find all payments from the database
+        List<Payment> payments = paymentRepository.findAll();
+        model.addAttribute("payments", payments);
+        model.addAttribute("statuses", PAYMENT_STATUSES);
+        return "ChangePaymentStatusPage"; // Corresponds to ChangePaymentStatusPage.jsp
+    }
+
+    /**
+     * Handles POST request to update the status of a specific payment.
+     */
+    @PostMapping("/updatePaymentStatus")
+    public String updatePaymentStatus(@RequestParam("paymentId") Long paymentId, 
+                                      @RequestParam("newStatus") String newStatus,
+                                      RedirectAttributes redirectAttributes) {
+        
+        Optional<Payment> paymentOptional = paymentRepository.findById(paymentId);
+        
+        if (paymentOptional.isPresent()) {
+            Payment payment = paymentOptional.get();
+            payment.setPaymentStatus(newStatus);
+            paymentRepository.save(payment);
+            
+            redirectAttributes.addFlashAttribute("successMessage", 
+                "Payment ID " + paymentId + " status successfully updated to " + newStatus);
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", 
+                "Error: Payment with ID " + paymentId + " not found.");
+        }
+        
+        // Redirect back to the status page to show the updated list/message
+        return "redirect:/admin/changePaymentStatus";
+    }
+}

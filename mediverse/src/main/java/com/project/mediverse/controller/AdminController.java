@@ -2,6 +2,7 @@ package com.project.mediverse.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.mediverse.entity.Admin;
 import com.project.mediverse.entity.Customer;
 import com.project.mediverse.entity.InsuranceClaim;
 import com.project.mediverse.entity.Medicine;
@@ -23,6 +26,9 @@ import com.project.mediverse.entity.OrderCancellationRequest;
 import com.project.mediverse.entity.Payment;
 import com.project.mediverse.entity.Prescription;
 import com.project.mediverse.repository.MedicineRepository;
+import com.project.mediverse.repository.OrderRepository;
+import com.project.mediverse.repository.PaymentRepository;
+import com.project.mediverse.service.AdminService;
 import com.project.mediverse.service.CustomerService;
 import com.project.mediverse.service.InsuranceClaimService;
 import com.project.mediverse.service.MedicineService;
@@ -31,12 +37,16 @@ import com.project.mediverse.service.OrderService;
 import com.project.mediverse.service.PaymentService;
 import com.project.mediverse.service.PrescriptionService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController 
 {
 
     private final MedicineRepository medicineRepository;
+    @Autowired
+    AdminService adminService;
 	@Autowired
 	private CustomerService customerService;
 	@Autowired
@@ -51,13 +61,22 @@ public class AdminController
 	private PrescriptionService prescriptionService;
 	@Autowired
     private OrderCancellationRequestService orderCancellationRequestService;
+	
+	@Autowired
+	private OrderRepository orderRepository;
+	
+	@Autowired
+    private PaymentRepository paymentRepository;
+	
 
     AdminController(MedicineRepository medicineRepository) {
         this.medicineRepository = medicineRepository;
     }
     @GetMapping("/home")
-    public ModelAndView showHomePage() 
+    public ModelAndView showHomePage(HttpSession session,Model model) 
     {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
         return new ModelAndView("AdminHomePage");
     }
     @GetMapping("/invalid")
@@ -65,34 +84,193 @@ public class AdminController
     {
         return new ModelAndView("InvalidPage");
     }
-    @GetMapping("/userManagement")
-    public ModelAndView showUserManagementPage() 
+    @GetMapping("/signout")
+    public String getLogOut()
     {
+    	return "redirect:/mediverse/landingpage";
+    }
+    @GetMapping("/viewProfile")
+    public String showAdminProfilePage(HttpSession session, Model model)
+    {
+        // 1. Retrieve the logged-in customer object from the session
+        Admin admin = (Admin) session.getAttribute("loggedInAdmin");
+
+        if (admin == null) {
+            // Handle case where user is somehow not logged in (session expired, etc.)
+            // Redirect to login or error page
+            return "redirect:/login?error=sessionExpired";
+        }
+
+        // 2. Add the customer object to the Model to be accessed by the JSP
+        model.addAttribute("admin", admin);
+
+        // 3. Return the view name
+        return "AdminProfilePage";
+    }
+    @GetMapping("/editAdminProfile")
+    public String showEditProfilePage(HttpSession session, Model model) {
+        
+        Admin admin = (Admin) session.getAttribute("loggedInAdmin");
+
+        if (admin == null) {
+            return "redirect:/login?error=sessionExpired";
+        }
+        
+        // Fetch the latest admin data to pre-populate the form
+        Admin currentAdmin = adminService.getAdminById(admin.getAdminId());
+        
+        model.addAttribute("admin", currentAdmin);
+        
+        // Return the edit form JSP
+        return "AdminEditProfilePage";
+    }
+    @PostMapping("/updateProfile")
+    public String updateAdminProfile(
+            @RequestParam("adminId") Long adminId,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        // Basic session check
+        if (session.getAttribute("loggedInAdmin") == null) {
+            return "redirect:/login?error=sessionExpired";
+        }
+
+        try {
+            // 1. Create a transient Admin object with the updated data
+        	Admin oldadmin=(Admin)session.getAttribute("loggedInAdmin");
+            Admin updatedDetails = new Admin();
+            updatedDetails.setAdminId(adminId);
+            updatedDetails.setFirstName(firstName);
+            updatedDetails.setLastName(lastName);
+            updatedDetails.setEmail(email);
+            updatedDetails.setPhoneNumber(phoneNumber);
+            updatedDetails.setUsername(oldadmin.getUsername());
+            updatedDetails.setPassword(oldadmin.getPassword());
+            // Username and password are intentionally not passed/updated here
+
+            // 2. Call the service to update the database
+            Admin savedAdmin = adminService.updateAdmin(updatedDetails);
+
+            if (savedAdmin != null) {
+                // 3. Update the session object with the new details
+                session.setAttribute("loggedInAdmin", savedAdmin);
+
+                // 4. Add success message for the next request (after redirect)
+                redirectAttributes.addFlashAttribute("message", "Profile updated successfully!");
+                redirectAttributes.addFlashAttribute("messageType", "success");
+            } else {
+                redirectAttributes.addFlashAttribute("message", "Error: Profile update failed.");
+                redirectAttributes.addFlashAttribute("messageType", "error");
+            }
+        } catch (Exception e) {
+            // Handle specific exceptions (e.g., DataIntegrityViolationException for email)
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("message", "Error updating profile: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("messageType", "error");
+        }
+
+        // Redirect back to the view profile page to show the results
+        return "redirect:/admin/viewProfile";
+    }
+    @GetMapping("/changePassword")
+    public String showChangePasswordPage(HttpSession session, Model model) {
+        
+        Admin admin = (Admin) session.getAttribute("loggedInAdmin");
+
+        if (admin == null) {
+            return "redirect:/login?error=sessionExpired";
+        }
+        
+        // Fetch the latest admin data (mainly for the username)
+        Admin currentAdmin = adminService.getAdminById(admin.getAdminId());
+        
+        model.addAttribute("admin", currentAdmin);
+        
+        // Return the change password form JSP
+        return "AdminChangePasswordPage";
+    }
+    @PostMapping("/updatePassword")
+    public String updateAdminPassword(
+            @RequestParam("adminId") Long adminId,
+            @RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        // Basic session check
+        if (session.getAttribute("loggedInAdmin") == null) {
+            return "redirect:/login?error=sessionExpired";
+        }
+
+        try {
+            // Assume you have a new service method: 
+            // boolean changePassword(Long adminId, String oldPassword, String newPassword)
+            boolean isSuccess = adminService.changePassword(adminId, oldPassword, newPassword);
+
+            if (isSuccess) {
+                redirectAttributes.addFlashAttribute("message", "Password changed successfully. Please sign in again with your new password.");
+                redirectAttributes.addFlashAttribute("messageType", "success");
+                
+                // IMPORTANT SECURITY STEP: Invalidate the session after password change!
+                session.invalidate(); 
+                return "redirect:/mediverse/adminLogin"; // Redirect to login page
+            } else {
+                redirectAttributes.addFlashAttribute("message", "Error: Old password was incorrect or password change failed.");
+                redirectAttributes.addFlashAttribute("messageType", "error");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("message", "An unexpected error occurred: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("messageType", "error");
+        }
+
+        // Redirect back to the view profile page (or back to the form if preferred)
+        return "redirect:/admin/viewProfile";
+    }
+    @GetMapping("/userManagement")
+    public ModelAndView showUserManagementPage(HttpSession session,Model model) 
+    {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
         return new ModelAndView("UserManagementPage");
     }
     @GetMapping("/inventoryManagement")
-    public ModelAndView showInventoryManagementPage() 
+    public ModelAndView showInventoryManagementPage(HttpSession session,Model model) 
     {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
         return new ModelAndView("InventoryManagementPage");
     }
     @GetMapping("/orderManagement")
-    public ModelAndView showOrderManagementPage() 
+    public ModelAndView showOrderManagementPage(HttpSession session,Model model) 
     {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
         return new ModelAndView("OrderManagementPage");
     }
     @GetMapping("/billingAndPaymentManagement")
-    public ModelAndView showBillingAndPaymentManagementPage() 
+    public ModelAndView showBillingAndPaymentManagementPage(HttpSession session,Model model) 
     {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
         return new ModelAndView("BillingAndPaymentManagementPage");
     }
     @GetMapping("/insuranceClaimManagement")
-    public ModelAndView showInsuranceClaimManagementPage() 
+    public ModelAndView showInsuranceClaimManagementPage(HttpSession session,Model model) 
     {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
         return new ModelAndView("InsuranceClaimManagementPage");
     }
     @GetMapping("/prescriptionManagement")
-    public ModelAndView showPrescriptionManagementPage() 
+    public ModelAndView showPrescriptionManagementPage(HttpSession session,Model model) 
     {
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	model.addAttribute("admin", admin);
         return new ModelAndView("PrescriptionManagementPage");
     }
     @GetMapping("/addCustomerPage")
@@ -469,6 +647,7 @@ public class AdminController
         // Return the page name to render
         return "GetPrescriptionByIdTablePage";
     }
+    /*
     @GetMapping("/approveCancelRequest/{cancellationId}")
     public String approveCancelRequest(@PathVariable Long cancellationId, Model model) {
         OrderCancellationRequest cancellationRequest = orderCancellationRequestService.getCancellationRequestById(cancellationId);
@@ -496,5 +675,122 @@ public class AdminController
 
         model.addAttribute("message", "Cancellation request rejected.");
         return "AdminApprovalPage"; // Admin page to confirm rejection
+    }*/
+    @GetMapping("/cancellationRequests")
+    public String showCancellationRequests(HttpSession session,Model model) {
+        List<OrderCancellationRequest> cancellationRequests = orderCancellationRequestService.getAllCancellationRequests();
+        model.addAttribute("cancellationRequests", cancellationRequests);
+        System.out.println(cancellationRequests);
+        for(OrderCancellationRequest i:cancellationRequests)
+        {
+        	System.out.println(i.getCancellationId());
+        }
+        return "OrderCancellationRequestPage";  // JSP page that will show the list of cancellation requests
+    }
+
+    // Approve a cancellation request
+    @GetMapping("/approve/{id}")
+    public String approveCancellationRequest(@PathVariable("id") Long cancellationId,HttpSession session) {
+    	OrderCancellationRequest request=orderCancellationRequestService.getCancellationRequestById(cancellationId);
+    	Order order=request.getOrder();
+    	order.setOrderStatus("Request Approved");
+    	orderService.updateOrder(order);
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	request.setAdmin(admin);
+        orderCancellationRequestService.updateCancellationRequestStatus(cancellationId, "Approved");
+        return "redirect:/admin/cancellationRequests";  // Redirect back to the list page
+    }
+
+    // Reject a cancellation request
+    @GetMapping("/reject/{id}")
+    public String rejectCancellationRequest(@PathVariable("id") Long cancellationId,HttpSession session) {
+    	OrderCancellationRequest request=orderCancellationRequestService.getCancellationRequestById(cancellationId);
+    	Order order=request.getOrder();
+    	order.setOrderStatus("Request Reject");
+    	orderService.updateOrder(order);
+    	Admin admin=(Admin)session.getAttribute("loggedInAdmin");
+    	request.setAdmin(admin);
+        orderCancellationRequestService.updateCancellationRequestStatus(cancellationId, "Rejected");
+        return "redirect:/admin/cancellationRequests";  // Redirect back to the list page
+    }
+    
+    private static final String[] ORDER_STATUSES = {
+            "Booked", "Shipped", "Delivered", 
+            "Cancel Request", "Request Approved", 
+            "Request Rejected", "Cancelled"
+        };
+    
+    @GetMapping("/changeOrderStatus")
+    public String showChangeOrderStatusPage(Model model) {
+        List<Order> orders = orderService.getAllOrder();
+        model.addAttribute("orders", orders);
+        model.addAttribute("statuses", ORDER_STATUSES);
+        return "ChangeOrderStatusPage"; // Corresponds to ChangeOrderStatusPage.jsp
+    }
+
+    /**
+     * Handles POST request to update the status of a specific order.
+     */
+    @PostMapping("/updateOrderStatus")
+    public String updateOrderStatus(@RequestParam("orderId") Long orderId, 
+                                    @RequestParam("newStatus") String newStatus,
+                                    RedirectAttributes redirectAttributes) {
+        
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            order.setOrderStatus(newStatus);
+            orderRepository.save(order);
+            redirectAttributes.addFlashAttribute("successMessage", 
+                "Order ID " + orderId + " status successfully updated to " + newStatus);
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", 
+                "Error: Order with ID " + orderId + " not found.");
+        }
+        
+        // Redirect back to the status page to show the updated list/message
+        return "redirect:/admin/changeOrderStatus";
+    }
+    
+ // Available Payment Statuses
+    private static final String[] PAYMENT_STATUSES = {
+        "Pending", "Paid"
+    };
+
+
+    @GetMapping("/changePaymentStatus")
+    public String showChangePaymentStatusPage(Model model) {
+        // Find all payments from the database
+        List<Payment> payments = paymentRepository.findAll();
+        model.addAttribute("payments", payments);
+        model.addAttribute("statuses", PAYMENT_STATUSES);
+        return "ChangePaymentStatusPage"; // Corresponds to ChangePaymentStatusPage.jsp
+    }
+
+    /**
+     * Handles POST request to update the status of a specific payment.
+     */
+    @PostMapping("/updatePaymentStatus")
+    public String updatePaymentStatus(@RequestParam("paymentId") Long paymentId, 
+                                      @RequestParam("newStatus") String newStatus,
+                                      RedirectAttributes redirectAttributes) {
+        
+        Optional<Payment> paymentOptional = paymentRepository.findById(paymentId);
+        
+        if (paymentOptional.isPresent()) {
+            Payment payment = paymentOptional.get();
+            payment.setPaymentStatus(newStatus);
+            paymentRepository.save(payment);
+            
+            redirectAttributes.addFlashAttribute("successMessage", 
+                "Payment ID " + paymentId + " status successfully updated to " + newStatus);
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", 
+                "Error: Payment with ID " + paymentId + " not found.");
+        }
+        
+        // Redirect back to the status page to show the updated list/message
+        return "redirect:/admin/changePaymentStatus";
     }
 }

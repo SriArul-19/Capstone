@@ -151,10 +151,10 @@
         <!-- Profile Icon Section -->
         <div class="profile">
             <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile Icon">
-            <span>Admin</span>
+            <span>${admin.firstName} ${admin.lastName}</span>
             <div class="profile-dropdown">
-                <a href="#">View Profile</a>
-                <a href="#">Sign Out</a>
+                <a href="/admin/viewProfile">View Profile</a>
+                <a href="/admin/signout">Sign Out</a>
             </div>
         </div>
     </div>
@@ -197,18 +197,18 @@
         </div>
 
         <!-- Find Payments by Order Card -->
-        <div class="module-card">
+       <!-- <div class="module-card">
             <h3>Find Payments by Order</h3>
             <p>Search for payments using order ID.</p>
             <a href="/admin/payment/findByOrder">Go to Find Payments by Order</a>
         </div>
 
-        <!-- Find Payments by Status Card -->
+         Find Payments by Status Card 
         <div class="module-card">
             <h3>Find Payments by Status</h3>
             <p>Search for payments based on their status.</p>
             <a href="/admin/payment/findByStatus">Go to Find Payments by Status</a>
-        </div>
+        </div>-->
     </div>
 
     <!-- Footer -->

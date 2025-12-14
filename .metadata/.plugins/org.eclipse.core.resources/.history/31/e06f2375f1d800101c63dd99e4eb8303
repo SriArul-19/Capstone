@@ -1,0 +1,24 @@
+package com.project.mediverse.service;
+import com.project.mediverse.repository.AdminRepository;
+import org.springframework.stereotype.Service;
+
+import com.project.mediverse.entity.Admin;
+
+@Service
+public class AdminService 
+{
+
+    private final AdminRepository adminRepository;
+
+    AdminService(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
+    }
+	public Admin addAdmin(Admin admin)
+	{
+		return adminRepository.save(admin);
+		
+	}
+	public Admin findAdminByUsername(String username) {
+        return adminRepository.findByUsername(username);  // Find the admin by username
+    }
+}

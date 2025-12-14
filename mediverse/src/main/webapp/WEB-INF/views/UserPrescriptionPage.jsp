@@ -94,16 +94,16 @@
             <li><a href="/user/profile">Profile</a></li>
             <li><a href="/user/order">Orders</a></li>
             <li><a href="/user/prescriptions">Prescriptions</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="/user/logout">Logout</a></li>
         </ul>
     </nav>
 
     <section class="prescriptions">
         <h2>Your Prescriptions</h2>
 
-        <div class="action-bar">
+        <!--<div class="action-bar">
             <a href="/user/addPrescription" class="btn btn-add">Add New Prescription</a>
-        </div>
+        </div>-->
         
         <c:choose>
             <c:when test="${not empty prescriptions}">

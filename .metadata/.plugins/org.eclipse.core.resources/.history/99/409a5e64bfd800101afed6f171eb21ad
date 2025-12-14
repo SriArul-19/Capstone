@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Cancellation Requests</title>
+    <style>
+        /* Styles for the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        .cancel-request-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .cancel-request-table th, .cancel-request-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .cancel-request-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .button {
+            padding: 5px 15px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Order Cancellation Requests</h1>
+    </div>
+
+    <div class="container">
+        <table class="cancel-request-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Cancellation Reason</th>
+                    <th>Status</th>
+                    <th>Request Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="request" items="${cancellationRequests}">
+                    <tr>
+                        <td>${request.order.orderId}</td>
+                        <td>${request.order.customer.firstName} ${request.order.customer.lastName}</td>
+                        <td>${request.cancellationReason}</td>
+                        <td>${request.status}</td>
+                        <td>${request.requestDate}</td>
+                        <td>
+                            <a href="/admin/approve/${request.cancellationId}" class="button">Approve</a>
+                            <a href="/admin/reject/${request.cancellationId}" class="button">Reject</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Mediverse | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+
+</body>
+</html>

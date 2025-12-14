@@ -17,7 +17,13 @@ public class OrderCancellationRequestService {
     public OrderCancellationRequest createCancellationRequest(OrderCancellationRequest request) {
         return orderCancellationRequestRepository.save(request);
     }
-
+    public void updateCancellationRequestStatus(Long id, String status) {
+        OrderCancellationRequest cancellationRequest = orderCancellationRequestRepository.findById(id).orElse(null);
+        if (cancellationRequest != null) {
+            cancellationRequest.setStatus(status);
+            orderCancellationRequestRepository.save(cancellationRequest);
+        }
+    }
     public List<OrderCancellationRequest> getAllCancellationRequests() {
         return orderCancellationRequestRepository.findAll();
     }

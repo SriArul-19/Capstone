@@ -151,10 +151,10 @@
         <!-- Profile Icon Section -->
         <div class="profile">
             <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile Icon">
-            <span>Admin</span>
+            <span>${admin.firstName} ${admin.lastName}</span>
             <div class="profile-dropdown">
-                <a href="#">View Profile</a>
-                <a href="#">Sign Out</a>
+                <a href="/admin/viewProfile">View Profile</a>
+                <a href="/admin/signout">Sign Out</a>
             </div>
         </div>
     </div>
@@ -197,25 +197,25 @@
         </div>
 
         <!-- Find Insurance Claims by Customer Card -->
-        <div class="module-card">
+        <!--<div class="module-card">
             <h3>Find Insurance Claims by Customer</h3>
             <p>Search for claims based on customer ID.</p>
             <a href="/admin/insuranceClaim/findByCustomer">Go to Find Insurance Claims by Customer</a>
         </div>
 
-        <!-- Find Insurance Claims by Medicine Card -->
+         Find Insurance Claims by Medicine Card 
         <div class="module-card">
             <h3>Find Insurance Claims by Medicine</h3>
             <p>Search for claims related to a specific medicine.</p>
             <a href="/admin/insuranceClaim/findByMedicine">Go to Find Insurance Claims by Medicine</a>
         </div>
 
-        <!-- Find Insurance Claims by Status Card -->
+         Find Insurance Claims by Status Card 
         <div class="module-card">
             <h3>Find Insurance Claims by Status</h3>
             <p>Search for claims based on their status.</p>
             <a href="/admin/insuranceClaim/findByStatus">Go to Find Insurance Claims by Status</a>
-        </div>
+        </div>-->
     </div>
 
     <!-- Footer -->

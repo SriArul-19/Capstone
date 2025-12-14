@@ -151,10 +151,10 @@
         <!-- Profile Icon Section -->
         <div class="profile">
             <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile Icon">
-            <span>Admin</span>
+            <span>${admin.firstName} ${admin.lastName}</span>
             <div class="profile-dropdown">
-                <a href="#">View Profile</a>
-                <a href="#">Sign Out</a>
+                <a href="/admin/viewProfile">View Profile</a>
+                <a href="/admin/signout">Sign Out</a>
             </div>
         </div>
     </div>
@@ -196,25 +196,46 @@
             <a href="/admin/getOrderByIdPage">Go to Find Order by ID</a>
         </div>
 
-        <!-- Find Orders by Customer Card -->
+<!--         Find Orders by Customer Card 
         <div class="module-card">
             <h3>Find Orders by Customer</h3>
             <p>Search for orders by customer ID.</p>
             <a href="/admin/order/findByCustomer">Go to Find Orders by Customer</a>
         </div>
 
-        <!-- Find Orders by Payment Status Card -->
+         Find Orders by Payment Status Card 
         <div class="module-card">
             <h3>Find Orders by Payment Status</h3>
             <p>Search for orders based on their payment status.</p>
             <a href="/admin/order/findByPaymentStatus">Go to Find Orders by Payment Status</a>
         </div>
 
-        <!-- Find Orders by Insurance Claim Card -->
+         Find Orders by Insurance Claim Card 
         <div class="module-card">
             <h3>Find Orders by Insurance Claim</h3>
             <p>Search for orders associated with an insurance claim.</p>
             <a href="/admin/order/findByInsuranceClaim">Go to Find Orders by Insurance Claim</a>
+        </div>-->
+
+        <!-- Order Cancellation Request Card -->
+        <div class="module-card">
+            <h3>Order Cancellation Requests</h3>
+            <p>Click to view and manage cancellation requests for orders.</p>
+            <a href="/admin/cancellationRequests">Go to Order Cancellation Requests</a>
+        </div>
+
+        <!-- Change Order Status Card -->
+        <div class="module-card">
+            <h3>Change Order Status</h3>
+            <p>Click to change the status of an existing order.</p>
+            <a href="/admin/changeOrderStatus">Go to Change Order Status</a>
+        </div>
+
+        <!-- Change Payment Status Card -->
+        <div class="module-card">
+            <h3>Change Payment Status</h3>
+            <p>Click to change the payment status of an order.</p>
+            <a href="/admin/changePaymentStatus">Go to Change Payment Status</a>
         </div>
     </div>
 

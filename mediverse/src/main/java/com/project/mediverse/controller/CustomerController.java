@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.mediverse.entity.Credential;
 import com.project.mediverse.entity.Customer;
@@ -216,6 +217,122 @@ public class CustomerController
         // 3. Return the view name
         return new ModelAndView("UserProfilePage");
     }
+    @GetMapping("/editProfile")
+    public String showEditProfilePage(HttpSession session, Model model) {
+        
+        Customer customer = (Customer) session.getAttribute("loggedInCustomer");
+
+        if (customer == null) {
+            return "redirect:/login?error=sessionExpired"; // Redirect if not logged in
+        }
+        
+        // Fetch the latest customer data before displaying the form
+        Customer currentCustomer = customerService.getCustomerById(customer.getCustomerId());
+        
+        model.addAttribute("customer", currentCustomer);
+        
+        return "UserEditProfilePage";
+    }
+    @PostMapping("/updateProfile")
+    public String updateCustomerProfile(
+            @RequestParam("customerId") Long customerId,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("address") String address,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        if (session.getAttribute("loggedInCustomer") == null) {
+            return "redirect:/login?error=sessionExpired";
+        }
+
+        try {
+            // 1. Prepare the update data object
+        	Customer oldcustomer=(Customer)session.getAttribute("loggedInCustomer");
+            Customer updatedDetails = new Customer();
+            updatedDetails.setCustomerId(customerId);
+            updatedDetails.setFirstName(firstName);
+            updatedDetails.setLastName(lastName);
+            updatedDetails.setEmail(email);
+            updatedDetails.setPhoneNumber(phoneNumber);
+            updatedDetails.setUsername(oldcustomer.getUsername());
+            updatedDetails.setPassword(oldcustomer.getPassword());
+            updatedDetails.setAddress(address);
+
+            // 2. Call the service to update the database
+            Customer savedCustomer=customerService.updateCustomerProfile(updatedDetails);
+
+            if (savedCustomer != null) {
+                // 3. Update the session with the new data
+                session.setAttribute("loggedInCustomer", savedCustomer); 
+                redirectAttributes.addFlashAttribute("message", "Profile updated successfully!");
+                redirectAttributes.addFlashAttribute("messageType", "success");
+            } else {
+                redirectAttributes.addFlashAttribute("message", "Error: Profile update failed.");
+                redirectAttributes.addFlashAttribute("messageType", "error");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "An error occurred during update: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("messageType", "error");
+        }
+
+        // Redirect back to the read-only profile view
+        return "redirect:/user/profile";
+    }
+    @GetMapping("/changePassword")
+    public String showChangePasswordPage(HttpSession session, Model model) {
+        
+        Customer customer = (Customer) session.getAttribute("loggedInCustomer");
+
+        if (customer == null) {
+            return "redirect:/login?error=sessionExpired";
+        }
+        
+        // Fetch the latest customer data to display the username
+        Customer currentCustomer = customerService.getCustomerById(customer.getCustomerId());
+        
+        model.addAttribute("customer", currentCustomer);
+        
+        return "UserChangePasswordPage";
+    }
+    @PostMapping("/updatePassword")
+    public String updateCustomerPassword(
+            @RequestParam("customerId") Long customerId,
+            @RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        if (session.getAttribute("loggedInCustomer") == null) {
+            return "redirect:/login?error=sessionExpired";
+        }
+
+        try {
+            // Assume you have a customerService method for changing passwords
+            boolean isSuccess = customerService.changePassword(customerId, oldPassword, newPassword);
+
+            if (isSuccess) {
+                redirectAttributes.addFlashAttribute("message", "Password changed successfully! Please log in again.");
+                redirectAttributes.addFlashAttribute("messageType", "success");
+                
+                // SECURITY: Invalidate the session after a password change forces a new login.
+                session.invalidate(); 
+                return "redirect:/mediverse/userLogin"; // Redirect to the user login page
+            } else {
+                redirectAttributes.addFlashAttribute("message", "Error: The old password you entered was incorrect.");
+                redirectAttributes.addFlashAttribute("messageType", "error");
+                
+                // Optionally redirect back to the form if the attempt failed
+                return "redirect:/user/changePassword"; 
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "An unexpected error occurred: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("messageType", "error");
+            return "redirect:/user/changePassword";
+        }
+    }
     @GetMapping("/prescriptions")
     public ModelAndView showUserPrescriptionsPage(HttpSession session, Model model) {
         // Get the logged-in customer from the session
@@ -244,7 +361,9 @@ public class CustomerController
         System.out.println(customer.getCustomerId());
         Order order = orderService.getOrderById(orderId);
         System.out.println(order.getCustomer().getCustomerId());
-        if (order == null || !order.getCustomer().equals(customer)) {
+        System.out.println(order.getCustomer().getCustomerId());
+        System.out.println(order.getCustomer().equals(customer));
+        if (order == null || !order.getCustomer().getCustomerId().equals(customer.getCustomerId())) {
             model.addAttribute("error", "Order not found or you're not authorized to cancel this order.");
             return "error";
         }
@@ -261,7 +380,7 @@ public class CustomerController
         Customer customer = (Customer) session.getAttribute("loggedInCustomer");
         Order order = orderService.getOrderById(orderId);
 
-        if (order == null || !order.getCustomer().equals(customer)) {
+        if (order == null || !order.getCustomer().getCustomerId().equals(customer.getCustomerId())) {
             model.addAttribute("error", "Order not found or you're not authorized to cancel this order.");
             return "error";
         }
@@ -275,8 +394,60 @@ public class CustomerController
 
         // Save the cancellation request
         orderCancellationRequestService.createCancellationRequest(cancellationRequest);
-
+        order.setOrderStatus("Cancel Requested");
+        orderService.updateOrder(order);
         model.addAttribute("cancellationRequest", cancellationRequest);
         return "CancellationRequestConfirmationPage"; // Confirm request has been sent
     }
+    @GetMapping("/cancelOrder/{Id}")
+    public String cancelorder(@PathVariable("Id") Long orderId,Model model )
+    {
+    	Order order=orderService.getOrderById(orderId);
+    	if(order.getOrderStatus().equals("Request Approved"))
+    	{
+    	model.addAttribute("display", "Order deleted");
+    	order.setOrderStatus("Cancelled");
+    	orderService.updateOrder(order);
+    	return "redirect:/user/order";
+    	}
+    	model.addAttribute("display", "Admin not approved");
+    	return "redirect:/user/order";
+    }
+    @GetMapping("/deletePrescription/{Id}")
+    public String deletePrescription(@PathVariable("Id") Long prescriptionId, HttpSession session, Model model) {
+        Customer customer = (Customer) session.getAttribute("loggedInCustomer");
+
+        if (customer == null) {
+            // User not logged in
+            return "redirect:/login?error=sessionExpired";
+        }
+
+        try {
+            // 1. Validate: Get the prescription
+            Prescription prescription = prescriptionService.getPrescriptionById(prescriptionId);
+
+            if (prescription == null) {
+                model.addAttribute("error", "Prescription not found.");
+                return "error";
+            }
+
+            // 2. Authorization Check: Ensure the logged-in customer owns the prescription
+            if (!prescription.getCustomer().getCustomerId().equals(customer.getCustomerId())) {
+                model.addAttribute("error", "You are not authorized to delete this prescription.");
+                return "error";
+            }
+
+            // 3. Delete the prescription
+            prescriptionService.deletePrescription(prescriptionId);
+ 
+        } catch (Exception e) {
+            // Log the error (in a real app) and show a generic error page
+            model.addAttribute("error", "An error occurred while deleting the prescription: " + e.getMessage());
+            return "error";
+        }
+
+        // Redirect back to the prescriptions list page
+        return "redirect:/user/prescriptions";
+    }
+    
 }
